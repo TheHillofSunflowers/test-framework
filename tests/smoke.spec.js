@@ -30,6 +30,7 @@ test.describe('Smoke Suite', () => {
     });
 
     test('Feed Section', async({ page }) => {
+        await page.locator('#start').getByLabel('Guide').click();
         await page.locator('#sections').getByTitle('You', { exact: true }).getByRole('link').click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/you/);
         /*await page.getByRole('link', { name: 'Your Channel' }).click();
