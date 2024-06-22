@@ -35,6 +35,7 @@ test.describe('Smoke Suite', () => {
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/you/);
         /*await page.getByRole('link', { name: 'Your Channel' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/channel\/.+$/);*/
+        await page.locator('#start').getByLabel('Guide').click();
         await page.locator('#sections').getByTitle('History', { exact: true }).getByRole('link').click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/history/);
         /*await page.getByRole('link', { name: 'Playlists' }).click();
