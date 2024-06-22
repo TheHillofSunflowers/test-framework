@@ -1,6 +1,5 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const { assert } = require('console');
 
 test.describe('Home Button', () => {
     test('E2E Home Button', async({ page }) => {
