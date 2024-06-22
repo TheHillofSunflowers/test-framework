@@ -15,7 +15,7 @@ test.describe('Home Button', () => {
         }*/
 
         await page.locator('#guide-content #button').click();
-        await page.getByRole('link', { name: 'YouTube Home' }).click();
+        await page.locator('#start').getByRole('link', { name: 'YouTube Home' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\//);
     });
 
@@ -31,7 +31,7 @@ test.describe('Home Button', () => {
         }*/
 
         await page.locator('#guide-content #button').click();
-        await page.getByRole('link', { name: 'YouTube Home' }).click();
+        await page.locator('#start').getByRole('link', { name: 'YouTube Home' }).click();
         const re = RegExp(/^https?:\/\/(www\.)?youtube\.com\/.+$/);
         await expect(page).not.toHaveURL(re);
     });
