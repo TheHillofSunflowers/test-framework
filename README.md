@@ -1,10 +1,16 @@
 # test-framework
 Playwright Web Testing Framework for YouTube
 
+
+
 Automated testing framework created in Javascript to practice SDET skills on a practical industry project.
+
+
 
 Tools:
 JavaScript, Playwright, Github Actions CI/CD, Docker Containerization
+
+
 
 To do:
 
