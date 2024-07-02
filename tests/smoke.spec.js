@@ -29,6 +29,13 @@ test.describe('Smoke Suite', () => {
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/subscriptions/);
     });
 
+    test('Search', async({ page }) => {
+        await page.getByPlaceholder('Search').fill('test');
+        await page.getByRole('button', { name: 'Search', exact: true }).click();
+        await page.getByRole('button', { name: 'Search', exact: true }).click(); // Two separate clicks for it to go through
+        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/results\?search_query=test/);
+    });
+
     test('Feed Section', async({ page }) => {
         await page.locator('#start').getByLabel('Guide').click();
         await page.locator('#sections').getByTitle('You', { exact: true }).getByRole('link').click();
