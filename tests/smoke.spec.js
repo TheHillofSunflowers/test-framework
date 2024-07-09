@@ -1,7 +1,7 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 
-
+test.describe('Smoke Suite', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('https://www.youtube.com/');
     });
@@ -69,3 +69,4 @@ const { test, expect } = require('@playwright/test');
         await page.getByRole('link', { name: 'Your Clips' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/clips/);*/
     });
+});

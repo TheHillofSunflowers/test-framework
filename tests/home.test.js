@@ -1,5 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+const { HomePage } = require('./pages/home-page');
 
 test.describe('Home Button', () => {
     test('E2E Home Button', async({ page }) => {
@@ -34,4 +35,18 @@ test.describe('Home Button', () => {
         const re = RegExp(/^https?:\/\/(www\.)?youtube\.com\/.+$/);
         await expect(page).not.toHaveURL(re);
     });
+
+    test('Get Started Message', async({ page }) => {
+        const homePage = new HomePage(page);
+        homePage.goto();
+        //await page.getByRole('button', { name: 'Search', exact: true }).click();
+        await expect(homePage.getStartedTitle).toBeVisible();
+        await expect(homePage.getStartedSubtitle).toBeVisible();
+    });
+
+    /*test('Chips Buttons', async({ page }) => {
+        const homePage = new HomePage(page);
+        homePage.goto();
+        await expect(homePage.chipsList).toHaveCount(21);
+    });*/
 });
