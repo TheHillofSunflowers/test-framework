@@ -36,7 +36,22 @@ test.describe('Smoke Suite', () => {
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/results\?search_query=test/);
     });
 
-    test('Feed Section', async({ page }) => {
+    test('Settings', async({ page }) => {
+        await page.locator('#buttons').getByLabel('Settings').click();
+        await page.locator('tp-yt-paper-item').filter({ hasText: 'Settings' }).click();
+        await expect(page).not.toHaveURL(/^https?:\/\/(www\.)?youtube\.com\//);
+    });
+
+    test('Log In + Feed Section', async({ page }) => {
+        await page.getByLabel('Sign in').click();
+        await expect(page).not.toHaveURL(/^https?:\/\/accounts\.google\.com\/.*$/);
+        /*await page.getByLabel('Email or phone').fill('muzunewt@gmail.com');
+        await page.getByLabel('Email or phone').press('Enter');
+        await page.getByLabel('Password').fill('schoolloop');
+        await page.getByLabel('Password').press('Enter');
+        await page.goto('https://www.youtube.com/');*/
+
+        await page.goto('https://www.youtube.com/');
         await page.locator('#start').getByLabel('Guide').click();
         await page.locator('#sections').getByTitle('You', { exact: true }).getByRole('link').click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/you/);
