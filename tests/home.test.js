@@ -39,7 +39,6 @@ test.describe('Home Button', () => {
     test('Get Started Message', async({ page }) => {
         const homePage = new HomePage(page);
         homePage.goto();
-        //await page.getByRole('button', { name: 'Search', exact: true }).click();
         await expect(homePage.getStartedTitle).toBeVisible();
         await expect(homePage.getStartedSubtitle).toBeVisible();
     });
