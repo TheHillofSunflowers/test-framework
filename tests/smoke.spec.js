@@ -55,7 +55,8 @@ test.describe('Smoke Suite', () => {
         // Pop ups
         /*await page.locator('#VV3oRb').nth(2).click();
         await page.getByLabel('Enter recovery email address').click();
-        await page.getByLabel('Enter recovery email address').fill('muzunewt@gmail.com');
+        const recoveryEmail = process.env.recoveryEmail ?? 'Set recoveryEmail Environment Variable in .env';
+        await page.getByLabel('Enter recovery email address').fill(recoveryEmail);
         await page.getByLabel('Enter recovery email address').press('Enter');
         await page.getByText('Not now').click();
         await page.getByText('Not now').click();*/
