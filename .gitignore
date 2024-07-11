@@ -6,3 +6,4 @@ node_modules/
 .dockerignore
 README.Docker.md
 .env
+/newTrace/

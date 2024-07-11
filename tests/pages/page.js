@@ -1,6 +1,6 @@
 // @ts-check
 const { expect } = require('@playwright/test');
-require('dotenv').config();
+//require('dotenv').config();
 
 exports.Page = class Page {
     constructor(page) {
@@ -16,14 +16,14 @@ exports.Page = class Page {
     async login() {
         await this.page.getByLabel('Sign in').click();
         await expect(this.page).toHaveURL(/^https?:\/\/(www\.)?accounts\.google\.com\/.*$/);
-        let user = process.env.playwrightUsername ?? 'solorioth@gmail.com';
+        let user = /*process.env.playwrightUsername ??*/ 'solorioth@gmail.com';
         await this.page.getByLabel('Email or phone').fill(user);
         await this.page.getByLabel('Email or phone').press('Enter');
-        let pass = process.env.playwrightPassword ?? 'testcase123';
+        let pass = /*process.env.playwrightPassword ??*/ 'testcase123';
         await this.page.getByLabel('Enter your password').fill(pass);
         await this.page.getByLabel('Enter your password').press('Enter');
         // Pop ups
-        await this.page.locator('#VV3oRb').nth(2).click();
+        await this.page.getByText('Confirm your recovery email').click();
         await this.page.getByLabel('Enter recovery email address').click();
         const recoveryEmail = process.env.recoveryEmail ?? 'Set recoveryEmail Environment Variable in .env';
         await this.page.getByLabel('Enter recovery email address').fill(recoveryEmail);
