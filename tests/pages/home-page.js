@@ -1,13 +1,13 @@
 // @ts-check
 const { expect } = require('@playwright/test');
+const { Page } = require('./page');
 
-exports.HomePage = class HomePage {
-
+exports.HomePage = class HomePage extends Page {
+    
     constructor(page) {
-        this.page = page;
+        super(page);
         this.videoRow = page.locator('ytd-rich-grid-row');
         this.body = page.locator('contents').locator('ytd-rich-grid-renderer');
-        this.chipsList = page.locator('chips').getByRole('tablist');
         this.getStartedTitle = page.getByLabel('Try searching to get started');
         this.getStartedSubtitle = page.getByLabel('Start watching videos to help');
     }
@@ -16,8 +16,7 @@ exports.HomePage = class HomePage {
         await this.page.goto('https://www.youtube.com/');
     }
 
-    /*get btnHome() {
-        return $('#start');
-    }*/
-
+    async chipsList() {
+        return this.page.locator('yt-chip-cloud-chip-renderer').getByRole('tab').all();
+    }
 }

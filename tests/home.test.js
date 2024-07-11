@@ -8,12 +8,6 @@ test.describe('Home Button', () => {
         await page.locator('#start').getByLabel('Guide').click();
         await page.getByRole('link', { name: 'Shorts' }).click();
 
-        /*await setTimeout(waitForShorts, 1000);
-        async function waitForShorts() {
-            console.log('Waiting...');
-            //page.getByRole('link', { name: 'YouTube Home' }).click();
-        }*/
-
         await page.locator('#guide-content #button').click();
         await page.locator('#start').getByRole('link', { name: 'YouTube Home' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\//);
@@ -24,12 +18,6 @@ test.describe('Home Button', () => {
         await page.locator('#start').getByLabel('Guide').click();
         await page.getByRole('link', { name: 'Shorts' }).click();
 
-        /*await setTimeout(waitForShorts, 1000);
-        async function waitForShorts() {
-            console.log('Waiting...');
-            //page.getByRole('link', { name: 'YouTube Home' }).click();
-        }*/
-
         await page.locator('#guide-content #button').click();
         await page.locator('#start').getByRole('link', { name: 'YouTube Home' }).click();
         const re = RegExp(/^https?:\/\/(www\.)?youtube\.com\/.+$/);
@@ -38,14 +26,22 @@ test.describe('Home Button', () => {
 
     test('Get Started Message', async({ page }) => {
         const homePage = new HomePage(page);
-        homePage.goto();
+        await homePage.goto();
         await expect(homePage.getStartedTitle).toBeVisible();
         await expect(homePage.getStartedSubtitle).toBeVisible();
     });
 
-    /*test('Chips Buttons', async({ page }) => {
+    test('Chips Count', async({ page }) => {
         const homePage = new HomePage(page);
-        homePage.goto();
-        await expect(homePage.chipsList).toHaveCount(21);
-    });*/
+        await homePage.goto();
+        await homePage.login();
+        let chipsList = await homePage.chipsList();
+        /*let count = 0;
+        for (let i in homePage.chipsList) {
+            count++;
+        }
+        await expect(count).toBeGreaterThanOrEqual(15);*/
+        //await homePage.chipsList.click();
+        await expect(chipsList).toHaveLength(21);
+    });
 });
