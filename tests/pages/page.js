@@ -25,7 +25,7 @@ exports.Page = class Page {
         // Pop ups
         await this.page.getByText('Confirm your recovery email').click();
         await this.page.getByLabel('Enter recovery email address').click();
-        const recoveryEmail = process.env.recoveryEmail ?? 'Set recoveryEmail Environment Variable in .env';
+        const recoveryEmail = /*process.env.recoveryEmail ??*/ 'muzunewt@gmail.com';
         await this.page.getByLabel('Enter recovery email address').fill(recoveryEmail);
         await this.page.getByLabel('Enter recovery email address').press('Enter');
         await this.page.getByText('Not now').click();
