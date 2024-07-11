@@ -9,9 +9,9 @@ exports.Page = class Page {
         this.guide = page.locator('#start').getByLabel('Guide');
     }
 
-    async goto() {
+    /*async goto() {
         await this.page.goto('/');
-    }
+    }*/
 
     async login() {
         await this.page.getByLabel('Sign in').click();
