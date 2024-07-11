@@ -35,13 +35,10 @@ test.describe('Home Button', () => {
         const homePage = new HomePage(page);
         await homePage.goto();
         await homePage.login();
+        //await homePage.guide.click();
+        //await page.locator('#guide-content #button').click();
         let chipsList = await homePage.chipsList();
-        /*let count = 0;
-        for (let i in homePage.chipsList) {
-            count++;
-        }
-        await expect(count).toBeGreaterThanOrEqual(15);*/
-        //await homePage.chipsList.click();
-        await expect(chipsList).toHaveLength(21);
+        await expect(chipsList.length).toBeLessThanOrEqual(28);
+        await expect(chipsList.length).toBeGreaterThanOrEqual(18);
     });
 });

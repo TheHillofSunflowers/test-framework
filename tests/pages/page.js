@@ -16,10 +16,12 @@ exports.Page = class Page {
     async login() {
         await this.page.getByLabel('Sign in').click();
         await expect(this.page).toHaveURL(/^https?:\/\/(www\.)?accounts\.google\.com\/.*$/);
-        const user = process.env.playwrightUsername ?? 'Set playwrightUsername Environment Variable in .env';
+        let user = process.env.playwrightUsername ?? 'Set playwrightUsername Environment Variable in .env';
         await this.page.getByLabel('Email or phone').fill(user);
         await this.page.getByLabel('Email or phone').press('Enter');
-        const pass = process.env.playwrightPassword ?? 'Set playwrightPassword Environment Variable in .env';
+        console.log(require('dotenv').config());
+        console.log(process.env.playwrightPassword);
+        let pass = process.env.playwrightPassword ?? 'Set playwrightPassword Environment Variable in .env';
         await this.page.getByLabel('Enter your password').fill(pass);
         await this.page.getByLabel('Enter your password').press('Enter');
         // Pop ups

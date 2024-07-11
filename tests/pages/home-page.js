@@ -17,6 +17,6 @@ exports.HomePage = class HomePage extends Page {
     }
 
     async chipsList() {
-        return this.page.locator('yt-chip-cloud-chip-renderer').getByRole('tab').all();
+        return this.page.getByRole('tab').all();
     }
 }

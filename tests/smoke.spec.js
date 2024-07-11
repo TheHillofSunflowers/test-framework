@@ -1,6 +1,5 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-require('dotenv').config();
 const { HomePage } = require('./pages/home-page');
 
 test.describe('Smoke Suite', () => {
@@ -53,7 +52,7 @@ test.describe('Smoke Suite', () => {
         /*await homePage.guide.click();
         await page.getByRole('link', { name: 'Your Channel' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/channel\/.+$/);*/
-        /*await homePage.guide.click();
+        await homePage.guide.click();
         await page.locator('#sections').getByTitle('History', { exact: true }).getByRole('link').click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/history/);
         await homePage.guide.click();
@@ -64,6 +63,6 @@ test.describe('Smoke Suite', () => {
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/playlist\?list=WL/);
         await homePage.guide.click();
         await page.locator('tp-yt-paper-item').filter({ hasText: 'Liked videos' }).click();
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/playlist\?list=LL/);*/
+        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/playlist\?list=LL/);
     });
 });
