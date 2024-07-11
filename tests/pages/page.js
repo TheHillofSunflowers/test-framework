@@ -19,19 +19,17 @@ exports.Page = class Page {
         let user = process.env.playwrightUsername ?? 'solorioth@gmail.com';
         await this.page.getByLabel('Email or phone').fill(user);
         await this.page.getByLabel('Email or phone').press('Enter');
-        console.log(require('dotenv').config());
-        console.log(process.env.playwrightPassword);
         let pass = process.env.playwrightPassword ?? 'testcase123';
         await this.page.getByLabel('Enter your password').fill(pass);
         await this.page.getByLabel('Enter your password').press('Enter');
         // Pop ups
-        /*await page.locator('#VV3oRb').nth(2).click();
-        await page.getByLabel('Enter recovery email address').click();
+        await this.page.locator('#VV3oRb').nth(2).click();
+        await this.page.getByLabel('Enter recovery email address').click();
         const recoveryEmail = process.env.recoveryEmail ?? 'Set recoveryEmail Environment Variable in .env';
-        await page.getByLabel('Enter recovery email address').fill(recoveryEmail);
-        await page.getByLabel('Enter recovery email address').press('Enter');
-        await page.getByText('Not now').click();
-        await page.getByText('Not now').click();*/
+        await this.page.getByLabel('Enter recovery email address').fill(recoveryEmail);
+        await this.page.getByLabel('Enter recovery email address').press('Enter');
+        await this.page.getByText('Not now').click();
+        await this.page.getByText('Not now').click();
         await this.page.waitForURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
     }
 }
