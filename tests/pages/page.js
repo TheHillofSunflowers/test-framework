@@ -14,18 +14,8 @@ exports.Page = class Page {
     }*/
 
     async login() {
-        await this.page.getByLabel('Sign in').click();
-        await expect(this.page).toHaveURL(/^https?:\/\/(www\.)?accounts\.google\.com\/.*$/);
-        let user = /*process.env.playwrightUsername ??*/ 'solorioth@gmail.com';
-        await this.page.getByLabel('Email or phone').fill(user);
-        await this.page.getByLabel('Email or phone').press('Enter');
-        await this.page.waitForLoadState();
-        let pass = /*process.env.playwrightPassword ??*/ 'testcase1234';
-        await this.page.getByLabel('Enter your password').fill(pass);
-        await this.page.getByLabel('Enter your password').press('Enter');
-        await this.page.waitForLoadState();
         // Pop ups
-        await this.page.addLocatorHandler(this.page.getByText('Confirm your recovery email'), async () => {
+        await this.page.addLocatorHandler(this.page.getByText('Verify it\'s you'), async () => {
             await this.page.getByText('Confirm your recovery email').click();
         });
         await this.page.addLocatorHandler(this.page.getByText('Enter recovery email address'), async () => {
@@ -39,6 +29,18 @@ exports.Page = class Page {
         await this.page.addLocatorHandler(this.page.getByText('Not now'), async () => {
             await this.page.getByText('Not now').click();
         });
+
+        await this.page.getByLabel('Sign in').click();
+        await expect(this.page).toHaveURL(/^https?:\/\/(www\.)?accounts\.google\.com\/.*$/);
+        let user = /*process.env.playwrightUsername ??*/ 'solorioth@gmail.com';
+        await this.page.getByLabel('Email or phone').fill(user);
+        await this.page.getByLabel('Email or phone').press('Enter');
+        await this.page.waitForLoadState();
+        let pass = /*process.env.playwrightPassword ??*/ 'testcase1234';
+        await this.page.getByLabel('Enter your password').fill(pass);
+        await this.page.getByLabel('Enter your password').press('Enter');
+        await this.page.waitForLoadState();
+        
         await this.page.waitForURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
     }
 }
