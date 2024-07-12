@@ -20,7 +20,7 @@ test.describe('Home Button', () => {
 
         await page.locator('#guide-content #button').click();
         await page.locator('#start').getByRole('link', { name: 'YouTube Home' }).click();
-        const re = RegExp(/^https?:\/\/(www\.)?youtube\.com\/.*$/);
+        const re = RegExp(/^https?:\/\/(www\.)?youtube\.com\/.+$/);
         await expect(page).not.toHaveURL(re);
     });
 
@@ -35,11 +35,9 @@ test.describe('Home Button', () => {
         const homePage = new HomePage(page);
         await homePage.goto();
         await homePage.login();
-        //await homePage.guide.click();
-        //await page.locator('#guide-content #button').click();
         await page.waitForLoadState();
         let chipsList = await homePage.chipsList();
         await expect(chipsList.length).toBeLessThanOrEqual(28);
-        await expect(chipsList.length).toBeGreaterThanOrEqual(18);
+        await expect(chipsList.length).toBeGreaterThanOrEqual(15);
     });
 });

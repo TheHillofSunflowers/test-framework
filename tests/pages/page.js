@@ -20,7 +20,7 @@ exports.Page = class Page {
         await this.page.getByLabel('Email or phone').fill(user);
         await this.page.getByLabel('Email or phone').press('Enter');
         await this.page.waitForLoadState();
-        let pass = /*process.env.playwrightPassword ??*/ 'testcase123';
+        let pass = /*process.env.playwrightPassword ??*/ 'testcase1234';
         await this.page.getByLabel('Enter your password').fill(pass);
         await this.page.getByLabel('Enter your password').press('Enter');
         await this.page.waitForLoadState();

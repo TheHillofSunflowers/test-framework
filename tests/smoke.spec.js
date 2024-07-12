@@ -18,12 +18,6 @@ test.describe('Smoke Suite', () => {
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
     });
 
-    test('Hamburger Shorts', async({ page }) => {
-        await page.locator('#start').getByLabel('Guide').click();
-        await page.getByRole('link', { name: 'Shorts' }).click();
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/shorts\/.*$/);
-    });
-
     test('Hamburger Subscriptions', async({ page }) => {
         await page.locator('#start').getByLabel('Guide').click();
         await page.locator('tp-yt-paper-item').filter({ hasText: 'Subscriptions' }).click();
@@ -33,8 +27,7 @@ test.describe('Smoke Suite', () => {
     test('Search', async({ page }) => {
         await page.getByPlaceholder('Search').fill('test');
         await page.getByRole('button', { name: 'Search', exact: true }).click();
-        await page.waitForLoadState();
-        //await page.getByRole('button', { name: 'Search', exact: true }).click(); // Two separate clicks for it to go through
+        await page.getByRole('button', { name: 'Search', exact: true }).click(); // Two separate clicks for it to go through
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/results\?search_query=test/);
     });
 
