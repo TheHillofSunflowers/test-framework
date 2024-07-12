@@ -33,7 +33,8 @@ test.describe('Smoke Suite', () => {
     test('Search', async({ page }) => {
         await page.getByPlaceholder('Search').fill('test');
         await page.getByRole('button', { name: 'Search', exact: true }).click();
-        await page.getByRole('button', { name: 'Search', exact: true }).click(); // Two separate clicks for it to go through
+        await page.waitForLoadState();
+        //await page.getByRole('button', { name: 'Search', exact: true }).click(); // Two separate clicks for it to go through
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/results\?search_query=test/);
     });
 
