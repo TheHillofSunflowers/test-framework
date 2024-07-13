@@ -13,7 +13,12 @@ exports.HomePage = class HomePage extends Page {
     }
 
     async goto() {
-        await this.page.goto('https://www.youtube.com/');
+        await this.page.goto('/');
+    }
+
+    async regex() {
+        let regex = /^https?:\/\/(www\.)?youtube\.com\/?/;
+        return regex;
     }
 
     async chipsList() {

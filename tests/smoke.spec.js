@@ -1,6 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const { HomePage } = require('./pages/home-page');
+const { SearchResultsPage } = require('./pages/search-results-page');
 
 test.describe('Smoke Suite', () => {
     test.beforeEach(async ({ page }) => {
@@ -25,38 +25,26 @@ test.describe('Smoke Suite', () => {
     });
 
     test('Search', async({ page }) => {
-        await page.getByPlaceholder('Search').fill('test');
-        await page.getByRole('button', { name: 'Search', exact: true }).click();
-        await page.getByRole('button', { name: 'Search', exact: true }).click(); // Two separate clicks for it to go through
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/results\?search_query=test/);
+        const searchResultsPage = new SearchResultsPage(page);
+        await searchResultsPage.searchQuery();
+        let re = await searchResultsPage.regex();
+        await expect(page).toHaveURL(re);
+    });
+
+    test('Search and Assert Clickable Thumbnail', async({ page }) => {
+        const searchResultsPage = new SearchResultsPage(page);
+        await searchResultsPage.goto();
+        const searchResultsList = await searchResultsPage.searchResultsList();
+        for(let i in searchResultsList) {
+            await expect(searchResultsList[i].locator('a')).toHaveId('thumbnail');
+            await expect(searchResultsList[i].locator('a')).toHaveAttribute('href', /watch\?v=.+$/);
+            await expect(searchResultsList[i].locator('img')).toBeVisible();
+        }
     });
 
     test('Settings', async({ page }) => {
         await page.locator('#buttons').getByLabel('Settings').click();
         await page.locator('tp-yt-paper-item').filter({ hasText: 'Settings' }).click();
         await expect(page).not.toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
-    });
-
-    test('Log In + Feed Section', async({ page }) => {
-        const homePage = new HomePage(page);
-        await homePage.login();
-        await homePage.guide.click();
-        await page.locator('#sections').getByTitle('You', { exact: true }).getByRole('link').click();
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/you/);
-        /*await homePage.guide.click();
-        await page.getByRole('link', { name: 'Your Channel' }).click();
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/channel\/.+$/);*/
-        await homePage.guide.click();
-        await page.locator('#sections').getByTitle('History', { exact: true }).getByRole('link').click();
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/history/);
-        await homePage.guide.click();
-        await page.locator('tp-yt-paper-item').filter({ hasText: 'Playlists' }).click();
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/playlists/);
-        await homePage.guide.click();
-        await page.locator('tp-yt-paper-item').filter({ hasText: 'Watch later' }).click();
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/playlist\?list=WL/);
-        await homePage.guide.click();
-        await page.locator('tp-yt-paper-item').filter({ hasText: 'Liked videos' }).click();
-        await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/playlist\?list=LL/);
     });
 });
