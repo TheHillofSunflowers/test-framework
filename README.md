@@ -13,17 +13,17 @@ JavaScript, Playwright, Github Actions CI/CD, Docker Containerization
 
 E2E Testing (Uploading of Videos)
 
-Happy Pathing
-
-Component Testing
-
 Network Testing
 
-Refactoring in Selenium and Python
+API Testing
 
-POM Implementation
+Refactoring in Selenium, Python, Java, TypeScript
 
-Fixed Docker Containerization
+Dynamic POM Implementation
+
+Fix Docker Containerization
+
+Fix WebKit Project
 
 Manual Test Cases
 
@@ -33,4 +33,4 @@ Bug Reports
 
 Sharding
 
-DevOps (Practicing with Cloud)
+DevOps (Practicing with Cloud and CI/CD Pipeline)
