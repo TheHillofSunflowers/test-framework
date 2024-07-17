@@ -1,6 +1,7 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
 const { SearchResultsPage } = require('./pages/search-results-page');
+const { HomePage } = require('./pages/home-page');
 
 test.describe('Smoke Suite', () => {
     test.beforeEach(async ({ page }) => {

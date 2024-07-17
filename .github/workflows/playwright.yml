@@ -4,6 +4,12 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
+env:
+  playwrightUsername: '${{ secrets.playwrightUsername }}'
+  playwrightPassword: '${{ secrets.playwrightPassword }}'
+  recoveryEmail: '${{ secrets.recoveryEmail }}'
+
 jobs:
   test:
     timeout-minutes: 60

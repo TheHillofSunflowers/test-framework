@@ -9,7 +9,11 @@ exports.Page = class Page {
         this.guide = page.locator('#start').getByLabel('Guide');
     }
 
-    async guideCloseClick() {
-        await this.page.locator('#guide-content #button').click();
+    async guideClose() {
+        return this.page.locator('#guide-content #button');
+    }
+
+    async login() {
+        return this.page.getByLabel('Sign in');
     }
 }
