@@ -30,8 +30,8 @@ module.exports = defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     launchOptions: {
       // BrowserType Options to allow for Google account log in
-      headless: false,
-      args: ['--disable-blink-features=AutomationControlled'],
+      /*headless: false,
+      args: ['--disable-blink-features=AutomationControlled'],*/
     },
     trace: 'on-first-retry',
   },
@@ -40,18 +40,30 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'],
+        launchOptions: {
+          // BrowserType Options to allow for Google account log in
+          headless: false,
+          args: ['--disable-blink-features=AutomationControlled'],
+        },
+      },
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'],
+        launchOptions: {
+          // BrowserType Options to allow for Google account log in
+          headless: false,
+          args: ['--disable-blink-features=AutomationControlled'],
+        },
+      },
     },
 
-    /*{
+    {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-    },*/
+    },
 
     /* Test against mobile viewports. */
     // {
