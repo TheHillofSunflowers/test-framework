@@ -43,7 +43,7 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Chrome'],
         launchOptions: {
           // BrowserType Options to allow for Google account log in
-          headless: false,
+          headless: true,
           args: ['--disable-blink-features=AutomationControlled'],
         },
       },
@@ -54,7 +54,7 @@ module.exports = defineConfig({
       use: { ...devices['Desktop Firefox'],
         launchOptions: {
           // BrowserType Options to allow for Google account log in
-          headless: false,
+          headless: true,
           args: ['--disable-blink-features=AutomationControlled'],
         },
       },

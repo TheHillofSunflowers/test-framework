@@ -10,6 +10,12 @@ ARG NODE_VERSION=20.10.0
 
 FROM node:${NODE_VERSION}-alpine
 
+# temp
+FROM mcr.microsoft.com/playwright:v1.45.1-jammy
+
+# temp
+WORKDIR /app
+
 # Use production node environment by default.
 ENV NODE_ENV production
 
@@ -42,10 +48,29 @@ ENV NODE_ENV production
 
 
 # Use the official Playwright base image, which includes necessary dependencies.
-FROM mcr.microsoft.com/playwright:v1.44.1-jammy
+# temp FROM mcr.microsoft.com/playwright:v1.45.1-jammy
 
 # Set the working directory
-WORKDIR /usr/src/app
+# temp WORKDIR /usr/src/app
+
+RUN apt-get update && apt-get install -y \
+    xvfb \
+    libnss3 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxrandr2 \
+    libgbm1 \
+    libpango1.0-0 \
+    libcups2 \
+    libgtk-3-0 \
+    libxdamage1 \
+    libxshmfence1 \
+    libasound2 \
+    libpangocairo-1.0-0 \
+    libx11-xcb1
 
 # Copy the package.json and package-lock.json files
 COPY package.json package-lock.json ./
@@ -66,4 +91,4 @@ RUN npx playwright install --with-deps
 #EXPOSE 3000
 
 # Default command to run Playwright tests
-CMD ["npx", "playwright", "test"]
+CMD ["xvfb-run", "--auto-servernum", "npx", "playwright", "test"]

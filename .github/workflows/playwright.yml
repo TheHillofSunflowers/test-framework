@@ -14,6 +14,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    container:
+      image: d50e3383f0a41dbdc4d1e86b097c2c07db5fc67090e50f8cc41e6f2d913a1823
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -25,6 +27,8 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: xvfb-run npx playwright test
+      env:
+        HOME: /root
     - uses: actions/upload-artifact@v4
       if: always()
       with:

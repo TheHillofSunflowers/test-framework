@@ -16,4 +16,8 @@ exports.Page = class Page {
     async login() {
         return this.page.getByLabel('Sign in');
     }
+
+    async accountMenu() {
+        return this.page.getByLabel('Account menu');
+    }
 }
