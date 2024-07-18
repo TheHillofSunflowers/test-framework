@@ -23,8 +23,6 @@ Dynamic POM Implementation
 
 Fix Docker Containerization
 
-Fix WebKit Project
-
 Manual Test Cases
 
 Properly Documented Requirements and Suites
