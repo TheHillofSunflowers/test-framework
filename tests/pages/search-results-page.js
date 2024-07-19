@@ -18,13 +18,17 @@ exports.SearchResultsPage = class SearchResultsPage extends Page {
         return regex;
     }
 
+    async firstThumbnail() {
+        return this.page.locator('ytd-item-section-renderer div ytd-video-renderer').locator('#ytd-item-section-renderer').locator('id=thumbnail');
+    }
+
     async searchResultsList() {
         return this.page.locator('ytd-item-section-renderer div ytd-video-renderer').locator('#ytd-item-section-renderer').all();
     }
 
     async searchQuery() {
         await this.page.getByPlaceholder('Search').fill(this.search);
-        await this.page.getByRole('button', { name: 'Search', exact: true }).click();
-        await this.page.getByRole('button', { name: 'Search', exact: true }).click(); // Two separate clicks for it to go through
+        await this.searchButton.click();
+        await this.searchButton.click(); // Two separate clicks for it to go through
     }
 }

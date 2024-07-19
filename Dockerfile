@@ -92,3 +92,6 @@ RUN npx playwright install --with-deps
 
 # Default command to run Playwright tests
 CMD ["xvfb-run", "--auto-servernum", "npx", "playwright", "test"]
+
+# docker build -t playwright-docker .
+# docker run -it --rm -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix playwright-docker:latest xvfb-run --auto-servernum npx playwright test

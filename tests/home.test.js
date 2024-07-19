@@ -10,7 +10,7 @@ test.describe('Home Button', () => {
         await homePage.guide.click();
         await page.getByRole('link', { name: 'Shorts' }).click();
 
-        await (await homePage.guideClose()).click();
+        await (await homePage.guideClose()).waitFor({ state: 'hidden' });
         await homePage.homeButton.click();
         await expect(page).toHaveURL(await homePage.regex());
     });
@@ -21,7 +21,7 @@ test.describe('Home Button', () => {
         await homePage.guide.click();
         await page.getByRole('link', { name: 'Shorts' }).click();
 
-        await (await homePage.guideClose()).click();
+        await (await homePage.guideClose()).waitFor({ state: 'hidden' });
         await homePage.homeButton.click();
         const urlPattern = new RegExp(`${(await homePage.regex()).source} + '.+$'`);
         await expect(page).not.toHaveURL(urlPattern);

@@ -7,6 +7,7 @@ exports.Page = class Page {
         this.page = page;
         this.homeButton = page.locator('#start').getByRole('link', { name: 'YouTube Home' });
         this.guide = page.locator('#start').getByLabel('Guide');
+        this.searchButton = page.getByRole('button', { name: 'Search', exact: true });
     }
 
     async guideClose() {
