@@ -5,30 +5,44 @@ const { Page } = require('./page');
 exports.SearchResultsPage = class SearchResultsPage extends Page {
     constructor(page) {
         super(page);
-        this.search = 'test';
+        this.search = 'test !@#$%^&*()%';
     }
 
     async goto() {
-        await this.page.goto('https://www.youtube.com/results?search_query=' + this.search);
+        let searchEncode = await this.encodeURIYT(this.search);
+        await this.page.goto('https://www.youtube.com/results?search_query=' + searchEncode);
+    }
+
+    async encodeURIYT(string) {
+        let searchEncode = encodeURIComponent(string);
+        searchEncode = searchEncode.replace(/%20/g, '+');
+        //searchEncode = searchEncode.replace(/%5E/g, '^');
+        return searchEncode;
+    }
+
+    async encodeForRegex(string) {
+        let searchEncode = await this.encodeURIYT(string);
+        searchEncode = searchEncode.replace(/\+/g, '\\+');
+        searchEncode = searchEncode.replace(/\./g, '\\.');
+        searchEncode = searchEncode.replace(/\%/g, '\\%');
+        searchEncode = searchEncode.replace(/\-/g, '\\-');
+        return searchEncode;
     }
 
     async regex() {
-        let regex = new RegExp(`^https?:\/\/(www\\.)?youtube\\.com\/results\\?search_query=${this.search}`) // Needs double slash for the . and y
-        console.log(regex);
+        let searchEncode = await this.encodeForRegex(this.search);
+        let regex = new RegExp(`^https?:\/\/(www\\.)?youtube\\.com\/results\\?search_query=${searchEncode}$`) // Needs double slash for the . and ?
         return regex;
-    }
-
-    async firstThumbnail() {
-        return this.page.locator('ytd-item-section-renderer div ytd-video-renderer').locator('#ytd-item-section-renderer').locator('id=thumbnail');
-    }
-
-    async searchResultsList() {
-        return this.page.locator('ytd-item-section-renderer div ytd-video-renderer').locator('#ytd-item-section-renderer').all();
     }
 
     async searchQuery() {
         await this.page.getByPlaceholder('Search').fill(this.search);
         await this.searchButton.click();
-        await this.searchButton.click(); // Two separate clicks for it to go through
+        await this.searchButton.click();
+        await this.searchButton.click(); // Three separate clicks for it to go through
+    }
+
+    async searchResultsList() {
+        return this.page.locator('#contents ytd-video-renderer').all();
     }
 }

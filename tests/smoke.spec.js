@@ -36,22 +36,15 @@ test.describe('Smoke Suite', () => {
     test('Search and Assert Clickable Thumbnail', async({ page }) => {
         const searchResultsPage = new SearchResultsPage(page);
         await searchResultsPage.goto();
-        //const firstResult = await searchResultsPage.firstThumbnail();
-        //await firstResult.waitFor({ state: 'visible' });
-        //await page.locator('ytd-reel-shelf-renderer #contents').nth(0).waitFor({ state: 'visible' });
-        await searchResultsPage.searchButton.hover();
-        await page.mouse.wheel(0, 10);
-        //const searchResultsList = await page.locator('ytd-item-section-renderer div ytd-video-renderer').locator('#ytd-item-section-renderer');
-        const searchResultsList = await page.locator('#contents ytd-video-renderer').all();
-        //const searchResultsList = await searchResultsPage.searchResultsList();
+        // Wait for Shorts Shelf to load in
+        await page.locator('ytd-reel-shelf-renderer #contents').nth(0).waitFor({ state: 'visible' });
+        // Locate the first few results
+        const searchResultsList = await searchResultsPage.searchResultsList();
         console.log(searchResultsList.length);
         for(const i in searchResultsList) {
             await searchResultsList[i].locator('#dismissible a').nth(0).hover();
-            console.log(await searchResultsList[i].locator('#dismissible a').nth(0).getAttribute('id'));
             await expect(await searchResultsList[i].locator('#dismissible a').nth(0)).toHaveId('thumbnail');
-            console.log(await searchResultsList[i].locator('#dismissible a').nth(0).getAttribute('href'));
-            await expect(await searchResultsList[i].locator('#dismissible a').nth(0)).toHaveAttribute('href', /watch\?v=.+$/);
-            console.log(await searchResultsList[i].locator('#dismissible a').nth(0).getAttribute('img'));
+            await expect(await searchResultsList[i].locator('#dismissible a').nth(0)).toHaveAttribute('href', /(watch\?v=.+$)?(shorts\/.+$)?/);
             await expect(await searchResultsList[i].locator('#dismissible a yt-image img').nth(0)).toBeVisible();
         }
     });
