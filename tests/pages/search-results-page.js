@@ -5,7 +5,7 @@ const { Page } = require('./page');
 exports.SearchResultsPage = class SearchResultsPage extends Page {
     constructor(page) {
         super(page);
-        this.search = 'test !@#$%^&*()%';
+        this.search = 'test !@#$%^&*()%\\{}[]'; // Include an extra \ for each that you want to search for
     }
 
     async goto() {
@@ -26,6 +26,14 @@ exports.SearchResultsPage = class SearchResultsPage extends Page {
         searchEncode = searchEncode.replace(/\./g, '\\.');
         searchEncode = searchEncode.replace(/\%/g, '\\%');
         searchEncode = searchEncode.replace(/\-/g, '\\-');
+        searchEncode = searchEncode.replace(/\*/g, '\\*');
+        searchEncode = searchEncode.replace(/\(/g, '\\(');
+        searchEncode = searchEncode.replace(/\)/g, '\\)');
+        searchEncode = searchEncode.replace(/\[/g, '\\[');
+        searchEncode = searchEncode.replace(/\]/g, '\\]');
+        searchEncode = searchEncode.replace(/\{/g, '\\{');
+        searchEncode = searchEncode.replace(/\}/g, '\\}');
+        searchEncode = searchEncode.replace(/\\/g, '\\');
         return searchEncode;
     }
 
