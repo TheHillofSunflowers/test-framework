@@ -12,18 +12,21 @@ test.describe('Smoke Suite', () => {
     test('Home Button', async({ page }) => {
         await page.locator('#start').getByRole('link', { name: 'YouTube Home' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
+        await expect(page).toHaveTitle("YouTube");
     });
 
     test('Hamburger Home', async({ page }) => {
         await page.locator('#start').getByLabel('Guide').click();
         await page.locator('tp-yt-paper-item').filter({ hasText: 'Home' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
+        await expect(page).toHaveTitle("YouTube");
     });
 
     test('Hamburger Subscriptions', async({ page }) => {
         await page.locator('#start').getByLabel('Guide').click();
         await page.locator('tp-yt-paper-item').filter({ hasText: 'Subscriptions' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/subscriptions/);
+        await expect(page).toHaveTitle("Subscriptions - YouTube");
     });
 
     test('Search', async({ page }) => {
@@ -31,6 +34,7 @@ test.describe('Smoke Suite', () => {
         await searchResultsPage.searchQuery();
         let re = await searchResultsPage.regex();
         await expect(page).toHaveURL(re);
+        await expect(page).toHaveTitle(searchResultsPage.search + ' - Youtube');
     });
 
     test('Search and Assert Clickable Thumbnail', async({ page }) => {
