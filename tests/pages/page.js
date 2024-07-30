@@ -8,6 +8,7 @@ exports.Page = class Page {
         this.homeButton = page.locator('#start').getByRole('link', { name: 'YouTube Home' });
         this.guide = page.locator('#start').getByLabel('Guide');
         this.searchButton = page.getByRole('button', { name: 'Search', exact: true });
+        this.voiceButton = page.getByLabel('Search with your voice');
     }
 
     async guideClose() {
@@ -21,4 +22,12 @@ exports.Page = class Page {
     async accountMenu() {
         return this.page.getByLabel('Account menu');
     }
+
+    async navigateToShorts() {
+        await this.guide.click();
+        await this.page.getByRole('link', { name: 'Shorts' }).click();
+        await (await this.guideClose()).waitFor({ state: 'hidden' });
+    }
+
+
 }

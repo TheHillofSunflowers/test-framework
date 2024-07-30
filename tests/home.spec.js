@@ -7,10 +7,8 @@ test.describe('Home Button', () => {
     test('E2E Home Button', async({ page }) => {
         const homePage = new HomePage(page);
         await homePage.goto();
-        await homePage.guide.click();
-        await page.getByRole('link', { name: 'Shorts' }).click();
+        await homePage.navigateToShorts();
 
-        await (await homePage.guideClose()).waitFor({ state: 'hidden' });
         await homePage.homeButton.click();
         await expect(page).toHaveURL(await homePage.regex());
     });
@@ -18,10 +16,8 @@ test.describe('Home Button', () => {
     test('E2E Home Button Negative', async({ page }) => {
         const homePage = new HomePage(page);
         await homePage.goto();
-        await homePage.guide.click();
-        await page.getByRole('link', { name: 'Shorts' }).click();
+        await homePage.navigateToShorts();
 
-        await (await homePage.guideClose()).waitFor({ state: 'hidden' });
         await homePage.homeButton.click();
         const urlPattern = new RegExp(`${(await homePage.regex()).source} + '.+$'`);
         await expect(page).not.toHaveURL(urlPattern);
