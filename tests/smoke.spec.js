@@ -34,7 +34,7 @@ test.describe('Smoke Suite', () => {
         await searchResultsPage.searchQuery();
         let re = await searchResultsPage.regex();
         await expect(page).toHaveURL(re);
-        await expect(page).toHaveTitle(searchResultsPage.search + ' - Youtube');
+        await expect(page).toHaveTitle(searchResultsPage.search + ' - YouTube');
     });
 
     test('Search and Assert Clickable Thumbnail', async({ page }) => {
