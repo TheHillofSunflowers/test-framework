@@ -1,7 +1,7 @@
 // @ts-check
-const { test, expect } = require('@playwright/test');
-const { SearchResultsPage } = require('./pages/search-results-page');
-const { HomePage } = require('./pages/home-page');
+import { test, expect } from '@playwright/test';
+import { SearchResultsPage } from './pages/search-results-page';
+import { HomePage } from './pages/home-page';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://www.youtube.com/');

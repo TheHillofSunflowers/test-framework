@@ -1,10 +1,14 @@
 // @ts-check
-const { expect } = require('@playwright/test');
-const { Page } = require('./page');
+import { expect, type Locator, type Page } from '@playwright/test';
+import { BasePage } from './page';
 
-exports.HomePage = class HomePage extends Page {
+export class HomePage extends BasePage {
+    videoRow: any;
+    body: any;
+    getStartedTitle: any;
+    getStartedSubtitle: any;
     
-    constructor(page) {
+    constructor(page: Page) {
         super(page);
         this.videoRow = page.locator('ytd-rich-grid-row');
         this.body = page.locator('contents').locator('ytd-rich-grid-renderer');

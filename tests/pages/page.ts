@@ -1,9 +1,14 @@
 // @ts-check
-const { expect } = require('@playwright/test');
-//require('dotenv').config();
+import { expect, type Locator, type Page } from '@playwright/test';
 
-exports.Page = class Page {
-    constructor(page) {
+export class BasePage {
+    page: any;
+    homeButton: any;
+    guide: any;
+    searchButton: any;
+    voiceButton: any;
+
+    constructor(page: Page) {
         this.page = page;
         this.homeButton = page.locator('#start').getByRole('link', { name: 'YouTube Home' });
         this.guide = page.locator('#start').getByLabel('Guide');

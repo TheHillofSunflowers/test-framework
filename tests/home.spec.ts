@@ -1,6 +1,6 @@
 // @ts-check
-const { test, expect } = require('@playwright/test');
-const { HomePage } = require('./pages/home-page');
+import { test, expect } from '@playwright/test';
+import { HomePage } from './pages/home-page';
 
 test.describe('Home Button', () => {
     

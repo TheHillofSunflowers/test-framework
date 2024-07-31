@@ -12,11 +12,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.45.2",
-    "@types/node": "^20.14.2"
+    "@playwright/test": "^1.45.3",
+    "@types/node": "^20.14.13",
+    "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@playwright/test": "^1.45.2",
     "dotenv": "^16.4.5"
   }
 }

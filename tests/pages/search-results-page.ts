@@ -1,9 +1,11 @@
 // @ts-check
-const { expect } = require('@playwright/test');
-const { Page } = require('./page');
+import { expect, type Locator, type Page } from '@playwright/test';
+import { BasePage } from './page';
 
-exports.SearchResultsPage = class SearchResultsPage extends Page {
-    constructor(page) {
+export class SearchResultsPage extends BasePage {
+    search: string;
+
+    constructor(page: Page) {
         super(page);
         this.search = 'test !@#$%^&*()%\\{}[]'; // Include an extra \ for each that you want to search for
     }
