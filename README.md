@@ -6,7 +6,7 @@ Automated testing framework created in Javascript to practice SDET skills on a p
 
 
 ### Tools:
-JavaScript, Playwright, Github Actions CI/CD, Docker Containerization
+TypeScript, JavaScript, Playwright, Github Actions CI/CD, Docker Containerization
 
 
 ### To do:
@@ -17,11 +17,9 @@ Network Testing
 
 API Testing
 
-Refactoring in Selenium, Python, Java, TypeScript
+Refactoring in Selenium, Python, Java
 
 Dynamic POM Implementation
-
-Fix Docker Containerization
 
 Manual Test Cases
 
