@@ -3,10 +3,10 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { BasePage } from './page';
 
 export class HomePage extends BasePage {
-    videoRow: any;
-    body: any;
-    getStartedTitle: any;
-    getStartedSubtitle: any;
+    readonly videoRow: Locator;
+    readonly body: Locator;
+    readonly getStartedTitle: Locator;
+    readonly getStartedSubtitle: Locator;
     
     constructor(page: Page) {
         super(page);

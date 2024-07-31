@@ -2,11 +2,11 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
 export class BasePage {
-    page: any;
-    homeButton: any;
-    guide: any;
-    searchButton: any;
-    voiceButton: any;
+    readonly page: Page;
+    readonly homeButton: Locator;
+    readonly guide: Locator;
+    readonly searchButton: Locator;
+    readonly voiceButton: Locator;
 
     constructor(page: Page) {
         this.page = page;

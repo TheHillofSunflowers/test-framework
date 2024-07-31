@@ -3,7 +3,7 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { BasePage } from './page';
 
 export class SearchResultsPage extends BasePage {
-    search: string;
+    readonly search: string;
 
     constructor(page: Page) {
         super(page);
