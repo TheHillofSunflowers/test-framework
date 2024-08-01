@@ -1,8 +1,5 @@
-// @ts-check
 import { test, expect } from '@playwright/test';
 import { SearchResultsPage } from './pages/search-results-page';
-import { HomePage } from './pages/home-page';
-import exp from 'constants';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://www.youtube.com/');
@@ -28,6 +25,16 @@ test.describe('Smoke Suite', () => {
         await page.locator('tp-yt-paper-item').filter({ hasText: 'Subscriptions' }).click();
         await expect(page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/subscriptions/);
         await expect(page).toHaveTitle("Subscriptions - YouTube");
+    });
+
+    test('Subscriptions Log In Message', async({ page }) => {
+        await page.goto('/');
+        await expect(page.getByLabel('Sign in')).toBeVisible(); // Check if User is logged in
+        await page.goto('https://www.youtube.com/feed/subscriptions');
+        await expect(page.locator('.image > .yt-icon-shape > div > svg')).toBeVisible();
+        await expect(page.getByText('Don’t miss new videos')).toBeVisible();
+        await expect(page.getByText('Sign in to see updates from your favorite YouTube channels')).toBeVisible();
+        await expect(page.locator('#page-manager').getByLabel('Sign in')).toBeVisible();
     });
 
     test('Search', async({ page }) => {
@@ -59,15 +66,5 @@ test.describe('Smoke Suite', () => {
         await page.locator('tp-yt-paper-item').filter({ hasText: 'Settings' }).click();
         await expect(page).not.toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
         await expect(page).toHaveTitle("YouTube");
-    });
-
-    test('Subscriptions Log In Message', async({ page }) => {
-        await page.goto('/');
-        await expect(page.getByLabel('Sign in')).toBeVisible(); // Check if User is logged in
-        await page.goto('https://www.youtube.com/feed/subscriptions');
-        await expect(page.locator('.image > .yt-icon-shape > div > svg')).toBeVisible();
-        await expect(page.getByText('Don\'t miss new videos')).toBeVisible();
-        await expect(page.getByText('Sign in to see updates from your favorite YouTube channels')).toBeVisible();
-        await expect(page.locator('#page-manager').getByLabel('Sign in')).toBeVisible();
     });
 });

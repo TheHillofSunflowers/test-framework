@@ -1,5 +1,4 @@
-// @ts-check
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './page';
 
 export class HomePage extends BasePage {
