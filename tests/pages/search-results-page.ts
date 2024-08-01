@@ -7,7 +7,7 @@ export class SearchResultsPage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.search = 'test !@#$%^&*()%\\{}[]'; // Include an extra \ for each that you want to search for
+        this.search = 'test !@#$%^&*()%\\{}[]'; // Include an extra \ for each \ that you want to search for
     }
 
     async goto() {
