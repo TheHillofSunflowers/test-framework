@@ -39,7 +39,7 @@ test.describe('Smoke Suite', () => {
 
     test('Search', async({ page }) => {
         const searchResultsPage = new SearchResultsPage(page);
-        await searchResultsPage.searchQuery();
+        await searchResultsPage.searchQuery(searchResultsPage.search);
         let re = await searchResultsPage.regex();
         await expect(page).toHaveURL(re);
         await expect(page).toHaveTitle(searchResultsPage.search + ' - YouTube');

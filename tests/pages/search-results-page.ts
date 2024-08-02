@@ -44,13 +44,6 @@ export class SearchResultsPage extends BasePage {
         return regex;
     }
 
-    async searchQuery() {
-        await this.page.getByPlaceholder('Search').fill(this.search);
-        await this.searchButton.click();
-        await this.searchButton.click();
-        await this.searchButton.click(); // Three separate clicks for it to go through
-    }
-
     async searchResultsList() {
         return this.page.locator('#contents ytd-video-renderer').all();
     }

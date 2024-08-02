@@ -27,6 +27,17 @@ export class BasePage {
         return this.page.getByLabel('Account menu');
     }
 
+    async goHome() {
+        this.homeButton.click();
+    }
+
+    async searchQuery(input: string) {
+        await this.page.getByPlaceholder('Search').fill(input);
+        await this.searchButton.click();
+        await this.searchButton.click();
+        await this.searchButton.click(); // Three separate clicks for it to go through
+    }
+
     async navigateToShorts() {
         await this.guide.click();
         await this.page.getByRole('link', { name: 'Shorts' }).click();
