@@ -28,7 +28,7 @@ export class BasePage {
     }
 
     async goHome() {
-        this.homeButton.click();
+        await this.homeButton.click();
     }
 
     async searchQuery(input: string) {
