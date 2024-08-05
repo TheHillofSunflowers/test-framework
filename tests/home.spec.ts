@@ -8,7 +8,7 @@ test.describe('Home Button', () => {
         await homePage.goto();
         await homePage.navigateToShorts();
 
-        await homePage.goHome();
+        await homePage.clickHomeButton();
         await expect(page).toHaveURL(await homePage.regex());
         await expect(page).toHaveTitle("YouTube");
     });
@@ -18,10 +18,10 @@ test.describe('Home Button', () => {
         await homePage.goto();
         await homePage.navigateToShorts();
 
-        await homePage.goHome();
+        await homePage.clickHomeButton();
         const urlPattern = new RegExp(`${(await homePage.regex()).source} + '.+$'`);
         await expect(page).not.toHaveURL(urlPattern);
-        await expect(page).not.toHaveTitle(new RegExp(`'.+$ - YouTube'`));
+        await expect(page).not.toHaveTitle(new RegExp(`'.+ - YouTube$'`));
     });
 
     test('Get Started Message', async({ page }) => {

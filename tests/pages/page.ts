@@ -27,7 +27,7 @@ export class BasePage {
         return this.page.getByLabel('Account menu');
     }
 
-    async goHome() {
+    async clickHomeButton() {
         await this.homeButton.click();
     }
 
