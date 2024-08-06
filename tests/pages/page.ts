@@ -1,6 +1,6 @@
 import { type Locator, type Page } from '@playwright/test';
 
-export class BasePage {
+export abstract class BasePage {
     readonly page: Page;
     readonly homeButton: Locator;
     readonly guide: Locator;
@@ -15,33 +15,45 @@ export class BasePage {
         this.voiceButton = page.getByLabel('Search with your voice');
     }
 
-    async guideClose() {
-        return this.page.locator('#guide-content #button');
-    }
-
-    async login() {
-        return this.page.getByLabel('Sign in');
-    }
-
-    async accountMenu() {
-        return this.page.getByLabel('Account menu');
-    }
-
     async clickHomeButton() {
         await this.homeButton.click();
     }
 
-    async searchQuery(input: string) {
-        await this.page.getByPlaceholder('Search').fill(input);
+    async openGuideMenu() {
+        await this.guide.click();
+    }
+
+    async guideCloseButton(): Promise<Locator> {
+        return this.page.locator('#guide-content #button');
+    }
+
+    async inputSearch() {
         await this.searchButton.click();
         await this.searchButton.click();
         await this.searchButton.click(); // Three separate clicks for it to go through
     }
 
+    async searchQuery(input: string) {
+        await this.page.getByPlaceholder('Search').fill(input);
+        await this.inputSearch();
+    }
+
+    async clickVoiceButton() {
+        await this.voiceButton.click();
+    }
+
+    async loginButton(): Promise<Locator> {
+        return this.page.getByLabel('Sign in');
+    }
+
+    async accountMenu(): Promise<Locator> {
+        return this.page.getByLabel('Account menu');
+    }
+
     async navigateToShorts() {
         await this.guide.click();
         await this.page.getByRole('link', { name: 'Shorts' }).click();
-        await (await this.guideClose()).waitFor({ state: 'hidden' });
+        await (await this.guideCloseButton()).waitFor({ state: 'hidden' });
     }
 
 

@@ -2,11 +2,15 @@ import { type Locator, type Page } from '@playwright/test';
 import { BasePage } from './page';
 
 export class SearchResultsPage extends BasePage {
-    readonly search: string;
+    search: string;
 
-    constructor(page: Page) {
+    constructor(page: Page, search?: string) {
         super(page);
-        this.search = 'test !@#$%^&*()%\\{}[]'; // Include an extra \ for each \ that you want to search for
+        this.search = search ?? 'test !@#$%^&*()%\\{}[]'; // Include an extra \ for each \ that you want to search for
+    }
+
+    setSearch(search: string): void {
+        this.search = search;
     }
 
     async goto() {
@@ -14,14 +18,14 @@ export class SearchResultsPage extends BasePage {
         await this.page.goto('https://www.youtube.com/results?search_query=' + searchEncode);
     }
 
-    async encodeURIYT(string) {
+    async encodeURIYT(string: string): Promise<string> {
         let searchEncode = encodeURIComponent(string);
         searchEncode = searchEncode.replace(/%20/g, '+');
         //searchEncode = searchEncode.replace(/%5E/g, '^');
         return searchEncode;
     }
 
-    async encodeForRegex(string) {
+    async encodeForRegex(string: string): Promise<string> {
         let searchEncode = await this.encodeURIYT(string);
         searchEncode = searchEncode.replace(/\+/g, '\\+');
         searchEncode = searchEncode.replace(/\./g, '\\.');
@@ -38,13 +42,13 @@ export class SearchResultsPage extends BasePage {
         return searchEncode;
     }
 
-    async regex() {
+    async regex(): Promise<RegExp> {
         let searchEncode = await this.encodeForRegex(this.search);
         let regex = new RegExp(`^https?:\/\/(www\\.)?youtube\\.com\/results\\?search_query=${searchEncode}$`) // Needs double slash for the . and ?
         return regex;
     }
 
-    async searchResultsList() {
+    async searchResultsList(): Promise<Array<Locator>> {
         return this.page.locator('#contents ytd-video-renderer').all();
     }
 }

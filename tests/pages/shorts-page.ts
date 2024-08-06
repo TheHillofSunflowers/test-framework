@@ -19,7 +19,7 @@ export class ShortsPage extends BasePage {
         await this.page.goto('https://www.youtube.com/shorts/');
     }
 
-    async regex() {
+    async regex(): Promise<RegExp> {
         let regex = /^https?:\/\/(www\.)?youtube\.com\/shorts\/.+$/;
         return regex;
     }

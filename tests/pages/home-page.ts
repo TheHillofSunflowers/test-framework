@@ -19,12 +19,12 @@ export class HomePage extends BasePage {
         await this.page.goto('/');
     }
 
-    async regex() {
+    async regex(): Promise<RegExp> {
         let regex = /^https?:\/\/(www\.)?youtube\.com\/?/;
         return regex;
     }
 
-    async chipsList() {
+    async chipsList(): Promise<Array<Locator>> {
         return this.page.getByRole('tab').all();
     }
 }
