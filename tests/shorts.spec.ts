@@ -22,7 +22,7 @@ test('Shorts Functionality 2', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
 
-    await page.locator('[id="\\30"]').getByRole('button', { name: 'Share' }).click();
+    await shortsPage.clickShareButton();
     await expect(page.getByRole('listbox')).toBeVisible();
     const socialsList = await page.getByLabel('Select an application to share with').locator('yt-share-target-renderer').all();
     expect(socialsList).toHaveLength(12);
