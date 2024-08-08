@@ -35,22 +35,17 @@ test('Shorts Functionality 2', async({ page }) => {
 test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
-    await page.waitForURL(await shortsPage.regex());
-    const URL = page.url();
+    await expect(await shortsPage.getShortsVideo()).toBeVisible();
     const firstTitle = await page.title();
-    console.log(firstTitle);
     await shortsPage.navigateToNextShort();
 
-    await page.waitForLoadState("networkidle");
+    await expect(await shortsPage.getShortsVideo()).toBeVisible();
     const secondTitle = await page.title();
-    console.log(secondTitle);
     expect(secondTitle).not.toBe(firstTitle);
     await shortsPage.navigateToPreviousShort();
 
-    await page.waitForURL(URL);
-    await page.waitForLoadState("networkidle");
+    await expect(await shortsPage.getShortsVideo()).toBeVisible();
     const currentTitle = await page.title();
-    console.log(currentTitle);
     expect(currentTitle).toBe(firstTitle);
     expect(currentTitle).not.toBe(secondTitle);
 });

@@ -43,4 +43,8 @@ export class ShortsPage extends BasePage {
     async clickShareButton() {
         await this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByRole('button', { name: 'Share' }).click();
     }
+
+    async getShortsVideo() {
+        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player video');
+    }
 }
