@@ -35,7 +35,7 @@ test('Shorts Functionality 2', async({ page }) => {
 test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
-    await expect(await shortsPage.getShortsVideo()).toBeVisible();
+    await page.waitForURL(await shortsPage.regex());
     const firstTitle = await page.title();
     await shortsPage.navigateToNextShort();
 
