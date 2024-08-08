@@ -31,3 +31,18 @@ test('Shorts Functionality 2', async({ page }) => {
     await shortsPage.moreActionsButton.click();
     await expect(page.getByText('Description Captions Report Send Feedback')).toBeVisible();
 });
+
+test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
+    const shortsPage = new ShortsPage(page);
+    await shortsPage.goto();
+    const firstTitle = await page.title();
+    await shortsPage.navigateToNextShort();
+
+    const secondTitle = await page.title();
+    expect(secondTitle).not.toBe(firstTitle);
+    await shortsPage.navigateToPreviousShort();
+    
+    const currentTitle = await page.title();
+    expect(currentTitle).toBe(firstTitle);
+    expect(currentTitle).not.toBe(secondTitle);
+});
