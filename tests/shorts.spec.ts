@@ -41,14 +41,14 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     console.log(firstTitle);
     await shortsPage.navigateToNextShort();
 
-    await page.waitForLoadState();
+    await page.waitForLoadState("networkidle");
     const secondTitle = await page.title();
     console.log(secondTitle);
     expect(secondTitle).not.toBe(firstTitle);
     await shortsPage.navigateToPreviousShort();
 
     await page.waitForURL(URL);
-    await page.waitForLoadState();
+    await page.waitForLoadState("networkidle");
     const currentTitle = await page.title();
     console.log(currentTitle);
     expect(currentTitle).toBe(firstTitle);
