@@ -5,7 +5,7 @@ node_modules/
 README.Docker.md
 .env
 /newTrace/
-/playwright-report/*
-/blob-report/*
-/all-blob-reports/*
+/playwright-report/
+/blob-report/
+/all-blob-reports/
 /tests-examples/

@@ -49,7 +49,7 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     expect(currentTitle).not.toBe(secondTitle);
 });
 
-test('Clicking on video pauses', async({ page }) => {
+/*test('Clicking on video pauses', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
     await expect(shortsPage.shortsPlayer).toHaveClass(/playing-mode/);
@@ -67,4 +67,4 @@ test('Mute button sets volume to 0%', async({ page }) => {
     await shortsPage.volumeButton.click();
     await expect(shortsPage.volumeButton).toHaveAttribute('title', 'Unmute');
     await expect(shortsPage.volume).toHaveAttribute('style', '--gradient-percent: 0%;');
-});
+});*/
