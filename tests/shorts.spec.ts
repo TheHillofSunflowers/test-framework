@@ -35,7 +35,6 @@ test('Shorts Functionality 2', async({ page }) => {
 test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
-    await page.waitForURL(await shortsPage.regex());
     const firstTitle = await page.title();
     await shortsPage.navigateToNextShort();
 
@@ -48,4 +47,24 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     const currentTitle = await page.title();
     expect(currentTitle).toBe(firstTitle);
     expect(currentTitle).not.toBe(secondTitle);
+});
+
+test('Clicking on video pauses', async({ page }) => {
+    const shortsPage = new ShortsPage(page);
+    await shortsPage.goto();
+    await expect(shortsPage.shortsPlayer).toHaveClass('playing-mode');
+    await shortsPage.shortsPlayer.click();
+    await expect(shortsPage.shortsPlayer).toHaveClass('paused-mode');
+    await shortsPage.shortsPlayer.click();
+    await expect(shortsPage.shortsPlayer).toHaveClass('playing-mode');
+});
+
+test('Mute button sets volume to 0%', async({ page }) => {
+    const shortsPage = new ShortsPage(page);
+    await shortsPage.goto();
+    await expect(shortsPage.volumeButton).toHaveAttribute('title', 'Mute');
+    await expect(shortsPage.volume).toHaveAttribute('--gradient-percent: 100%;');
+    await shortsPage.volumeButton.click();
+    await expect(shortsPage.volumeButton).toHaveAttribute('title', 'Unmute');
+    await expect(shortsPage.volume).toHaveAttribute('--gradient-percent: 0%;');
 });

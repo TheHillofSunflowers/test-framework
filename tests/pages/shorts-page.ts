@@ -9,6 +9,9 @@ export class ShortsPage extends BasePage {
     readonly nextShortButton: Locator;
     readonly previousShortButton: Locator;
     shortsIterator: number;
+    readonly shortsPlayer: Locator;
+    readonly volumeButton: Locator;
+    readonly volume: Locator;
     
     constructor(page: Page) {
         super(page);
@@ -19,10 +22,14 @@ export class ShortsPage extends BasePage {
         this.nextShortButton = page.getByLabel('Next video');
         this.previousShortButton = page.getByLabel('Previous video');
         this.shortsIterator = 0;
+        this.shortsPlayer = page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player');
+        this.volumeButton = page.locator('#YtdDesktopShortsVolumeControlsMuteIconButton');
+        this.volume = page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Volume');
     }
 
     async goto() {
         await this.page.goto('https://www.youtube.com/shorts/');
+        await this.page.waitForURL(await this.regex()); // Waits for page to load
     }
 
     async regex(): Promise<RegExp> {
@@ -45,6 +52,6 @@ export class ShortsPage extends BasePage {
     }
 
     async getShortsVideo() {
-        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player video');
+        return this.shortsPlayer.locator('video');
     }
 }
