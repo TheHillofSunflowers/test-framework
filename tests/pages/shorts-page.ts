@@ -29,7 +29,6 @@ export class ShortsPage extends BasePage {
 
     async goto() {
         await this.page.goto('https://www.youtube.com/shorts/');
-        await this.page.waitForURL(await this.regex()); // Waits for page to load
     }
 
     async regex(): Promise<RegExp> {
