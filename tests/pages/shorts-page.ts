@@ -23,7 +23,7 @@ export class ShortsPage extends BasePage {
         this.previousShortButton = page.getByLabel('Previous video');
         this.shortsIterator = 0;
         this.shortsPlayer = page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player');
-        this.volumeButton = page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#YtdDesktopShortsVolumeControlsMuteIconButton');
+        this.volumeButton = page.locator(`[id="\\3${this.shortsIterator}"]`).locator('.YtdDesktopShortsVolumeControlsMuteIconButton');
         this.volume = page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Volume');
     }
 
@@ -52,6 +52,6 @@ export class ShortsPage extends BasePage {
     }
 
     async getShortsVideo() {
-        return this.shortsPlayer.and(this.page.locator('#video'));
+        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player video');
     }
 }
