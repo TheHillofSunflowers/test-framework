@@ -47,7 +47,7 @@ export class ShortsPage extends BasePage {
     }
 
     async clickShareButton() {
-        await this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByRole('button', { name: 'Share' }).click({ force: true });
+        await this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByRole('button', { name: 'Share' }).click();
     }
 
     async getShortsVideo() {
@@ -67,6 +67,6 @@ export class ShortsPage extends BasePage {
     }
 
     async getPlayButton() {
-        return this.page.getByLabel('Play', { exact: true });
+        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Play (k)', { exact: true });
     }
 }
