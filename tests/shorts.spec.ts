@@ -5,6 +5,7 @@ test('Shorts Functionality', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
 
+    page.setViewportSize({ width: 1960, height: 1080 })
     await shortsPage.likeButton.click();
     await expect(page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
     await page.locator('#shorts-container').click();
