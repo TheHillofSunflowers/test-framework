@@ -65,4 +65,8 @@ export class ShortsPage extends BasePage {
     async getVolume() {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Volume');
     }
+
+    async getPlayButton() {
+        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#player-controls yt-button-shape button');
+    }
 }

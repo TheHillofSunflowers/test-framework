@@ -4,6 +4,7 @@ import { ShortsPage } from './pages/shorts-page';
 test('Shorts Functionality', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
+    await (await shortsPage.getPlayButton()).click();
 
     await shortsPage.likeButton.click({ force: true });
     await expect(page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
@@ -21,6 +22,7 @@ test('Shorts Functionality', async({ page }) => {
 test('Shorts Functionality 2', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
+    await (await shortsPage.getPlayButton()).click();
 
     await shortsPage.clickShareButton();
     await expect(page.getByRole('listbox')).toBeVisible();
@@ -37,6 +39,7 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     await shortsPage.goto();
     await page.waitForURL(await shortsPage.regex()); // Waits for page to load
     const firstTitle = await page.title();
+    await (await shortsPage.getPlayButton()).click();
     await shortsPage.navigateToNextShort();
 
     await expect(await shortsPage.getShortsVideo()).toBeVisible();
