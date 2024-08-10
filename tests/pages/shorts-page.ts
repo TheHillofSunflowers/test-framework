@@ -12,13 +12,13 @@ export class ShortsPage extends BasePage {
     
     constructor(page: Page) {
         super(page);
+        this.shortsIterator = 0;
         this.likeButton = page.locator('#like-button').getByLabel('like this video along with');
         this.dislikeButton = page.locator('#dislike-button').getByLabel('Dislike this video');
-        this.commentsButton = page.locator('#comments-button button').nth(0);
+        this.commentsButton = page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#comments-button button');
         this.moreActionsButton = page.getByRole('button', { name: 'More actions' });
         this.nextShortButton = page.getByLabel('Next video');
         this.previousShortButton = page.getByLabel('Previous video');
-        this.shortsIterator = 0;
     }
 
     async goto() {
