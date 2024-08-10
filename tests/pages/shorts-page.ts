@@ -67,6 +67,6 @@ export class ShortsPage extends BasePage {
     }
 
     async getPlayButton() {
-        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#player-controls yt-button-shape button');
+        return this.page.getByLabel('Play', { exact: true });
     }
 }
