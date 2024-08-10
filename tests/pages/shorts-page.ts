@@ -9,9 +9,6 @@ export class ShortsPage extends BasePage {
     readonly nextShortButton: Locator;
     readonly previousShortButton: Locator;
     shortsIterator: number;
-    //readonly shortsPlayer: Locator;
-    //readonly volumeButton: Locator;
-    //readonly volume: Locator;
     
     constructor(page: Page) {
         super(page);
@@ -22,9 +19,6 @@ export class ShortsPage extends BasePage {
         this.nextShortButton = page.getByLabel('Next video');
         this.previousShortButton = page.getByLabel('Previous video');
         this.shortsIterator = 0;
-        //this.shortsPlayer = page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player');
-        //this.volumeButton = page.locator(`[id="\\3${this.shortsIterator}"]`).locator('.YtdDesktopShortsVolumeControlsMuteIconButton');
-        //this.volume = page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Volume');
     }
 
     async goto() {
@@ -52,21 +46,5 @@ export class ShortsPage extends BasePage {
 
     async getShortsVideo() {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player video');
-    }
-
-    async getShortsPlayer() {
-        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player');
-    }
-
-    async getVolumeButton() {
-        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('.YtdDesktopShortsVolumeControlsMuteIconButton');
-    }
-
-    async getVolume() {
-        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Volume');
-    }
-
-    async getPlayButton() {
-        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Play (k)', { exact: true });
     }
 }

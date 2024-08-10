@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: [1, 2, 3, 4, 5, 6]
-        shardTotal: [6]
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
     container:
       image: mcr.microsoft.com/playwright:v1.46.0-jammy
     steps:

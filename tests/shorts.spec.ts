@@ -4,12 +4,7 @@ import { ShortsPage } from './pages/shorts-page';
 test('Shorts Functionality', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
-    if (await (await shortsPage.getPlayButton()).isVisible()) {
-        await (await shortsPage.getPlayButton()).click();
-    }
 
-    await shortsPage.likeButton.click();
-    await shortsPage.likeButton.click();
     await shortsPage.likeButton.click();
     await expect(page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
     await page.locator('#shorts-container').click();
@@ -26,9 +21,6 @@ test('Shorts Functionality', async({ page }) => {
 test('Shorts Functionality 2', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
-    if (await (await shortsPage.getPlayButton()).isVisible()) {
-        await (await shortsPage.getPlayButton()).click();
-    }
 
     await shortsPage.clickShareButton();
     await expect(page.getByRole('listbox')).toBeVisible();
@@ -43,11 +35,8 @@ test('Shorts Functionality 2', async({ page }) => {
 test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
-    await page.waitForURL(await shortsPage.regex()); // Waits for page to load
+    await page.waitForURL(await shortsPage.regex());
     const firstTitle = await page.title();
-    if (await (await shortsPage.getPlayButton()).isVisible()) {
-        await (await shortsPage.getPlayButton()).click();
-    }
     await shortsPage.navigateToNextShort();
 
     await expect(await shortsPage.getShortsVideo()).toBeVisible();
@@ -60,23 +49,3 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     expect(currentTitle).toBe(firstTitle);
     expect(currentTitle).not.toBe(secondTitle);
 });
-
-/*test('Clicking on video pauses', async({ page }) => {
-    const shortsPage = new ShortsPage(page);
-    await shortsPage.goto();
-    await expect(shortsPage.shortsPlayer).toHaveClass(/playing-mode/);
-    await shortsPage.shortsPlayer.click();
-    await expect(shortsPage.shortsPlayer).toHaveClass(/paused-mode/);
-    await shortsPage.shortsPlayer.click();
-    await expect(shortsPage.shortsPlayer).toHaveClass(/playing-mode/);
-});
-
-test('Mute button sets volume to 0%', async({ page }) => {
-    const shortsPage = new ShortsPage(page);
-    await shortsPage.goto();
-    await expect(shortsPage.volumeButton).toHaveAttribute('title', 'Mute');
-    await expect(shortsPage.volume).toHaveAttribute('style', '--gradient-percent: 100%;');
-    await shortsPage.volumeButton.click();
-    await expect(shortsPage.volumeButton).toHaveAttribute('title', 'Unmute');
-    await expect(shortsPage.volume).toHaveAttribute('style', '--gradient-percent: 0%;');
-});*/
