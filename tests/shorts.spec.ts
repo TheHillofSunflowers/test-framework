@@ -70,11 +70,11 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     await shortsPage.goBack();
     //await shortsPage.navigateToPreviousShort();
 
-    await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
-    const currentThumbnail = (await shortsPage.getShortsThumbnail()).getAttribute('style');
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
+    await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
+    const currentThumbnail = (await shortsPage.getShortsThumbnail()).getAttribute('style');
     //const currentUrl = page.url();
     //const currentTitle = await page.title();
     //expect(currentTitle).toBe(firstTitle);
