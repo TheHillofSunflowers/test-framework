@@ -47,4 +47,8 @@ export class ShortsPage extends BasePage {
     async getShortsVideo() {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player video');
     }
+
+    async getShortsThumbnail() {
+        return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('.player-container');
+    }
 }

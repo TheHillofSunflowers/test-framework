@@ -49,35 +49,18 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     await shortsPage.goto();
     await page.waitForURL(await shortsPage.regex());
     const firstTitle = await page.title();
-    if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
-        await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
-    }
-    await page.waitForSelector('video', { state: 'visible' });
     page.setViewportSize({ width: 1960, height: 1080 });
-    if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
-        await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
-    }
-    await page.waitForSelector('video', { state: 'visible' });
-    if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).isVisible()) {
-        await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).click();
-    }
-    await page.waitForSelector('video', { state: 'visible' });
+    //if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
+    //    await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
+    //}
     await shortsPage.navigateToNextShort();
-    if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
-        await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
-    }
-    await page.waitForSelector('video', { state: 'visible' });
-    if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).isVisible()) {
-        await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).click();
-    }
-    await page.waitForSelector('video', { state: 'visible' });
 
-    await expect(await shortsPage.getShortsVideo()).toBeVisible();
+    await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
     const secondTitle = await page.title();
     expect(secondTitle).not.toBe(firstTitle);
     await shortsPage.navigateToPreviousShort();
 
-    await expect(await shortsPage.getShortsVideo()).toBeVisible();
+    await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
     const currentTitle = await page.title();
     expect(currentTitle).toBe(firstTitle);
     expect(currentTitle).not.toBe(secondTitle);
