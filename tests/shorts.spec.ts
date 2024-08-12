@@ -67,7 +67,7 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     //expect(secondTitle).not.toBe(firstTitle);
     //expect(secondUrl).not.toBe(firstUrl);
     expect(secondThumbnail).not.toBe(firstThumbnail);
-    await page.goBack();
+    await shortsPage.goBack();
     //await shortsPage.navigateToPreviousShort();
 
     await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
