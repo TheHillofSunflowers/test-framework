@@ -48,8 +48,8 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
     await page.waitForURL(await shortsPage.regex());
-    const firstTitle = await page.title();
     page.setViewportSize({ width: 1960, height: 1080 });
+    const firstTitle = await page.title();
     //if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
     //    await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     //}
