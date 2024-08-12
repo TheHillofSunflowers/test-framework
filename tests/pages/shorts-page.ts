@@ -40,6 +40,16 @@ export class ShortsPage extends BasePage {
         this.shortsIterator--;
     }
 
+    async goForward() {
+        await this.page.goForward();
+        this.shortsIterator++;
+    }
+
+    async goBack() {
+        await this.page.goBack();
+        this.shortsIterator--;
+    }
+
     async clickShareButton() {
         await this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByRole('button', { name: 'Share' }).click();
     }
