@@ -52,22 +52,28 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
-    const firstTitle = await page.title();
+    const firstUrl = page.url();
+    //const firstTitle = await page.title();
     await shortsPage.navigateToNextShort();
 
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
     await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
-    const secondTitle = await page.title();
-    expect(secondTitle).not.toBe(firstTitle);
+    const secondUrl = page.url();
+    //const secondTitle = await page.title();
+    //expect(secondTitle).not.toBe(firstTitle);
+    expect(secondUrl).not.toBe(firstUrl);
     await shortsPage.navigateToPreviousShort();
 
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
     await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
-    const currentTitle = await page.title();
-    expect(currentTitle).toBe(firstTitle);
-    expect(currentTitle).not.toBe(secondTitle);
+    const currentUrl = page.url();
+    //const currentTitle = await page.title();
+    //expect(currentTitle).toBe(firstTitle);
+    //expect(currentTitle).not.toBe(secondTitle);
+    expect(currentUrl).toBe(firstUrl);
+    expect(currentUrl).not.toBe(secondUrl);
 });
