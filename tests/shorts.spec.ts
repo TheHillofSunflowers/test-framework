@@ -67,8 +67,8 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     //expect(secondTitle).not.toBe(firstTitle);
     //expect(secondUrl).not.toBe(firstUrl);
     expect(secondThumbnail).not.toBe(firstThumbnail);
-    await shortsPage.goBack();
-    //await shortsPage.navigateToPreviousShort();
+    //await shortsPage.goBack();
+    await shortsPage.navigateToPreviousShort();
 
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
