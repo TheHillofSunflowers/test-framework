@@ -52,7 +52,7 @@ export abstract class BasePage {
 
     async navigateToShorts() {
         await this.guide.click();
-        await this.page.getByRole('link', { name: 'Shorts' }).click();
+        await this.page.locator('tp-yt-paper-item').filter({ hasText: 'Shorts' }).click();
         await (await this.guideCloseButton()).waitFor({ state: 'hidden' });
     }
 
