@@ -48,17 +48,17 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
     await page.waitForURL(await shortsPage.regex());
-    page.setViewportSize({ width: 1960, height: 1080 });
+    await page.setViewportSize({ width: 1960, height: 1080 });
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
-    const firstThumbnail = (await shortsPage.getShortsThumbnail()).getAttribute('style');
+    const firstThumbnail = await (await shortsPage.getShortsThumbnail()).getAttribute('style');
     //const firstUrl = page.url();
     //const firstTitle = await page.title();
     await shortsPage.navigateToNextShort();
 
     await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
-    const secondThumbnail = (await shortsPage.getShortsThumbnail()).getAttribute('style');
+    const secondThumbnail = await (await shortsPage.getShortsThumbnail()).getAttribute('style');
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
@@ -74,7 +74,7 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
     await expect(page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container')).toHaveAttribute('style', /.+frame0\.jpg/);
-    const currentThumbnail = (page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container')).getAttribute('style');
+    const currentThumbnail = await (page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container')).getAttribute('style');
     //await expect(await shortsPage.getShortsThumbnail()).toHaveAttribute('style', /.+frame0\.jpg/);
     //const currentThumbnail = (await shortsPage.getShortsThumbnail()).getAttribute('style');
     //const currentUrl = page.url();
