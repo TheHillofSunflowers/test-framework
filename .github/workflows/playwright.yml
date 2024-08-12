@@ -31,7 +31,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      run: xvfb-run npx playwright test --headed --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     #  run: xvfb-run npx playwright test
       env:
         HOME: /root
