@@ -52,23 +52,25 @@ test('Next and Previous Buttons Navigate Correctly', async({ page }) => {
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
-    if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).isVisible()) {
-        await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).click();
-    }
+    await page.waitForSelector('video', { state: 'visible' });
     page.setViewportSize({ width: 1960, height: 1080 });
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
+    await page.waitForSelector('video', { state: 'visible' });
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).click();
     }
+    await page.waitForSelector('video', { state: 'visible' });
     await shortsPage.navigateToNextShort();
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
     }
+    await page.waitForSelector('video', { state: 'visible' });
     if(await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).isVisible()) {
         await page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play (k)', { exact: true }).click();
     }
+    await page.waitForSelector('video', { state: 'visible' });
 
     await expect(await shortsPage.getShortsVideo()).toBeVisible();
     const secondTitle = await page.title();
