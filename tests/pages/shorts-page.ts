@@ -41,12 +41,12 @@ export class ShortsPage extends BasePage {
     }
 
     async goForward() {
-        await this.page.goForward();
+        await this.page.goForward({ waitUntil: 'networkidle' });
         this.shortsIterator++;
     }
 
     async goBack() {
-        await this.page.goBack();
+        await this.page.goBack({ waitUntil: 'networkidle' });
         this.shortsIterator--;
     }
 
