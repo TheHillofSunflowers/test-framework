@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { ShortsPage } from './pages/shorts-page';
 
-test('dislike button opens a sign in prompt', async({ page }) => {
+test('like button opens a sign in prompt', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
     await page.setViewportSize({ width: 1960, height: 1080 });
