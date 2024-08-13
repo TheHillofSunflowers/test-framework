@@ -55,10 +55,10 @@ test.describe('Smoke Suite', () => {
         console.log(searchResultsList.length);
         for(const i in searchResultsList) {
             // Assert thumbnail and video link
-            await searchResultsList[i].locator('#dismissible a').hover();
-            await expect(searchResultsList[i].locator('#dismissible a')).toHaveId('thumbnail');
-            await expect(searchResultsList[i].locator('#dismissible a')).toHaveAttribute('href', /(watch\?v=.+$)?(shorts\/.+$)?/);
-            await expect(searchResultsList[i].locator('#dismissible a yt-image img')).toBeVisible();
+            await searchResultsList[i].locator('#dismissible a').nth(0).hover();
+            await expect(searchResultsList[i].locator('#dismissible a').nth(0)).toHaveId('thumbnail');
+            await expect(searchResultsList[i].locator('#dismissible a').nth(0)).toHaveAttribute('href', /(watch\?v=.+$)?(shorts\/.+$)?/);
+            await expect(searchResultsList[i].locator('#dismissible a yt-image img').nth(0)).toBeVisible();
         }
     });
 
