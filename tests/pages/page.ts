@@ -23,11 +23,11 @@ export abstract class BasePage {
         await this.guide.click();
     }
 
-    async guideCloseButton(): Promise<Locator> {
+    async getGuideCloseButton(): Promise<Locator> {
         return this.page.locator('#guide-content #button');
     }
 
-    async inputSearch() {
+    async submitSearch() {
         await this.searchButton.click();
         await this.searchButton.click();
         await this.searchButton.click(); // Three separate clicks for it to go through
@@ -35,25 +35,25 @@ export abstract class BasePage {
 
     async searchQuery(input: string) {
         await this.page.getByPlaceholder('Search').fill(input);
-        await this.inputSearch();
+        await this.submitSearch();
     }
 
     async clickVoiceButton() {
         await this.voiceButton.click();
     }
 
-    async loginButton(): Promise<Locator> {
+    async getLoginButton(): Promise<Locator> {
         return this.page.getByLabel('Sign in');
     }
 
-    async accountMenu(): Promise<Locator> {
+    async getAccountMenu(): Promise<Locator> {
         return this.page.getByLabel('Account menu');
     }
 
     async navigateToShorts() {
         await this.guide.click();
         await this.page.locator('tp-yt-paper-item').filter({ hasText: 'Shorts' }).click();
-        await (await this.guideCloseButton()).waitFor({ state: 'hidden' });
+        await (await this.getGuideCloseButton()).waitFor({ state: 'hidden' });
     }
 
 

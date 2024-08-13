@@ -21,13 +21,14 @@ export class ShortsPage extends BasePage {
         this.previousShortButton = page.getByLabel('Previous video');
     }
 
-    async goto() {
-        await this.page.goto('https://www.youtube.com/shorts/');
-    }
-
     async regex(): Promise<RegExp> {
         let regex = /^https?:\/\/(www\.)?youtube\.com\/shorts\/.+$/;
         return regex;
+    }
+
+    async goto() {
+        await this.page.goto('https://www.youtube.com/shorts/');
+        await this.page.waitForURL(await this.regex());
     }
 
     async navigateToNextShort() {

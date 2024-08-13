@@ -24,6 +24,7 @@ export class HomePage extends BasePage {
         return regex;
     }
 
+    // Return list of all filter option chips
     async chipsList(): Promise<Array<Locator>> {
         return this.page.getByRole('tab').all();
     }
