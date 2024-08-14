@@ -33,7 +33,7 @@ jobs:
     - name: Run type checks
       run: npx tsc -p tsconfig.json --noEmit
     - name: Run Playwright tests
-      run: npx playwright test --config=playwright.ci.config.js --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      run: npx playwright test --config=playwright.ci.config.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     #  run: xvfb-run npx playwright test
       env:
         HOME: /root
