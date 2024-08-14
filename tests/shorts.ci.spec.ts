@@ -4,6 +4,7 @@ import { ShortsPage } from './pages/shorts-page';
 test('like button opens a sign in prompt', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
+    await page.setViewportSize({ width: 1960, height: 1080 });
 
     await shortsPage.likeButton.click();
     await expect(page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
@@ -12,6 +13,7 @@ test('like button opens a sign in prompt', async({ page }) => {
 test('dislike button opens a sign in prompt', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
+    await page.setViewportSize({ width: 1960, height: 1080 });
 
     await shortsPage.dislikeButton.click();
     await expect(page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?')).toBeVisible();
@@ -20,6 +22,7 @@ test('dislike button opens a sign in prompt', async({ page }) => {
 test('comments button opens the comment section with an X button', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
+    await page.setViewportSize({ width: 1960, height: 1080 });
 
     if (await shortsPage.commentsButton.isVisible()) {
         await shortsPage.commentsButton.click();
@@ -33,6 +36,7 @@ test('comments button opens the comment section with an X button', async({ page 
 test('share button opens a popup with 12 social media platforms', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
+    await page.setViewportSize({ width: 1960, height: 1080 });
 
     await shortsPage.clickShareButton();
     await expect(page.getByRole('listbox')).toBeVisible();
@@ -44,6 +48,7 @@ test('share button opens a popup with 12 social media platforms', async({ page }
 test('more actions button opens a menu', async({ page }) => {
     const shortsPage = new ShortsPage(page);
     await shortsPage.goto();
+    await page.setViewportSize({ width: 1960, height: 1080 });
 
     await shortsPage.moreActionsButton.click();
     await expect(page.getByText('Description Captions Report Send Feedback')).toBeVisible();
