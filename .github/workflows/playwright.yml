@@ -30,8 +30,10 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+    - name: Run type checks
+      run: npx tsc -p tsconfig.json --noEmit
     - name: Run Playwright tests
-      run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      run: npx playwright test --config=playwright.ci.config.js --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     #  run: xvfb-run npx playwright test
       env:
         HOME: /root
