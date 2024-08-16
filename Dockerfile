@@ -11,7 +11,7 @@ ARG NODE_VERSION=20.10.0
 FROM node:${NODE_VERSION}-alpine
 
 # temp
-FROM mcr.microsoft.com/playwright:v1.45.1-jammy
+FROM mcr.microsoft.com/playwright:v1.46.0-jammy
 
 # temp
 WORKDIR /app
@@ -53,24 +53,24 @@ ENV NODE_ENV production
 # Set the working directory
 # temp WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y \
-    xvfb \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxrandr2 \
-    libgbm1 \
-    libpango1.0-0 \
-    libcups2 \
-    libgtk-3-0 \
-    libxdamage1 \
-    libxshmfence1 \
-    libasound2 \
-    libpangocairo-1.0-0 \
-    libx11-xcb1
+#RUN apt-get update && apt-get install -y \
+#    xvfb \
+#    libnss3 \
+#    libatk1.0-0 \
+#    libatk-bridge2.0-0 \
+#    libdrm2 \
+#    libxkbcommon0 \
+#    libxcomposite1 \
+#    libxrandr2 \
+#    libgbm1 \
+#    libpango1.0-0 \
+#    libcups2 \
+#    libgtk-3-0 \
+#    libxdamage1 \
+#    libxshmfence1 \
+#    libasound2 \
+#    libpangocairo-1.0-0 \
+#    libx11-xcb1
 
 # Copy the package.json and package-lock.json files
 COPY package.json package-lock.json ./
@@ -91,7 +91,8 @@ RUN npx playwright install --with-deps
 #EXPOSE 3000
 
 # Default command to run Playwright tests
-CMD ["xvfb-run", "--auto-servernum", "npx", "playwright", "test"]
+#CMD ["xvfb-run", "--auto-servernum", "npx", "playwright", "test"]
+CMD ["npx", "playwright", "test"]
 
 # docker build -t playwright-docker .
 # docker run -it --rm -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix playwright-docker:latest xvfb-run --auto-servernum npx playwright test
