@@ -17,8 +17,17 @@ export class SearchResultsPage extends BasePage {
         this.search = search;
     }
 
-    async goto() {
-        let searchEncode = await this.encodeURIYT(this.search);
+    // Define overloads
+    async goto(): Promise<void>;
+    async goto(search: string): Promise<void>;
+
+    async goto(search?: string): Promise<void> {
+        let searchEncode;
+        if(search) {
+            searchEncode = await this.encodeURIYT(search);
+        } else {
+            searchEncode = await this.encodeURIYT(this.search);
+        }
         await this.page.goto('https://www.youtube.com/results?search_query=' + searchEncode);
     }
 

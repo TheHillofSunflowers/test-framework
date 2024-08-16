@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { SearchResultsPage } from './pages/search-results-page';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('https://www.youtube.com/');
@@ -35,31 +34,6 @@ test.describe('Smoke Suite', () => {
         await expect(page.getByText('Don’t miss new videos')).toBeVisible();
         await expect(page.getByText('Sign in to see updates from your favorite YouTube channels')).toBeVisible();
         await expect(page.locator('#page-manager').getByLabel('Sign in')).toBeVisible(); // Sign in button is visible
-    });
-
-    test('Searching navigates to proper search page', async({ page }) => {
-        const searchResultsPage = new SearchResultsPage(page);
-        await searchResultsPage.searchQuery(searchResultsPage.getSearch());
-        let re = await searchResultsPage.regex();
-        await expect(page).toHaveURL(re);
-        await expect(page).toHaveTitle(searchResultsPage.getSearch() + ' - YouTube');
-    });
-
-    test('Searching results in clickable videos with thumbnails', async({ page }) => {
-        const searchResultsPage = new SearchResultsPage(page);
-        await searchResultsPage.goto();
-        // Wait for Shorts Shelf to load in
-        await page.locator('ytd-reel-shelf-renderer #contents').nth(0).waitFor({ state: 'visible' });
-        // Locate the first few dynamically loaded results
-        const searchResultsList = await searchResultsPage.searchResultsList();
-        console.log(searchResultsList.length);
-        for(const i in searchResultsList) {
-            // Assert thumbnail and video link
-            await searchResultsList[i].locator('#dismissible a').nth(0).hover();
-            await expect(searchResultsList[i].locator('#dismissible a').nth(0)).toHaveId('thumbnail');
-            await expect(searchResultsList[i].locator('#dismissible a').nth(0)).toHaveAttribute('href', /(watch\?v=.+$)?(shorts\/.+$)?/);
-            await expect(searchResultsList[i].locator('#dismissible a yt-image img').nth(0)).toBeVisible();
-        }
     });
 
     test('Settings button leads to Google log in page', async({ page }) => {
