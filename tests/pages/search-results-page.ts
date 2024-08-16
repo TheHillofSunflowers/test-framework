@@ -6,7 +6,7 @@ export class SearchResultsPage extends BasePage {
 
     constructor(page: Page, search?: string) {
         super(page);
-        this.search = search ?? 'test !@#$%^&*()%\\{}[]'; // Include an extra \ for each \ that you want to search for
+        this.search = search ?? 'test !@#$%^&*()%\\{}[]=:;.?|/'; // Include an extra \ for each \ that you want to search for
     }
 
     getSearch(): string {
@@ -14,7 +14,7 @@ export class SearchResultsPage extends BasePage {
     }
 
     setSearch(search: string): void {
-        this.search = search;
+        this.search = search; // Include an extra \ for each \ that you want to search for
     }
 
     // Define overloads
@@ -22,45 +22,26 @@ export class SearchResultsPage extends BasePage {
     async goto(search: string): Promise<void>;
 
     async goto(search?: string): Promise<void> {
-        let searchEncode;
-        if(search) {
-            searchEncode = await this.encodeURIYT(search);
-        } else {
-            searchEncode = await this.encodeURIYT(this.search);
-        }
-        await this.page.goto('https://www.youtube.com/results?search_query=' + searchEncode);
+        const searchEncode = await SearchResultsPage.encodeURIYT(search ?? this.getSearch());
+        await this.page.goto(`https://www.youtube.com/results?search_query=${searchEncode}`);
     }
 
     // Encodes input string to URI Component, including + according to youtube's functionality
-    async encodeURIYT(string: string): Promise<string> {
+    static async encodeURIYT(string: string): Promise<string> {
         let searchEncode = encodeURIComponent(string);
-        searchEncode = searchEncode.replace(/%20/g, '+');
-        return searchEncode;
+        return searchEncode.replace(/%20/g, '+');
     }
 
     // Encodes input string to URI Component and then converts that into regex
-    async encodeForRegex(string: string): Promise<string> {
-        let searchEncode = await this.encodeURIYT(string);
-        searchEncode = searchEncode.replace(/\+/g, '\\+');
-        searchEncode = searchEncode.replace(/\./g, '\\.');
-        searchEncode = searchEncode.replace(/\%/g, '\\%');
-        searchEncode = searchEncode.replace(/\-/g, '\\-');
-        searchEncode = searchEncode.replace(/\*/g, '\\*');
-        searchEncode = searchEncode.replace(/\(/g, '\\(');
-        searchEncode = searchEncode.replace(/\)/g, '\\)');
-        searchEncode = searchEncode.replace(/\[/g, '\\[');
-        searchEncode = searchEncode.replace(/\]/g, '\\]');
-        searchEncode = searchEncode.replace(/\{/g, '\\{');
-        searchEncode = searchEncode.replace(/\}/g, '\\}');
-        searchEncode = searchEncode.replace(/\\/g, '\\');
-        return searchEncode;
+    static async encodeForRegex(string: string): Promise<string> {
+        const searchEncode = await SearchResultsPage.encodeURIYT(string);
+        return searchEncode.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
     }
 
     // Encodes string URL into regex and then adds the specified search query to the URL
-    async regex(): Promise<RegExp> {
-        let searchEncode = await this.encodeForRegex(this.search);
-        let regex = new RegExp(`^https?:\/\/(www\\.)?youtube\\.com\/results\\?search_query=${searchEncode}$`) // Needs double slash for the . and ?
-        return regex;
+    async getSearchQueryRegex(): Promise<RegExp> {
+        const searchEncode = await SearchResultsPage.encodeForRegex(this.getSearch());
+        return new RegExp(`^https?:\/\/(www\\.)?youtube\\.com\/results\\?search_query=${searchEncode}$`) // Needs double slash for the . and ?
     }
 
     // Returns an array of video search results

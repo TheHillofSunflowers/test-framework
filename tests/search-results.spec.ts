@@ -12,14 +12,14 @@ const test = base.extend<{ searchResultsPage: SearchResultsPage }>({
 test('Searching navigates to proper search page', async({ searchResultsPage }) => {
     await searchResultsPage.clickHomeButton(); // Start from the home screen
     await searchResultsPage.searchQuery(searchResultsPage.getSearch());
-    let re = await searchResultsPage.regex();
+    let re = await searchResultsPage.getSearchQueryRegex();
     await expect(searchResultsPage.page).toHaveURL(re);
     await expect(searchResultsPage.page).toHaveTitle(searchResultsPage.getSearch() + ' - YouTube');
 });
 
 test('Searching results in clickable videos with thumbnails', async({ searchResultsPage }) => {
     // Wait for Shorts Shelf to load in
-    await searchResultsPage.page.locator('ytd-reel-shelf-renderer #contents').nth(0).waitFor({ state: 'visible' });
+    await searchResultsPage.homeButton.waitFor({ state: 'visible' });
     // Locate the first few dynamically loaded results
     const searchResultsList = await searchResultsPage.searchResultsList();
     console.log(searchResultsList.length);
