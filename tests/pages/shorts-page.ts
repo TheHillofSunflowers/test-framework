@@ -28,60 +28,68 @@ export class ShortsPage extends BasePage {
     }
 
     async regex(): Promise<RegExp> {
-        let regex = /^https?:\/\/(www\.)?youtube\.com\/shorts\/.+$/;
-        return regex;
+        return /^https?:\/\/(www\.)?youtube\.com\/shorts\/.+$/;
     }
 
-    async goto() {
+    async goto(): Promise<void> {
         await this.page.goto('https://www.youtube.com/shorts/');
         await this.page.waitForURL(await this.regex());
+        this.shortsIterator = 0;
     }
 
-    async navigateToNextShort() {
+    async navigateToNextShort(): Promise<void> {
         await this.nextShortButton.click();
         this.shortsIterator++;
     }
 
-    async navigateToPreviousShort() {
+    async navigateToPreviousShort(): Promise<void> {
         await this.previousShortButton.click();
         this.shortsIterator--;
     }
 
-    async goForward() {
+    async goForward(): Promise<void> {
         await this.page.goForward({ waitUntil: 'networkidle' });
-        this.shortsIterator++;
+        if (await this.previousShortButton.isHidden()) {
+            this.shortsIterator = 0;
+        } else {
+            this.shortsIterator++;
+        }
     }
 
-    async goBack() {
+    async goBack(): Promise<void> {
         await this.page.goBack({ waitUntil: 'networkidle' });
-        this.shortsIterator--;
+        if (await this.previousShortButton.isHidden()) {
+            this.shortsIterator = 0;
+        } else {
+            this.shortsIterator--;
+        }
     }
 
-    async clickShareButton() {
+    async clickShareButton(): Promise<void> {
         await this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByRole('button', { name: 'Share' }).click();
     }
 
-    async getShortsVideo() {
+    async getShortsVideo(): Promise<Locator> {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player video');
     }
 
-    async getShortsThumbnail() {
+    async getShortsThumbnail(): Promise<Locator> {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('.player-container');
     }
 
-    async getShortsPlayer() {
+    async getShortsPlayer(): Promise<Locator> {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('#shorts-player');
     }
 
-    async getVolumeButton() {
+    async getVolumeButton(): Promise<Locator> {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).locator('.YtdDesktopShortsVolumeControlsMuteIconButton');
     }
 
-    async getVolume() {
+    async getVolume(): Promise<Locator> {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Volume');
     }
 
-    async getPlayButton() {
+    async getPlayButton(): Promise<Locator> {
         return this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Play (k)', { exact: true });
     }
 }

@@ -15,11 +15,11 @@ export abstract class BasePage {
         this.voiceButton = page.getByLabel('Search with your voice');
     }
 
-    async clickHomeButton() {
+    async clickHomeButton(): Promise<void> {
         await this.homeButton.click();
     }
 
-    async openGuideMenu() {
+    async openGuideMenu(): Promise<void> {
         await this.guide.click();
     }
 
@@ -27,18 +27,18 @@ export abstract class BasePage {
         return this.page.locator('#guide-content #button');
     }
 
-    async submitSearch() {
+    async submitSearch(): Promise<void> {
         await this.searchButton.click();
         await this.searchButton.click();
         await this.searchButton.click(); // Three separate clicks for it to go through
     }
 
-    async searchQuery(input: string) {
+    async searchQuery(input: string): Promise<void> {
         await this.page.getByPlaceholder('Search').fill(input);
         await this.submitSearch();
     }
 
-    async clickVoiceButton() {
+    async clickVoiceButton(): Promise<void> {
         await this.voiceButton.click();
     }
 
@@ -50,11 +50,9 @@ export abstract class BasePage {
         return this.page.getByLabel('Account menu');
     }
 
-    async navigateToShorts() {
+    async navigateToShorts(): Promise<void> {
         await this.guide.click();
         await this.page.locator('tp-yt-paper-item').filter({ hasText: 'Shorts' }).click();
         await (await this.getGuideCloseButton()).waitFor({ state: 'hidden' });
     }
-
-
 }

@@ -9,25 +9,27 @@ const test = base.extend<{ searchResultsPage: SearchResultsPage }>({
     }
 });
 
-test('Searching navigates to proper search page', async({ searchResultsPage }) => {
+test('Navigate to proper search page after searching', async({ searchResultsPage }) => {
     await searchResultsPage.clickHomeButton(); // Start from the home screen
     await searchResultsPage.searchQuery(searchResultsPage.getSearch());
-    let re = await searchResultsPage.getSearchQueryRegex();
-    await expect(searchResultsPage.page).toHaveURL(re);
+    let searchRegex = await searchResultsPage.getSearchQueryRegex();
+    await expect(searchResultsPage.page).toHaveURL(searchRegex);
     await expect(searchResultsPage.page).toHaveTitle(searchResultsPage.getSearch() + ' - YouTube');
 });
 
-test('Searching results in clickable videos with thumbnails', async({ searchResultsPage }) => {
-    // Wait for Shorts Shelf to load in
+test('Search results contain clickable videos with thumbnails', async({ searchResultsPage }) => {
+    // Use the home button as an indicator for the page being loaded
     await searchResultsPage.homeButton.waitFor({ state: 'visible' });
     // Locate the first few dynamically loaded results
     const searchResultsList = await searchResultsPage.searchResultsList();
     console.log(searchResultsList.length);
-    for(const i in searchResultsList) {
+    expect(searchResultsList.length).toBeGreaterThan(0);
+    for(const result of searchResultsList) {
         // Assert thumbnail and video link
-        await searchResultsList[i].locator('#dismissible a').nth(0).hover();
-        await expect(searchResultsList[i].locator('#dismissible a').nth(0)).toHaveId('thumbnail');
-        await expect(searchResultsList[i].locator('#dismissible a').nth(0)).toHaveAttribute('href', /(watch\?v=.+$)?(shorts\/.+$)?/);
-        await expect(searchResultsList[i].locator('#dismissible a yt-image img').nth(0)).toBeVisible();
+        const thumbnail = result.locator('#dismissible a').nth(0);
+        await thumbnail.hover();
+        await expect(thumbnail).toHaveId('thumbnail');
+        await expect(thumbnail).toHaveAttribute('href', /(watch\?v=.+$)?(shorts\/.+$)?/);
+        await expect(thumbnail.locator('yt-image img')).toBeVisible();
     }
 });

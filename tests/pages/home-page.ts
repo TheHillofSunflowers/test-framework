@@ -15,13 +15,12 @@ export class HomePage extends BasePage {
         this.getStartedSubtitle = page.getByLabel('Start watching videos to help');
     }
 
-    async goto() {
+    async goto(): Promise<void> {
         await this.page.goto('/');
     }
 
     async regex(): Promise<RegExp> {
-        let regex = /^https?:\/\/(www\.)?youtube\.com\/?/;
-        return regex;
+        return /^https?:\/\/(www\.)?youtube\.com\/?/;
     }
 
     // Return list of all filter option chips
