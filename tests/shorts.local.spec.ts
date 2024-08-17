@@ -9,23 +9,23 @@ const test = base.extend<{ shortsPage: ShortsPage }>({
     }
 });
 
-test('like button opens a sign in prompt', async({ shortsPage }) => {
+test('Clicking like button should prompt sign in', async({ shortsPage }) => {
     await shortsPage.likeButton.click();
     await expect(shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
 });
 
-test('dislike button opens a sign in prompt', async({ shortsPage }) => {
+test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
     await shortsPage.dislikeButton.click();
     await expect(shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?')).toBeVisible();
 });
 
-test('comments button opens the comment section with an X button', async({ shortsPage }) => {
+test('Clicking comments button should open the comment section with an X button', async({ shortsPage }) => {
     await shortsPage.commentsButton.click();
     await expect(shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments')).toBeVisible();
     await shortsPage.page.getByRole('button', { name: 'Close' }).click();
 });
 
-test('share button opens a popup with 12 social media platforms', async({ shortsPage }) => {
+test('Clicking share button opens a popup with 12 social media platforms', async({ shortsPage }) => {
     await shortsPage.clickShareButton();
     await expect(shortsPage.page.getByRole('listbox')).toBeVisible();
     const socialsList = await shortsPage.page.getByLabel('Select an application to share with').locator('yt-share-target-renderer').all();
@@ -33,7 +33,7 @@ test('share button opens a popup with 12 social media platforms', async({ shorts
     await shortsPage.page.getByLabel('Cancel').click();
 });
 
-test('more actions button opens a menu', async({ shortsPage }) => {
+test('Clicking more actions button opens a menu', async({ shortsPage }) => {
     await shortsPage.moreActionsButton.click();
     await expect(shortsPage.page.getByText('Description Captions Report Send Feedback')).toBeVisible();
 });
@@ -54,7 +54,7 @@ test('Next and Previous Buttons Navigate Correctly', async({ shortsPage }) => {
     expect(currentTitle).not.toBe(secondTitle);
 });
 
-test('Clicking on video pauses', async({ shortsPage }) => {
+test('Clicking on video toggles pause/play', async({ shortsPage }) => {
     await expect(shortsPage.shortsPlayer).toHaveClass(/playing-mode/);
     await shortsPage.shortsPlayer.click();
     await expect(shortsPage.shortsPlayer).toHaveClass(/paused-mode/);
