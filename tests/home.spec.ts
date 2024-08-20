@@ -12,7 +12,7 @@ const test = base.extend<{ homePage: HomePage }>({
 test.describe('Home Button', () => {
     test.beforeEach(async ({ homePage }) => {
         // Navigate to a different page
-        await homePage.navigateToShorts();
+        await homePage.navigateToGuideItem('Shorts');
         await homePage.clickHomeButton();
     });
 

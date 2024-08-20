@@ -50,9 +50,9 @@ export abstract class BasePage {
         return this.page.getByLabel('Account menu');
     }
 
-    async navigateToShorts(): Promise<void> {
+    async navigateToGuideItem(page: 'Home' | 'Shorts' | 'Subscriptions' | 'You' | 'History'): Promise<void> {
         await this.guide.click();
-        await this.page.locator('tp-yt-paper-item').filter({ hasText: 'Shorts' }).click();
+        await this.page.locator('tp-yt-paper-item').filter({ hasText: `${page}` }).click();
         await (await this.getGuideCloseButton()).waitFor({ state: 'hidden' });
     }
 }

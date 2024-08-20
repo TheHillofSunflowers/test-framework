@@ -18,14 +18,14 @@ test.describe('Smoke Suite', () => {
 
     test('Hamburger Home Button navigates to home', async({ homePage }) => {
         await homePage.openGuideMenu();
-        await homePage.page.locator('tp-yt-paper-item').filter({ hasText: 'Home' }).click();
+        await homePage.navigateToGuideItem('Home');
         await expect(homePage.page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
         await expect(homePage.page).toHaveTitle("YouTube");
     });
 
     test('Hamburger Subscriptions navigates to subscriptions page', async({ homePage }) => {
         await homePage.openGuideMenu();
-        await homePage.page.locator('tp-yt-paper-item').filter({ hasText: 'Subscriptions' }).click();
+        await homePage.navigateToGuideItem('Subscriptions');
         await expect(homePage.page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/feed\/subscriptions/);
         await expect(homePage.page).toHaveTitle("Subscriptions - YouTube");
     });
