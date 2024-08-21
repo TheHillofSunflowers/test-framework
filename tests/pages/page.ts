@@ -51,7 +51,7 @@ export abstract class BasePage {
     }
 
     async navigateToGuideItem(page: 'Home' | 'Shorts' | 'Subscriptions' | 'You' | 'History'): Promise<void> {
-        await this.guide.click();
+        await this.openGuideMenu();
         await this.page.locator('tp-yt-paper-item').filter({ hasText: `${page}` }).click();
         await (await this.getGuideCloseButton()).waitFor({ state: 'hidden' });
     }

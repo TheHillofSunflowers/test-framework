@@ -3,10 +3,12 @@ import { BasePage } from './page';
 
 export class SearchResultsPage extends BasePage {
     private search: string;
+    readonly filterButton: Locator;
 
     constructor(page: Page, search?: string) {
         super(page);
         this.search = search ?? 'test !@#$%^&*()%\\{}[]=:;.?|/'; // Include an extra \ for each \ that you want to search for
+        this.filterButton = page.locator('#filter-button');
     }
 
     getSearch(): string {
@@ -22,7 +24,10 @@ export class SearchResultsPage extends BasePage {
     async goto(search: string): Promise<void>;
 
     async goto(search?: string): Promise<void> {
-        const searchEncode = await SearchResultsPage.encodeURIYT(search ?? this.getSearch());
+        if (search) {
+            this.setSearch(search);
+        }
+        const searchEncode = await SearchResultsPage.encodeURIYT(this.getSearch());
         await this.page.goto(`https://www.youtube.com/results?search_query=${searchEncode}`);
     }
 
@@ -47,5 +52,13 @@ export class SearchResultsPage extends BasePage {
     // Returns an array of video search results
     async searchResultsList(): Promise<Array<Locator>> {
         return this.page.locator('#contents ytd-video-renderer').all();
+    }
+
+    async getFilterColumns(): Promise<Array<Locator>> {
+        return this.page.locator('tp-yt-paper-dialog ytd-search-filter-options-dialog-renderer #options ytd-search-filter-group-renderer').all();
+    }
+
+    async getRowsInFilterColumn(col: Locator): Promise<Array<Locator>> {
+        return col.locator('ytd-search-filter-renderer').all();
     }
 }

@@ -34,10 +34,11 @@ test('Search results contain clickable videos with thumbnails', async({ searchRe
     }
 });
 
-test('Can filter results for shorts', async({ searchResultsPage }) => {
+test('Can filter results through chips list', async({ searchResultsPage }) => {
     const chipsList = searchResultsPage.page.locator('#chips yt-chip-cloud-chip-renderer');
     await searchResultsPage.page.waitForTimeout(5000);
     await chipsList.isVisible();
+    await chipsList.getByText('All').isVisible();
     const chips = await chipsList.all();
     let firstPass = false;
     const beforeFilter = await searchResultsPage.page.screenshot({ path: `filter${0}.png` });
@@ -51,4 +52,44 @@ test('Can filter results for shorts', async({ searchResultsPage }) => {
         }
         firstPass = true;
     }
+});
+
+test('Can filter search results', async({ searchResultsPage }) => {
+    // Open filter menu
+    await searchResultsPage.filterButton.isVisible();
+    await searchResultsPage.filterButton.click();
+    await expect(searchResultsPage.page.locator('yt-formatted-string').filter({ hasText: 'Search filters' })).toBeVisible();
+
+    // Declare variables for the filter table
+    const columns = await searchResultsPage.getFilterColumns();
+    const sortByColumn = columns[4];
+    const sortByRows = await searchResultsPage.getRowsInFilterColumn(sortByColumn);
+    const relevanceFilter = sortByRows[0];
+
+    // Assert that Relevance filter is selected by default
+    await expect(relevanceFilter).toHaveClass(/selected/);
+    const featuresColumn = columns[3];
+    const featuresRows = await searchResultsPage.getRowsInFilterColumn(featuresColumn);
+    const liveFilter = featuresRows[0];
+
+    // Apply Live filter and assert URL change
+    await liveFilter.locator('a').click();
+    await searchResultsPage.page.waitForTimeout(2000);
+    await expect(searchResultsPage.page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/results\?search_query=.+&sp=.+$/);
+
+    // Assert the visibility of Live badges on the filtered results
+    const liveBadges = await searchResultsPage.page.getByLabel('LIVE', { exact: true }).all();
+    for (let i = 0; i < liveBadges.length; i++) {
+        await expect(liveBadges[i]).toBeVisible();
+    }
+
+    // Assert that filter is selected
+    await searchResultsPage.filterButton.click();
+    await expect(liveFilter).toHaveClass(/selected/);
+
+    // Dismiss filter and assert that filter is no longer selected
+    await searchResultsPage.page.getByTitle('Remove Live filter').click();
+    await searchResultsPage.page.waitForTimeout(2000);
+    await searchResultsPage.filterButton.click();
+    await expect(liveFilter).not.toHaveClass(/selected/);
 });
