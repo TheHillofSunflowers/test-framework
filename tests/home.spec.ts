@@ -46,11 +46,6 @@ test.describe('Offline page test', () => {
     test('Assert offline message and network response is blocked', async({ homePage }) => {
         // Assert offline message is visisble
         await expect(homePage.page.getByText('Connect to the internet')).toBeVisible();
-
-        // Intercept network request
-        await homePage.page.route('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false', route => {
-            route.continue();
-        });
     
         // Click Retry button
         await expect(homePage.page.getByLabel('Retry')).toBeVisible();
