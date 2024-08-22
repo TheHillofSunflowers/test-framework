@@ -35,11 +35,11 @@ test('Search results contain clickable videos with thumbnails', async({ searchRe
 });
 
 test('Can filter results through chips list', async({ searchResultsPage }) => {
-    const chipsList = searchResultsPage.page.locator('#chips yt-chip-cloud-chip-renderer');
+    const chipsList = searchResultsPage.page.getByRole('tablist');
     await searchResultsPage.page.waitForTimeout(5000);
     await chipsList.isVisible();
     await chipsList.getByText('All').isVisible();
-    const chips = await chipsList.all();
+    const chips = await searchResultsPage.page.locator('#chips yt-chip-cloud-chip-renderer').all();
     let firstPass = false;
     const beforeFilter = await searchResultsPage.page.screenshot({ path: `filter${0}.png` });
     for (let i = 0; i < chips.length; i++) {
