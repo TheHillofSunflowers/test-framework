@@ -2,7 +2,7 @@
 > Playwright Web Testing Framework for YouTube
 
 
-Automation testing framework created in TypeScript to practice SDET/QA skills on an industry product. Utilized DevOps skills such as Docker for containerization and GitHub Actions. Features Unit, Integration, and E2E tests while implementing the Page Object Model.
+Automation testing framework created in TypeScript to practice SDET/QA skills on an industry product. Utilized DevOps skills such as Docker for containerization and GitHub Actions CI. Features Unit, Integration, and E2E tests while implementing the Page Object Model.
 
 
 ### Tools:
