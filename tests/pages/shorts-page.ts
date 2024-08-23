@@ -27,26 +27,31 @@ export class ShortsPage extends BasePage {
         this.volume = page.locator(`[id="\\3${this.shortsIterator}"]`).getByLabel('Volume');
     }
 
+    // Get RegExp for ShortsPage URL
     async regex(): Promise<RegExp> {
         return /^https?:\/\/(www\.)?youtube\.com\/shorts\/.+$/;
     }
 
+    // Navigate to ShortsPage
     async goto(): Promise<void> {
         await this.page.goto('https://www.youtube.com/shorts/');
         await this.page.waitForURL(await this.regex());
         this.shortsIterator = 0;
     }
 
+    // Clicks next short button
     async navigateToNextShort(): Promise<void> {
         await this.nextShortButton.click();
         this.shortsIterator++;
     }
 
+    // Clicks previous short button
     async navigateToPreviousShort(): Promise<void> {
         await this.previousShortButton.click();
         this.shortsIterator--;
     }
 
+    // Function to keep iterator consistent when clicking forward button
     async goForward(): Promise<void> {
         await this.page.goForward({ waitUntil: 'networkidle' });
         if (await this.previousShortButton.isHidden()) {
@@ -56,6 +61,7 @@ export class ShortsPage extends BasePage {
         }
     }
 
+    // Function to keep iterator consistent when clicking back button
     async goBack(): Promise<void> {
         await this.page.goBack({ waitUntil: 'networkidle' });
         if (await this.previousShortButton.isHidden()) {
@@ -65,6 +71,7 @@ export class ShortsPage extends BasePage {
         }
     }
 
+    // Click share button
     async clickShareButton(): Promise<void> {
         await this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByRole('button', { name: 'Share' }).click();
     }

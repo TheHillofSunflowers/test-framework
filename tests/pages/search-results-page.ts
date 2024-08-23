@@ -11,18 +11,22 @@ export class SearchResultsPage extends BasePage {
         this.filterButton = page.locator('#filter-button');
     }
 
+    // Getter for search property
     getSearch(): string {
         return this.search;
     }
 
+    // Setter for search property
     setSearch(search: string): void {
-        this.search = search; // Include an extra \ for each \ that you want to search for
+        // Include an extra \ for each \ that you want to search for
+        this.search = search;
     }
 
     // Define overloads
     async goto(): Promise<void>;
     async goto(search: string): Promise<void>;
 
+    // Navigate to appropriate search results page
     async goto(search?: string): Promise<void> {
         if (search) {
             this.setSearch(search);

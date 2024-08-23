@@ -15,10 +15,12 @@ export abstract class BasePage {
         this.voiceButton = page.getByLabel('Search with your voice');
     }
 
+    // Clicks YouTube logo home button
     async clickHomeButton(): Promise<void> {
         await this.homeButton.click();
     }
 
+    // Opens hamburger guide menu
     async openGuideMenu(): Promise<void> {
         await this.guide.click();
     }
@@ -27,17 +29,20 @@ export abstract class BasePage {
         return this.page.locator('#guide-content #button');
     }
 
+    // Click search button
     async submitSearch(): Promise<void> {
         await this.searchButton.click();
         await this.searchButton.click();
         await this.searchButton.click(); // Three separate clicks for it to go through
     }
 
+    // Input string into search bar and submit
     async searchQuery(input: string): Promise<void> {
         await this.page.getByPlaceholder('Search').fill(input);
         await this.submitSearch();
     }
 
+    // Clicks search with voice button
     async clickVoiceButton(): Promise<void> {
         await this.voiceButton.click();
     }
@@ -50,6 +55,7 @@ export abstract class BasePage {
         return this.page.getByLabel('Account menu');
     }
 
+    // Opens guide menu and clicks indicated button
     async navigateToGuideItem(page: 'Home' | 'Shorts' | 'Subscriptions' | 'You' | 'History'): Promise<void> {
         await this.openGuideMenu();
         await this.page.locator('tp-yt-paper-item').filter({ hasText: `${page}` }).click(); // On firefox/webkit, 'Home' will not close the guide

@@ -17,10 +17,12 @@ export class HomePage extends BasePage {
         this.retryConnectionButton = page.getByLabel('Retry');
     }
 
+    // Navigate to base URL (youtube.com)
     async goto(): Promise<void> {
         await this.page.goto('/');
     }
 
+    // Get RegExp for base URL
     async regex(): Promise<RegExp> {
         return /^https?:\/\/(www\.)?youtube\.com\/?/;
     }

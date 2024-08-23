@@ -1,6 +1,7 @@
 import { test as base, expect } from '@playwright/test';
 import { HomePage } from './pages/home-page';
 
+// HomePage fixture that navigates to the Home page
 const test = base.extend<{ homePage: HomePage }>({
     homePage: async ({ page }, use) => {
         const homePage = new HomePage(page);
@@ -11,26 +12,38 @@ const test = base.extend<{ homePage: HomePage }>({
 
 test.describe('Home Button', () => {
     test.beforeEach(async ({ homePage }) => {
-        // Navigate to a different page
+        // Navigate to a different page, in this case Shorts
         await homePage.navigateToGuideItem('Shorts');
+
+        // Click YouTube logo home button
         await homePage.clickHomeButton();
     });
 
     test('Home Button navigates to home page', async({ homePage }) => {
+        // Assert navigation to the Home page
         await expect(homePage.page).toHaveURL(await homePage.regex());
+
+        // Assert proper title
         await expect(homePage.page).toHaveTitle("YouTube");
     });
 
     test('Home Button does not navigate to incorrect page', async({ homePage }) => {
         // Initialize RegExp for homepage URL with any additional characters at the end
         const urlPattern = new RegExp(`${(await homePage.regex()).source} + '.+$'`);
+
+        // Assert URL is not a different page
         await expect(homePage.page).not.toHaveURL(urlPattern);
+
+        // Assert title is not a different title
         await expect(homePage.page).not.toHaveTitle(/.+ - YouTube$/);
     });
 });
 
 test('Get Started Message is visible on landing', async({ homePage }) => {
+    // Assert Get Started message
     await expect(homePage.getStartedTitle).toBeVisible();
+
+    // Assert Get started subtitle
     await expect(homePage.getStartedSubtitle).toBeVisible();
 });
 
@@ -78,7 +91,7 @@ test.describe('Offline page test', () => {
         // Click Retry button, catch if button has already been detached due to automatic reconnection
         await homePage.retryConnectionButton.click({timeout: 3000}).catch(async() => await expect(homePage.retryConnectionButton).toBeAttached({attached: false}));
     
-        // Assert that network response was successful
+        // Assert network response was successful
         const response = await responsePromise;
         expect(response.status()).toBe(200);
 

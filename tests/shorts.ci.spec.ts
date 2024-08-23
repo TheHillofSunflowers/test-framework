@@ -42,11 +42,7 @@ test('Clicking comments button should open the comment section with an X button'
 
         // Close comments section
         await shortsPage.page.getByRole('button', { name: 'Close' }).click();
-
-        // If improperly loaded, press Disabled locator instead to assert template existence
-    } /*else if(await shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Disabled', { exact: true }).isVisible()) {
-        await shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Disabled', { exact: true }).click();
-    }*/
+    }
 });
 
 test('Clicking share button opens a popup with 12 social media platforms', async({ shortsPage }) => {
@@ -100,7 +96,7 @@ test('Next and Previous Buttons Navigate Correctly', async({ shortsPage }) => {
 
     await clickPlay();
 
-    // Assert that the thumbnail has changed
+    // Assert thumbnail change
     expect(secondThumbnail).not.toBe(firstThumbnail);
 
     await clickPlay();
