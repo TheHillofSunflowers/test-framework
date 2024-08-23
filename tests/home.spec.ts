@@ -47,13 +47,16 @@ test.describe('Offline page test', () => {
         // Assert offline message is visisble
         await expect(homePage.page.getByText('Connect to the internet')).toBeVisible();
     
+        // Wait for response event
+        const responsePromise = homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false', {timeout: 1000}).catch(() => null);
+
         // Click Retry button
         await expect(homePage.retryConnectionButton).toBeVisible();
         await homePage.retryConnectionButton.click();
     
         // Expect network response to be blocked
-        const responses = await homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false', {timeout: 1000}).catch(() => null);
-        expect(responses).toBeNull();
+        const response = await responsePromise;
+        expect(response).toBeNull();
     
         // Recheck UI
         await expect(homePage.page.getByText('Connect to the internet')).toBeVisible();
@@ -69,20 +72,18 @@ test.describe('Offline page test', () => {
         // Set browser context online
         await homePage.page.context().setOffline(false);
 
-        // Intercept network request to delay autoreload so we can test the retry button
-        await homePage.page.route('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false', route => {
-            route.continue();
-        });
+        // Wait for response event
+        const responsePromise = homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false');
     
-        // Click Retry button
-        await homePage.retryConnectionButton.click().catch(async() => await expect(homePage.retryConnectionButton).toBeAttached({attached: false}));
+        // Click Retry button, catch if button has already been detached due to automatic reconnection
+        await homePage.retryConnectionButton.click({timeout: 3000}).catch(async() => await expect(homePage.retryConnectionButton).toBeAttached({attached: false}));
     
         // Assert that network response was successful
-        const responses = await homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false');
-        expect(responses.status()).toBe(200);
+        const response = await responsePromise;
+        expect(response.status()).toBe(200);
 
         // Check that the response came from the appropriate request
-        const request = responses.request();
+        const request = response.request();
         expect(request.url()).toContain('/youtubei/v1/browse?prettyPrint=false');
         expect(request.failure()).toBeNull();
     
