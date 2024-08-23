@@ -6,6 +6,7 @@ export class HomePage extends BasePage {
     readonly body: Locator;
     readonly getStartedTitle: Locator;
     readonly getStartedSubtitle: Locator;
+    readonly retryConnectionButton: Locator;
     
     constructor(page: Page) {
         super(page);
@@ -13,6 +14,7 @@ export class HomePage extends BasePage {
         this.body = page.locator('contents').locator('ytd-rich-grid-renderer');
         this.getStartedTitle = page.getByLabel('Try searching to get started');
         this.getStartedSubtitle = page.getByLabel('Start watching videos to help');
+        this.retryConnectionButton = page.getByLabel('Retry');
     }
 
     async goto(): Promise<void> {

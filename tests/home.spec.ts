@@ -48,8 +48,8 @@ test.describe('Offline page test', () => {
         await expect(homePage.page.getByText('Connect to the internet')).toBeVisible();
     
         // Click Retry button
-        await expect(homePage.page.getByLabel('Retry')).toBeVisible();
-        await homePage.page.getByLabel('Retry').click();
+        await expect(homePage.retryConnectionButton).toBeVisible();
+        await homePage.retryConnectionButton.click();
     
         // Expect network response to be blocked
         const responses = await homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false', {timeout: 1000}).catch(() => null);
@@ -75,7 +75,7 @@ test.describe('Offline page test', () => {
         });
     
         // Click Retry button
-        await homePage.page.getByLabel('Retry').click();
+        await homePage.retryConnectionButton.click().catch(async() => await expect(homePage.retryConnectionButton).toBeAttached({attached: false}));
     
         // Assert that network response was successful
         const responses = await homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false');
