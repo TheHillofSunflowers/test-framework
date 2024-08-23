@@ -6,21 +6,38 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG NODE_VERSION=20.10.0
+# docker build -t playwright-docker .
+# docker run -it --rm --ipc=host mcr.microsoft.com/playwright:v1.46.1-jammy /bin/bash
 
-FROM node:${NODE_VERSION}-alpine
+FROM node:20-bookworm
 
-# temp
-FROM mcr.microsoft.com/playwright:v1.46.0-jammy
+FROM mcr.microsoft.com/playwright:v1.46.1-jammy
 
-# temp
+# Set working directory
 WORKDIR /app
 
+# Copy package.jsons first to utilize Docker cache
+COPY package.json /app/
+COPY package-lock.json /app/
+
+# Install dependencies
+RUN npm install
+
+# Copy test code
+COPY tests /app/tests
+COPY playwright.config.ts /app/
+COPY playwright.ci.config.ts /app/
+COPY tsconfig.json /app/
+
+# Command to run tests
+CMD ["npx", "playwright", "test"]
+
+#ARG NODE_VERSION=20.10.0
+
+#FROM node:${NODE_VERSION}-alpine
+
 # Use production node environment by default.
-ENV NODE_ENV production
-
-
-#WORKDIR /usr/src/app
+#ENV NODE_ENV production
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
@@ -34,24 +51,9 @@ ENV NODE_ENV production
 # Run the application as a non-root user.
 #USER node
 
-# Copy the rest of the source files into the image.
-#COPY . .
-
 # Expose the port that the application listens on.
 #EXPOSE 3000
 
-# Run the application.
-#CMD node index.js
-
-
-
-
-
-# Use the official Playwright base image, which includes necessary dependencies.
-# temp FROM mcr.microsoft.com/playwright:v1.45.1-jammy
-
-# Set the working directory
-# temp WORKDIR /usr/src/app
 
 #RUN apt-get update && apt-get install -y \
 #    xvfb \
@@ -72,18 +74,6 @@ ENV NODE_ENV production
 #    libpangocairo-1.0-0 \
 #    libx11-xcb1
 
-# Copy the package.json and package-lock.json files
-COPY package.json package-lock.json ./
-
-# Install dependencies, including Playwright
-RUN npm ci
-
-# Copy the rest of the application source code
-COPY . .
-
-# Install Playwright browsers (Chromium, Firefox, WebKit)
-RUN npx playwright install --with-deps
-
 # Use non-root user for security (Root currently required for perms)
 #USER pwuser
 
@@ -92,7 +82,6 @@ RUN npx playwright install --with-deps
 
 # Default command to run Playwright tests
 #CMD ["xvfb-run", "--auto-servernum", "npx", "playwright", "test"]
-CMD ["npx", "playwright", "test"]
+#CMD ["npx", "playwright", "test"]
 
-# docker build -t playwright-docker .
 # docker run -it --rm -e DISPLAY=:0 -v /tmp/.X11-unix:/tmp/.X11-unix playwright-docker:latest xvfb-run --auto-servernum npx playwright test
