@@ -35,6 +35,9 @@ test('Assert channel links', async({ videoPage }) => {
     // Click channel avatar
     await videoPage.avatar.click();
 
+    // Wait for page to load
+    await videoPage.page.waitForTimeout(2000);
+
     // Assert navigation to respective channel link
     expect(videoPage.page).toHaveURL('/@porterrobinson');
 });
