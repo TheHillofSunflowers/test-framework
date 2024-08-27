@@ -29,25 +29,33 @@ export class VideoPage extends BasePage {
         this.dislikeButton = page.locator('#actions .YtDislikeButtonViewModelHost');
         this.shareButton = page.locator('#actions').getByLabel('Share');
         this.moreActionsButton = page.getByRole('button', { name: 'More actions' });
-        this.description = page.locator('#description-inner');
+        this.description = page.locator('#below #description-inner');
         this.commentsCount = page.locator('#comments .count-text span').nth(0);
         this.relatedVideosContentsWhileWatchingPlaylist = page.locator('#related ytd-item-section-renderer > div').filter({ has: page.locator('#contents')});
         this.relatedVideosContent = page.locator('#related #items ytd-compact-video-renderer');
     }
 
-    async getVideoLink(): Promise<string> {
+    // Getter for video link property
+    getVideoLink(): string {
         return this.videoLink;
     }
 
-    async setVideoLink(videoLink: string): Promise<void> {
+    // Setter for video link property
+    setVideoLink(videoLink: string): void {
         this.videoLink = videoLink;
     }
 
+    // Define overloads
+    async goto(): Promise<void>;
+    async goto(URL: string): Promise<void>;
+
+    // Navigate to appropriate video page
     async goto(URL?: string): Promise<void> {
         await this.page.goto(URL ?? this.videoLink);
         await this.page.waitForURL(await this.regex());
     }
 
+    // Get RegExp for VideoPage URL
     async regex(): Promise<RegExp> {
         return /^https?:\/\/(www\.)?youtube\.com\/watch\?v=/;
     }

@@ -1,6 +1,7 @@
 import { test as base, expect } from '@playwright/test';
 import { VideoPage } from './pages/video-page';
 
+// VideoPage fixture that navigates to a default video player page
 const test = base.extend<{ videoPage: VideoPage }>({
     videoPage: async({ page }, use) => {
         const videoPage = new VideoPage(page);
@@ -18,38 +19,55 @@ test('Assert channel uploader', async({ videoPage }) => {
 });
 
 test('Assert channel links', async({ videoPage }) => {
+    // Assert that channel name and channel avatar link to their respective URLs
     expect(await videoPage.getChannelLink()).toBe('/channel/UCKKKYE55BVswHgKihx5YXew');
     expect(await videoPage.getAvatarLink()).toBe('/@porterrobinson');
 
+    // Click channel name
     await videoPage.channelName.click();
+
+    // Assert navigation to channel link
     expect(videoPage.page).toHaveURL('/channel/UCKKKYE55BVswHgKihx5YXew');
 
+    // Navigate to previous page
     await videoPage.page.goBack();
+
+    // Click channel avatar
     await videoPage.avatar.click();
+
+    // Assert navigation to respective channel link
     expect(videoPage.page).toHaveURL('/@porterrobinson');
 });
 
 test('Clicking subscribe button should prompt log in', async({ videoPage }) => {
+    // Click subscribe button next to uploader's channel
     await videoPage.subscribeButton.click();
 
+    // Assert sign in prompt is visible
     await expect(videoPage.page.locator('tp-yt-iron-dropdown').getByText('Want to subscribe to this channel?')).toBeVisible();
 
-    await expect(videoPage.page.locator('a').getByText('Sign in')).toBeVisible();
+    // Assert sign in button is visible
+    await expect(videoPage.page.locator('ytd-modal-with-title-and-button-renderer').getByLabel('Sign in')).toBeVisible();
 });
 
 test('Clicking like button should prompt sign in', async({ videoPage }) => {
+    // Click like button
     await videoPage.likeButton.click();
 
+    // Assert sign in prompt is visible
     await expect(videoPage.page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
 });
 
 test('Clicking dislike button should prompt sign in', async({ videoPage }) => {
+    // Click dislike button
     await videoPage.dislikeButton.click();
     
+    // Assert sign in prompt is visible
     await expect(videoPage.page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?')).toBeVisible();
 });
 
 test('Clicking share button opens a popup with 15 media platforms', async({ videoPage }) => {
+    // Click share button
     await videoPage.shareButton.click();
 
     // Assert popup menu is visible
@@ -64,36 +82,50 @@ test('Clicking share button opens a popup with 15 media platforms', async({ vide
 });
 
 test('Clicking more actions button opens a menu', async({ videoPage }) => {
+    // Click more actions button
     await videoPage.moreActionsButton.click();
 
-    await expect(videoPage.page.getByRole('menuitem')).toHaveCount(2);
+    // Assert one menu item pops up
+    await expect(videoPage.page.getByRole('menuitem')).toHaveCount(1);
 
-    await expect(videoPage.page.getByText('Save Report')).toBeVisible();
+    // Assert Report menu item is visible
+    await expect(videoPage.page.getByText('Report')).toBeVisible();
 });
 
 test('Assert video description', async({ videoPage }) => {
+    // Assert description is visible
     await expect(videoPage.description).toBeVisible();
 
-    await expect(videoPage.description).toHaveText(/Porter Robinson - Hollowheart ft. Amy Millan (From the Worlds 10th Anniversary Edition)/);
+    // Assert description messages are visible
+    await expect(videoPage.description).toHaveText(/Porter Robinson - Hollowheart ft. Amy Millan \(From the Worlds 10th Anniversary Edition\)/);
 
     await expect(videoPage.description).toHaveText(/WORLDS 10th Anniversary Edition ft. Hollowheart \+\+ AND!! \+\+ Worlds Live, printed to Vinyl for the first time ever!/);
 
+    // Extend description by clicking
+    await videoPage.description.click();
+
+    // Assert hidden description message is visible
     await expect(videoPage.description).toHaveText(/happy 10th anniversary to an album that changed my life forever【=◈︿◈=】/);
 });
 
 test('Comment section will display an accurate count of comments', async({ videoPage }) => {
-    await videoPage.commentsCount.scrollIntoViewIfNeeded();
+    // Wait for page to load
+    await videoPage.page.waitForTimeout(1000);
 
+    // Scroll down
+    await videoPage.page.mouse.wheel(0, 500);
+
+    // Convert commas from number and use unary operator to convert to an int
     const stringCount = await videoPage.commentsCount.innerText();
-
     const commalessCount = stringCount.replace(/,/g, '');
-
     const count = +commalessCount;
     
+    // Assert that the amount of comments at least excels a previously manually checked number
     expect(count).toBeGreaterThanOrEqual(2776);
 });
 
 test('Assert related videos details', async({ videoPage }) => {
+    // Locate all related videos in the sidebar
     const relatedVideosList = await videoPage.relatedVideosContent.all();
 
     // Loop through located results
