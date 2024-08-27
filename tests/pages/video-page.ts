@@ -20,15 +20,15 @@ export class VideoPage extends BasePage {
     constructor(page: Page) {
         super(page);
         this.videoLink = '/watch?v=bdXPhRj10jQ';
-        this.title = page.locator('#primary-inner #title');
+        this.title = page.locator('#primary-inner #title').nth(0);
         this.channelName = page.locator('#owner #text');
         this.avatar = page.locator('ytd-video-owner-renderer > a');
         this.avatarImage = page.locator('ytd-video-owner-renderer > a img');
-        this.subscribeButton = page.locator('#primary-inner #subscribe-button');
+        this.subscribeButton = page.locator('#owner #subscribe-button');
         this.likeButton = page.locator('#actions .YtLikeButtonViewModelHost');
         this.dislikeButton = page.locator('#actions .YtDislikeButtonViewModelHost');
         this.shareButton = page.locator('#actions').getByLabel('Share');
-        this.moreActionsButton = page.locator('#actions').getByLabel('More actions');
+        this.moreActionsButton = page.getByRole('button', { name: 'More actions' });
         this.description = page.locator('#description-inner');
         this.commentsCount = page.locator('#comments .count-text span').nth(0);
         this.relatedVideosContentsWhileWatchingPlaylist = page.locator('#related ytd-item-section-renderer > div').filter({ has: page.locator('#contents')});

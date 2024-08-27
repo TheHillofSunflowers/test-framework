@@ -74,10 +74,16 @@ test('Clicking more actions button opens a menu', async({ videoPage }) => {
 test('Assert video description', async({ videoPage }) => {
     await expect(videoPage.description).toBeVisible();
 
-    await expect(videoPage.description).toHaveText('Porter Robinson - Hollowheart ft. Amy Millan (From the Worlds 10th Anniversary Edition) WORLDS 10th Anniversary Edition ft. Hollowheart ++ AND!! ++ Worlds Live, printed to Vinyl for the first time ever!');
+    await expect(videoPage.description).toHaveText(/Porter Robinson - Hollowheart ft. Amy Millan (From the Worlds 10th Anniversary Edition)/);
+
+    await expect(videoPage.description).toHaveText(/WORLDS 10th Anniversary Edition ft. Hollowheart \+\+ AND!! \+\+ Worlds Live, printed to Vinyl for the first time ever!/);
+
+    await expect(videoPage.description).toHaveText(/happy 10th anniversary to an album that changed my life forever【=◈︿◈=】/);
 });
 
 test('Comment section will display an accurate count of comments', async({ videoPage }) => {
+    await videoPage.commentsCount.scrollIntoViewIfNeeded();
+
     const stringCount = await videoPage.commentsCount.innerText();
 
     const commalessCount = stringCount.replace(/,/g, '');
