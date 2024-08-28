@@ -82,7 +82,7 @@ jobs:
     - name: Upload HTML report
       uses: actions/upload-artifact@v4
       with:
-        name: html-report--attempt-${{ github.run_attempt }}
+        name: github-pages
         path: playwright-report
         retention-days: 30
     - name: Deploy to GitHub Pages
