@@ -85,6 +85,11 @@ jobs:
         name: github-pages
         path: playwright-report
         retention-days: 30
+    - name: Clean up files
+      run: |
+        find merged-playwright-report/ -type l -delete
+        find merged-playwright-report/ -type f -exec rm -f {} +
+        find merged-playwright-report/ -exec touch {} +
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
