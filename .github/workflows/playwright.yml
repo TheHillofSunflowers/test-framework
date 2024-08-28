@@ -82,14 +82,17 @@ jobs:
     - name: Upload HTML report
       uses: actions/upload-artifact@v4
       with:
-        name: github-pages
+        name: html-report--attempt-${{ github.run_attempt }}
         path: playwright-report
         retention-days: 30
-    - name: Clean up files
+    - name: Copy Specific Files
       run: |
-        find playwright-report -type l -delete
-        find playwright-report -type f -exec rm -f {} +
-        find playwright-report -exec touch {} +
+        cp playwright-report/index.html newTrace
+    - name: Upload HTML report
+      uses: actions/upload-artifact@v4
+      with:
+          name: github-pages
+          path: newTrace
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
