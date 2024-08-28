@@ -87,12 +87,13 @@ jobs:
         retention-days: 30
     - name: Copy Specific Files
       run: |
-        cp playwright-report/index.html newTrace/
+        mkdir cleaned-report
+        cp playwright-report/index.html cleaned-report/
     - name: Upload HTML report
       uses: actions/upload-artifact@v4
       with:
           name: github-pages
-          path: newTrace
+          path: cleaned-report
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
