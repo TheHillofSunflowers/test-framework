@@ -1,0 +1,22 @@
+import { test, expect } from '@playwright/test';
+import { HomePage } from './pages/home-page';
+import fs from 'fs';
+
+test('Manual login and save state', async({ page }) => {
+    const homePage = new HomePage(page);
+
+    // Click Log in button
+    await homePage.goto();
+    await (await homePage.getLoginButton()).click();
+
+    // Pause for manual login
+    await page.pause();
+
+    // Save cookies and local storage
+    const cookies = await page.context().cookies();
+    const localStorage = await page.evaluate(() => JSON.stringify(window.localStorage));
+
+    // Save the state to a file
+    fs.writeFileSync('cookies.json', JSON.stringify(cookies));
+    fs.writeFileSync('localStorage.json', localStorage);
+});
