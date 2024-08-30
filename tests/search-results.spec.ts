@@ -30,7 +30,7 @@ test('Search results contain clickable videos with thumbnails', async({ searchRe
     await searchResultsPage.homeButton.waitFor({ state: 'visible' });
 
     // Locate the first few dynamically loaded results
-    const searchResultsList = await searchResultsPage.searchResultsList();
+    const searchResultsList = await searchResultsPage.getVideoSearchResultsList();
     console.log(searchResultsList.length);
     expect(searchResultsList.length).toBeGreaterThan(0);
 

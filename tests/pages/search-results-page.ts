@@ -54,8 +54,13 @@ export class SearchResultsPage extends BasePage {
     }
 
     // Returns an array of video search results
-    async searchResultsList(): Promise<Array<Locator>> {
+    async getVideoSearchResultsList(): Promise<Array<Locator>> {
         return this.page.locator('#contents ytd-video-renderer').all();
+    }
+
+    // Returns an array of channel search results
+    async getChannelSearchResultsList(): Promise<Array<Locator>> {
+        return this.page.locator('#contents ytd-channel-renderer').all();
     }
 
     async getFilterColumns(): Promise<Array<Locator>> {

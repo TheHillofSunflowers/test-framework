@@ -2,6 +2,8 @@ import { test, expect } from '@playwright/test';
 import { HomePage } from './pages/home-page';
 import fs from 'fs';
 
+test.use({ headless: false });
+
 test('Manual login and save state', async({ page }) => {
     const homePage = new HomePage(page);
 
@@ -9,7 +11,7 @@ test('Manual login and save state', async({ page }) => {
     await homePage.goto();
     await (await homePage.getLoginButton()).click();
 
-    // Pause for manual login
+    // Pause for manual login, press resume or enter playwright.resume() in DevTools
     await page.pause();
 
     // Save cookies and local storage
