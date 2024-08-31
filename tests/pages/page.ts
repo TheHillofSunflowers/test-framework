@@ -58,7 +58,7 @@ export abstract class BasePage {
     // Opens guide menu and clicks indicated button
     async navigateToGuideItem(page: 'Home' | 'Shorts' | 'Subscriptions' | 'You' | 'History'): Promise<void> {
         await this.openGuideMenu();
-        await this.page.locator('tp-yt-paper-item').filter({ hasText: `${page}` }).click(); // On firefox/webkit, 'Home' will not close the guide
+        await this.page.locator('#sections').getByTitle(`${page}`, { exact: true }).click(); // On firefox/webkit, 'Home' will not close the guide
         await this.page.waitForTimeout(2000);
     }
 }
