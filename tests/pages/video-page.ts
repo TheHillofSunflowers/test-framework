@@ -16,6 +16,11 @@ export class VideoPage extends BasePage {
     readonly commentsCount: Locator;
     readonly relatedVideosContentsWhileWatchingPlaylist: Locator;
     readonly relatedVideosContent: Locator;
+    readonly playButton: Locator;
+    readonly settingsButton: Locator;
+    readonly nextButton: Locator;
+    readonly fullscreenButton: Locator;
+    readonly volumeButton: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -33,6 +38,11 @@ export class VideoPage extends BasePage {
         this.commentsCount = page.locator('#comments .count-text span').nth(0);
         this.relatedVideosContentsWhileWatchingPlaylist = page.locator('#related ytd-item-section-renderer > div').filter({ has: page.locator('#contents')});
         this.relatedVideosContent = page.locator('#related #items ytd-compact-video-renderer');
+        this.playButton = page.locator('.ytp-play-button');
+        this.settingsButton = page.locator('#player').locator('[aria-label="Settings"]');
+        this.nextButton = page.locator('.ytp-next-button');
+        this.fullscreenButton = page.locator('.ytp-fullscreen-button');
+        this.volumeButton = page.locator('.ytp-mute-button');
     }
 
     // Getter for video link property
