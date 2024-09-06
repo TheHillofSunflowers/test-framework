@@ -1,13 +1,8 @@
-import { test as base, expect } from '@playwright/test';
-import { HomePage } from './pages/home-page';
+import { expect } from '@playwright/test';
+import { test } from './fixtures/fixtures'
 
-// HomePage fixture that navigates to the Home page
-const test = base.extend<{ homePage: HomePage }>({
-    homePage: async ({ page }, use) => {
-        const homePage = new HomePage(page);
-        await homePage.goto();
-        await use(homePage);
-    }
+test.beforeEach(async ({ homePage }) => {
+    await homePage.goto();
 });
 
 test.describe('Home Button', () => {

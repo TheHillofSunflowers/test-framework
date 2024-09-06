@@ -1,13 +1,8 @@
 import { test as base, expect } from '@playwright/test';
-import { ShortsPage } from './pages/shorts-page';
+import { test } from './fixtures/fixtures'
 
-// ShortsPage fixture that navigates to the Shorts page
-const test = base.extend<{ shortsPage: ShortsPage }>({
-    shortsPage: async ({ page }, use) => {
-        const shortsPage = new ShortsPage(page);
-        await shortsPage.goto();
-        await use(shortsPage);
-    }
+test.beforeEach(async ({ shortsPage }) => {
+    await shortsPage.goto();
 });
 
 test('Clicking like button should prompt sign in', async({ shortsPage }) => {

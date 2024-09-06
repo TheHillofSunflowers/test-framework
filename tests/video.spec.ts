@@ -1,13 +1,8 @@
 import { test as base, expect } from '@playwright/test';
-import { VideoPage } from './pages/video-page';
+import { test } from './fixtures/fixtures'
 
-// VideoPage fixture that navigates to a default video player page
-const test = base.extend<{ videoPage: VideoPage }>({
-    videoPage: async({ page }, use) => {
-        const videoPage = new VideoPage(page);
-        await videoPage.goto();
-        await use(videoPage);
-    }
+test.beforeEach(async ({ videoPage }) => {
+    await videoPage.goto();
 });
 
 test('Assert video title', async({ videoPage}) => {

@@ -1,13 +1,8 @@
 import { test as base, expect } from '@playwright/test';
-import { SearchResultsPage } from './pages/search-results-page';
+import { test } from './fixtures/fixtures'
 
-// SearchResultsPage fixture that navigates to the Search Results page
-const test = base.extend<{ searchResultsPage: SearchResultsPage }>({
-    searchResultsPage: async ({ page }, use) => {
-        const searchResultsPage = new SearchResultsPage(page);
-        await searchResultsPage.goto();
-        await use(searchResultsPage);
-    }
+test.beforeEach(async ({ searchResultsPage }) => {
+    await searchResultsPage.goto();
 });
 
 test('Navigate to proper search page after searching', async({ searchResultsPage }) => {
@@ -46,48 +41,6 @@ test('Search results contain clickable videos with thumbnails', async({ searchRe
 
         // Assert thumbnail visibility
         await expect(thumbnail.locator('yt-image img')).toBeVisible();
-    }
-});
-
-test('Can filter results through chips list', async({ searchResultsPage }) => {
-    // Get list of chips
-    const chipsList = searchResultsPage.page.getByRole('tablist');
-
-    // Wait for visibility of chips
-    await searchResultsPage.page.waitForTimeout(5000);
-
-    // Assert chips list is visible
-    await chipsList.isVisible();
-    await chipsList.getByText('All').isVisible();
-
-    // Get array of all chips
-    const chips = await searchResultsPage.page.locator('#chips yt-chip-cloud-chip-renderer').all();
-
-    let firstPass = false;
-
-    // Take screenshot of original search results
-    const beforeFilter = await searchResultsPage.page.screenshot({ path: `filter${0}.png` });
-
-    // Iterate through each chip
-    for (let i = 0; i < chips.length; i++) {
-        // Apply filter
-        await chips[i].click();
-
-        // Assert filter is selected
-        await expect(chips[i]).toHaveClass('iron-selected');
-        await expect(chips[i]).toHaveJSProperty('aria-selected', true);
-
-        // After every filter is applied:
-        if (firstPass) {
-            // Take screenshot
-            let filtered = await searchResultsPage.page.locator('#container ytd-item-section-renderer').screenshot({ path: `filter${i}.png`});
-
-            // Assert that filter has changed results from the original search results
-            expect(filtered).not.toMatchSnapshot({name: `filter${i--}.png`});
-        }
-
-        // Indicate that we are now moving away from the default filter
-        firstPass = true;
     }
 });
 

@@ -1,19 +1,9 @@
 import { test as base, expect } from '@playwright/test';
-import { HomePage } from './pages/home-page';
+import { test } from './fixtures/fixtures'
 import fs from 'fs';
-import { SearchResultsPage } from './pages/search-results-page';
 
-// HomePage fixture that navigates to the Home page
-const test = base.extend<{ homePage: HomePage, searchResultsPage: SearchResultsPage }>({
-    homePage: async ({ page }, use) => {
-        const homePage = new HomePage(page);
-        await homePage.goto();
-        await use(homePage);
-    },
-    searchResultsPage: async({ page }, use) => {
-      const searchResultsPage = new SearchResultsPage(page);
-      await use(searchResultsPage);
-    }
+test.beforeEach(async ({ homePage }) => {
+    await homePage.goto();
 });
 
 test.beforeEach(async({ page }) => {
