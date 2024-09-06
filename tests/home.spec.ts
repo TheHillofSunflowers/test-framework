@@ -53,7 +53,8 @@ test.describe('Offline page test', () => {
 
     test('Assert offline message and network response is blocked', async({ homePage }) => {
         // Assert offline message is visisble
-        await expect(homePage.page.getByText('Connect to the internet')).toBeVisible();
+        const offlineMessage = homePage.page.getByText('Connect to the internet');
+        await expect(offlineMessage).toBeVisible();
     
         // Wait for response event
         const responsePromise = homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false', {timeout: 1000}).catch(() => null);
@@ -67,7 +68,7 @@ test.describe('Offline page test', () => {
         expect(response).toBeNull();
     
         // Recheck UI
-        await expect(homePage.page.getByText('Connect to the internet')).toBeVisible();
+        await expect(offlineMessage).toBeVisible();
     });
     
     test('Assert that the offline Retry button will receive a status 200 response when online', async({ homePage}) => {

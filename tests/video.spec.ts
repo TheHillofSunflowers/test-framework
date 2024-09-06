@@ -42,10 +42,12 @@ test('Clicking subscribe button should prompt log in', async({ videoPage }) => {
     await videoPage.subscribeButton.click();
 
     // Assert sign in prompt is visible
-    await expect(videoPage.page.locator('tp-yt-iron-dropdown').getByText('Want to subscribe to this channel?')).toBeVisible();
+    const signInPrompt = videoPage.page.locator('tp-yt-iron-dropdown').getByText('Want to subscribe to this channel?');
+    await expect(signInPrompt).toBeVisible();
 
     // Assert sign in button is visible
-    await expect(videoPage.page.locator('ytd-modal-with-title-and-button-renderer').getByLabel('Sign in')).toBeVisible();
+    const signInButton = videoPage.page.locator('ytd-modal-with-title-and-button-renderer').getByLabel('Sign in');
+    await expect(signInButton).toBeVisible();
 });
 
 test('Clicking like button should prompt sign in', async({ videoPage }) => {
@@ -53,7 +55,8 @@ test('Clicking like button should prompt sign in', async({ videoPage }) => {
     await videoPage.likeButton.click();
 
     // Assert sign in prompt is visible
-    await expect(videoPage.page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
+    const signInPrompt = videoPage.page.locator('tp-yt-iron-dropdown').getByText('Like this video?');
+    await expect(signInPrompt).toBeVisible();
 });
 
 test('Clicking dislike button should prompt sign in', async({ videoPage }) => {
@@ -61,7 +64,8 @@ test('Clicking dislike button should prompt sign in', async({ videoPage }) => {
     await videoPage.dislikeButton.click();
     
     // Assert sign in prompt is visible
-    await expect(videoPage.page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?')).toBeVisible();
+    const signInPrompt = videoPage.page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?');
+    await expect(signInPrompt).toBeVisible();
 });
 
 test('Clicking share button opens a popup with 15 media platforms', async({ videoPage }) => {
@@ -69,7 +73,8 @@ test('Clicking share button opens a popup with 15 media platforms', async({ vide
     await videoPage.shareButton.click();
 
     // Assert popup menu is visible
-    await expect(videoPage.page.getByRole('listbox')).toBeVisible();
+    const popupMenu = videoPage.page.getByRole('listbox');
+    await expect(popupMenu).toBeVisible();
 
     // Assert 15 media links are visible
     const socialsList = await videoPage.page.getByLabel('Select an application to share with').locator('yt-share-target-renderer').all();
@@ -84,10 +89,12 @@ test('Clicking more actions button opens a menu', async({ videoPage }) => {
     await videoPage.moreActionsButton.click();
 
     // Assert one menu item pops up
-    await expect(videoPage.page.getByRole('menuitem')).toHaveCount(1);
+    const menuItemLocator = videoPage.page.getByRole('menuitem');
+    await expect(menuItemLocator).toHaveCount(1);
 
     // Assert Report menu item is visible
-    await expect(videoPage.page.getByText('Report')).toBeVisible();
+    const reportButton = menuItemLocator.getByText('Report');
+    await expect(reportButton).toBeVisible();
 });
 
 test('Assert video description', async({ videoPage }) => {

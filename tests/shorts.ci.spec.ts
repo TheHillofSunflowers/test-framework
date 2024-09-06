@@ -12,7 +12,8 @@ test('Clicking like button should prompt sign in', async({ shortsPage }) => {
     await shortsPage.likeButton.click();
 
     // Assert sign in prompt
-    await expect(shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
+    const signInPrompt = shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Like this video?');
+    await expect(signInPrompt).toBeVisible();
 });
 
 test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
@@ -22,7 +23,8 @@ test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
     await shortsPage.dislikeButton.click();
 
     // Assert sign in prompt
-    await expect(shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?')).toBeVisible();
+    const signInPrompt = shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?');
+    await expect(signInPrompt).toBeVisible();
 });
 
 test('Clicking comments button should open the comment section with an X button', async({ shortsPage }) => {
@@ -33,7 +35,8 @@ test('Clicking comments button should open the comment section with an X button'
         await shortsPage.commentsButton.click();
 
         // Assert comments section is visible
-        await expect(shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments')).toBeVisible();
+        const commentsTitle = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments');
+        await expect(commentsTitle).toBeVisible();
 
         // Close comments section
         await shortsPage.page.getByRole('button', { name: 'Close' }).click();
@@ -47,7 +50,8 @@ test('Clicking share button opens a popup with 12 social media platforms', async
     await shortsPage.clickShareButton();
 
     // Assert popup menu is visible
-    await expect(shortsPage.page.getByRole('listbox')).toBeVisible();
+    const popupMenu = shortsPage.page.getByRole('listbox');
+    await expect(popupMenu).toBeVisible();
 
     // Assert 12 social media links are visible
     const socialsList = await shortsPage.page.getByLabel('Select an application to share with').locator('yt-share-target-renderer').all();
@@ -97,8 +101,9 @@ test('Next and Previous Buttons Navigate Correctly', async({ shortsPage }) => {
     await clickPlay();
 
     // Check previous short in the shorts inner container
-    await expect(shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container')).toHaveAttribute('style', /.+frame0\.jpg/);
-    const currentThumbnail = await (shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container')).getAttribute('style');
+    const previousShort = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container');
+    await expect(previousShort).toHaveAttribute('style', /.+frame0\.jpg/);
+    const currentThumbnail = await (previousShort).getAttribute('style');
     
     // Assert that the previous short is the first short and not the second
     expect(currentThumbnail).toBe(firstThumbnail);

@@ -43,22 +43,29 @@ test.describe('YouTube Header Tests', () => {
         await homePage.page.goto('https://www.youtube.com/feed/subscriptions');
 
         // Assert logo is visible
-        await expect(homePage.page.locator('.image > .yt-icon-shape > div > svg')).toBeVisible();
+        const logoSVG = homePage.page.locator('.image > .yt-icon-shape > div > svg');
+        await expect(logoSVG).toBeVisible();
 
         // Assert log in prompt is visible
-        await expect(homePage.page.getByText('Don’t miss new videos')).toBeVisible();
-        await expect(homePage.page.getByText('Sign in to see updates from your favorite YouTube channels')).toBeVisible();
+        const title = homePage.page.getByText('Don’t miss new videos');
+        await expect(title).toBeVisible();
+
+        const subtitle = homePage.page.getByText('Sign in to see updates from your favorite YouTube channels');
+        await expect(subtitle).toBeVisible();
 
         // Assert sign in button is visible
-        await expect(homePage.page.locator('#page-manager').getByLabel('Sign in')).toBeVisible();
+        const signInButton = homePage.page.locator('#page-manager').getByLabel('Sign in');
+        await expect(signInButton).toBeVisible();
     });
 
     test('Settings button leads to Google log in page', async({ homePage }) => {
         // Open settings menu
-        await homePage.page.locator('#buttons').getByLabel('Settings').click();
+        const settingsMenuButton = homePage.page.locator('#buttons').getByLabel('Settings');
+        await settingsMenuButton.click();
 
         // Click settings button
-        await homePage.page.locator('tp-yt-paper-item').filter({ hasText: 'Settings' }).click();
+        const settingsButton = homePage.page.locator('tp-yt-paper-item').filter({ hasText: 'Settings' });
+        await settingsButton.click();
 
         // Assert navigation by URL change
         await expect(homePage.page).not.toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/?/);

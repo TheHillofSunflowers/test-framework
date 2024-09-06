@@ -50,7 +50,8 @@ test('Can filter search results', async({ searchResultsPage }) => {
     await searchResultsPage.filterButton.click();
 
     // Assert filters are visible
-    await expect(searchResultsPage.page.locator('yt-formatted-string').filter({ hasText: 'Search filters' })).toBeVisible();
+    const filtersMenu = searchResultsPage.page.locator('yt-formatted-string').filter({ hasText: 'Search filters' });
+    await expect(filtersMenu).toBeVisible();
 
     // Declare variables for the filter table
     const columns = await searchResultsPage.getFilterColumns();
@@ -88,7 +89,8 @@ test('Can filter search results', async({ searchResultsPage }) => {
     await expect(liveFilter).toHaveClass(/selected/);
 
     // Dismiss filter
-    await searchResultsPage.page.getByTitle('Remove Live filter').click();
+    const dismissLiveFilterButton = searchResultsPage.page.getByTitle('Remove Live filter');
+    await dismissLiveFilterButton.click();
     await searchResultsPage.page.waitForTimeout(2000);
 
     // Open filter menu

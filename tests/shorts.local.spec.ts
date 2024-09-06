@@ -10,7 +10,8 @@ test('Clicking like button should prompt sign in', async({ shortsPage }) => {
     await shortsPage.likeButton.click();
 
     // Assert sign in prompt
-    await expect(shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Like this video?')).toBeVisible();
+    const signInPrompt = shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Like this video?');
+    await expect(signInPrompt).toBeVisible();
 });
 
 test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
@@ -18,7 +19,8 @@ test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
     await shortsPage.dislikeButton.click();
 
     // Assert sign in prompt
-    await expect(shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?')).toBeVisible();
+    const signInPrompt = shortsPage.page.locator('tp-yt-iron-dropdown').getByText('Don\'t like this video?');
+    await expect(signInPrompt).toBeVisible();
 });
 
 test('Clicking comments button should open the comment section with an X button', async({ shortsPage }) => {
@@ -26,7 +28,8 @@ test('Clicking comments button should open the comment section with an X button'
     await shortsPage.commentsButton.click();
 
     // Assert comments section is visible
-    await expect(shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments')).toBeVisible();
+    const commentsTitle = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments');
+    await expect(commentsTitle).toBeVisible();
 
     // Close comments section
     await shortsPage.page.getByRole('button', { name: 'Close' }).click();
@@ -37,7 +40,8 @@ test('Clicking share button opens a popup with 12 social media platforms', async
     await shortsPage.clickShareButton();
 
     // Assert popup menu is visible
-    await expect(shortsPage.page.getByRole('listbox')).toBeVisible();
+    const popupMenu = shortsPage.page.getByRole('listbox');
+    await expect(popupMenu).toBeVisible();
 
     // Assert 12 social media links are visible
     const socialsList = await shortsPage.page.getByLabel('Select an application to share with').locator('yt-share-target-renderer').all();
@@ -57,7 +61,6 @@ test('Clicking more actions button opens a menu', async({ shortsPage }) => {
 
 test('Next and Previous Buttons Navigate Correctly', async({ shortsPage }) => {
     // Wait for page to navigate
-    //await shortsPage.page.waitForURL(await shortsPage.regex());
 
     // Get first shorts title
     const firstTitle = await shortsPage.page.title();
