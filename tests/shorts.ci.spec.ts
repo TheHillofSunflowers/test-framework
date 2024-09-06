@@ -101,9 +101,12 @@ test('Next and Previous Buttons Navigate Correctly', async({ shortsPage }) => {
     await clickPlay();
 
     // Check previous short in the shorts inner container
-    const previousShort = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container');
-    await expect(previousShort).toHaveAttribute('style', /.+frame0\.jpg/);
-    const currentThumbnail = await (previousShort).getAttribute('style');
+    await expect(shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container')).toHaveAttribute('style', /.+frame0\.jpg/);
+    const currentThumbnail = await (shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container')).getAttribute('style');
+
+    //const previousShort = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator--}"]`).locator('.player-container');
+    //await expect(previousShort).toHaveAttribute('style', /.+frame0\.jpg/);
+    //const currentThumbnail = await (previousShort).getAttribute('style');
     
     // Assert that the previous short is the first short and not the second
     expect(currentThumbnail).toBe(firstThumbnail);
