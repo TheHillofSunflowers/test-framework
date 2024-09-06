@@ -13,7 +13,7 @@ test('Assert channel uploader', async({ videoPage }) => {
     await expect(videoPage.channelName).toHaveText('Porter Robinson');
 });
 
-test('Assert channel links', async({ videoPage }) => {
+test('Assert channel links @flaky', async({ videoPage }) => {
     // Assert that channel name and channel avatar link to their respective URLs
     expect(await videoPage.getChannelLink()).toBe('/channel/UCKKKYE55BVswHgKihx5YXew');
     expect(await videoPage.getAvatarLink()).toBe('/@porterrobinson');
@@ -33,7 +33,7 @@ test('Assert channel links', async({ videoPage }) => {
     // Wait for page to load
     await videoPage.page.waitForTimeout(2000);
 
-    // Assert navigation to respective channel link
+    // Assert navigation to respective channel link (Flaky)
     expect(videoPage.page).toHaveURL('/@porterrobinson');
 });
 
