@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { testPlanFilter } from 'allure-playwright/testplan';
 
 /**
  * Read environment variables from file.
@@ -20,8 +21,9 @@ module.exports = defineConfig({
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 4 : undefined,
+  grep: testPlanFilter(),
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI ? 'blob' : 'html',
+  reporter: process.env.CI ? 'allure-playwright' : 'blob',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
