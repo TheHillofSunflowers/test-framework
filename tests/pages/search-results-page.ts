@@ -28,6 +28,7 @@ export class SearchResultsPage extends BasePage {
 
     // Navigate to appropriate search results page
     async goto(search?: string): Promise<void> {
+        console.log('Navigating to search results page...');
         if (search) {
             this.setSearch(search);
         }

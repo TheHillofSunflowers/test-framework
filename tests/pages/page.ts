@@ -17,11 +17,13 @@ export abstract class BasePage {
 
     // Clicks YouTube logo home button
     async clickHomeButton(): Promise<void> {
+        console.log('Clicking home button...')
         await this.homeButton.click();
     }
 
     // Opens hamburger guide menu
     async openGuideMenu(): Promise<void> {
+        console.log('Opening guide menu...')
         await this.guide.click();
     }
 
@@ -31,6 +33,7 @@ export abstract class BasePage {
 
     // Click search button
     async submitSearch(): Promise<void> {
+        console.log('Clicking search button thrice...')
         await this.searchButton.click();
         await this.searchButton.click();
         await this.searchButton.click(); // Three separate clicks for it to go through
@@ -38,12 +41,14 @@ export abstract class BasePage {
 
     // Input string into search bar and submit
     async searchQuery(input: string): Promise<void> {
+        console.log(`Searching for ${input} ...`);
         await this.page.getByPlaceholder('Search').fill(input);
         await this.submitSearch();
     }
 
     // Clicks search with voice button
     async clickVoiceButton(): Promise<void> {
+        console.log('Clicking voice button...');
         await this.voiceButton.click();
     }
 
@@ -57,6 +62,7 @@ export abstract class BasePage {
 
     // Opens guide menu and clicks indicated button
     async navigateToGuideItem(page: 'Home' | 'Shorts' | 'Subscriptions' | 'You' | 'History'): Promise<void> {
+        console.log(`Navigating to ${page}...`);
         await this.openGuideMenu();
         await this.page.locator('#sections').getByTitle(`${page}`, { exact: true }).click(); // On firefox/webkit, 'Home' will not close the guide
         await this.page.waitForTimeout(2000);

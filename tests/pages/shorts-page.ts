@@ -34,25 +34,30 @@ export class ShortsPage extends BasePage {
 
     // Navigate to ShortsPage
     async goto(): Promise<void> {
+        console.log('Navigating to shorts page...');
         await this.page.goto('https://www.youtube.com/shorts/');
+        console.log('Waiting for shorts to load...');
         await this.page.waitForURL(await this.regex());
         this.shortsIterator = 0;
     }
 
     // Clicks next short button
     async navigateToNextShort(): Promise<void> {
+        console.log('Navigating to next short...');
         await this.nextShortButton.click();
         this.shortsIterator++;
     }
 
     // Clicks previous short button
     async navigateToPreviousShort(): Promise<void> {
+        console.log('Navigating to previous short...');
         await this.previousShortButton.click();
         this.shortsIterator--;
     }
 
     // Function to keep iterator consistent when clicking forward button
     async goForward(): Promise<void> {
+        console.log('Clicking browser forward button...');
         await this.page.goForward({ waitUntil: 'networkidle' });
         if (await this.previousShortButton.isHidden()) {
             this.shortsIterator = 0;
@@ -63,6 +68,7 @@ export class ShortsPage extends BasePage {
 
     // Function to keep iterator consistent when clicking back button
     async goBack(): Promise<void> {
+        console.log('Clicking browser back button...');
         await this.page.goBack({ waitUntil: 'networkidle' });
         if (await this.previousShortButton.isHidden()) {
             this.shortsIterator = 0;
@@ -73,6 +79,7 @@ export class ShortsPage extends BasePage {
 
     // Click share button
     async clickShareButton(): Promise<void> {
+        console.log('Clicking share button...');
         await this.page.locator(`[id="\\3${this.shortsIterator}"]`).getByRole('button', { name: 'Share' }).click();
     }
 

@@ -19,6 +19,7 @@ export class HomePage extends BasePage {
 
     // Navigate to base URL (youtube.com)
     async goto(): Promise<void> {
+        console.log('Navigating to home page...');
         await this.page.goto('/');
     }
 

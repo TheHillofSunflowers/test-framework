@@ -61,7 +61,9 @@ export class VideoPage extends BasePage {
 
     // Navigate to appropriate video page
     async goto(URL?: string): Promise<void> {
+        console.log('Navigating to specific video page...');
         await this.page.goto(URL ?? this.videoLink);
+        console.log('Waiting for video page to load...');
         await this.page.waitForURL(await this.regex());
     }
 
