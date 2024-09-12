@@ -70,8 +70,8 @@ jobs:
         path: all-blob-reports
         pattern: blob-report-*
         merge-multiple: true
-    - name: Merge into HTML Report
-      run: npx playwright merge-reports --reporter html ./all-blob-reports
+    #- name: Merge into HTML Report
+    #  run: npx playwright merge-reports --reporter html ./all-blob-reports
     #- name: Setup Pages
     #  uses: actions/configure-pages@v5
     - name: Upload HTML report
