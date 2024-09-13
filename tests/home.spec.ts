@@ -45,6 +45,7 @@ test('Get Started Message is visible on landing', async({ homePage }) => {
 test.describe('Offline page test', () => {
     test.beforeEach(async({ homePage }) => {
         // Set browser context to offline
+        console.log('Turning network connection off...');
         await homePage.page.context().setOffline(true);
     
         // Reload home page
@@ -60,6 +61,7 @@ test.describe('Offline page test', () => {
         const responsePromise = homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false', {timeout: 1000}).catch(() => null);
 
         // Click Retry button
+        console.log('Clicking Retry button...');
         await expect(homePage.retryConnectionButton).toBeVisible();
         await homePage.retryConnectionButton.click();
     
@@ -72,7 +74,8 @@ test.describe('Offline page test', () => {
     });
     
     test('Assert that the offline Retry button will receive a status 200 response when online', async({ homePage}) => {
-        // Set browser context to offline
+        // Set browser context to online
+        console.log('Turning network connection on...');
         await homePage.page.context().setOffline(true);
     
         // Reload home page
@@ -85,6 +88,7 @@ test.describe('Offline page test', () => {
         const responsePromise = homePage.page.waitForResponse('https://www.youtube.com/youtubei/v1/browse?prettyPrint=false');
     
         // Click Retry button, catch if button has already been detached due to automatic reconnection
+        console.log('Attempting to click Retry button...');
         await homePage.retryConnectionButton.click({timeout: 3000}).catch(async() => await expect(homePage.retryConnectionButton).toBeAttached({attached: false}));
     
         // Assert network response was successful

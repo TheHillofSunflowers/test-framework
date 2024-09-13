@@ -19,6 +19,7 @@ test('Assert channel links @flaky', async({ videoPage }) => {
     expect(await videoPage.getAvatarLink()).toBe('/@porterrobinson');
 
     // Click channel name
+    console.log('Clicking channel name...');
     await videoPage.channelName.click();
 
     // Assert navigation to channel link
@@ -28,6 +29,7 @@ test('Assert channel links @flaky', async({ videoPage }) => {
     await videoPage.page.goBack();
 
     // Click channel avatar
+    console.log('Clicking channel avatar...');
     await videoPage.avatar.click();
 
     // Wait for page to load
@@ -39,6 +41,7 @@ test('Assert channel links @flaky', async({ videoPage }) => {
 
 test('Clicking subscribe button should prompt log in', async({ videoPage }) => {
     // Click subscribe button next to uploader's channel
+    console.log('Clicking subscribe button...');
     await videoPage.subscribeButton.click();
 
     // Assert sign in prompt is visible
@@ -52,6 +55,7 @@ test('Clicking subscribe button should prompt log in', async({ videoPage }) => {
 
 test('Clicking like button should prompt sign in', async({ videoPage }) => {
     // Click like button
+    console.log('Clicking like button...');
     await videoPage.likeButton.click();
 
     // Assert sign in prompt is visible
@@ -61,6 +65,7 @@ test('Clicking like button should prompt sign in', async({ videoPage }) => {
 
 test('Clicking dislike button should prompt sign in', async({ videoPage }) => {
     // Click dislike button
+    console.log('Clicking dislike button...');
     await videoPage.dislikeButton.click();
     
     // Assert sign in prompt is visible
@@ -70,6 +75,7 @@ test('Clicking dislike button should prompt sign in', async({ videoPage }) => {
 
 test('Clicking share button opens a popup with 15 media platforms', async({ videoPage }) => {
     // Click share button
+    console.log('Clicking share button...');
     await videoPage.shareButton.click();
 
     // Assert popup menu is visible
@@ -81,11 +87,13 @@ test('Clicking share button opens a popup with 15 media platforms', async({ vide
     expect(socialsList).toHaveLength(15);
 
     // Close menu
+    console.log('Closing share menu...');
     await videoPage.page.getByLabel('Cancel').click();
 });
 
 test('Clicking more actions button opens a menu', async({ videoPage }) => {
     // Click more actions button
+    console.log('Clicking more actions button...');
     await videoPage.moreActionsButton.click();
 
     // Assert one menu item pops up
@@ -107,6 +115,7 @@ test('Assert video description', async({ videoPage }) => {
     await expect(videoPage.description).toHaveText(/WORLDS 10th Anniversary Edition ft. Hollowheart \+\+ AND!! \+\+ Worlds Live, printed to Vinyl for the first time ever!/);
 
     // Extend description by clicking
+    console.log('Extending description...');
     await videoPage.description.click();
 
     // Assert hidden description message is visible
@@ -118,6 +127,7 @@ test('Comment section will display an accurate count of comments', async({ video
     await videoPage.page.waitForTimeout(1000);
 
     // Scroll down
+    console.log('Scrolling down 500px...');
     await videoPage.page.mouse.wheel(0, 500);
 
     // Convert commas from number and use unary operator to convert to an int
@@ -137,6 +147,7 @@ test('Assert related videos details', async({ videoPage }) => {
     for (const video of relatedVideosList) {
         // Locate thumbnail
         const thumbnail = video.locator('#dismissible a').nth(0);
+        console.log('Hovering cursor over thumbnail...');
         await thumbnail.hover();
         await expect(thumbnail).toHaveId('thumbnail');
 

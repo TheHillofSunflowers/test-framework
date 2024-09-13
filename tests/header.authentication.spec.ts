@@ -8,13 +8,16 @@ test.beforeEach(async ({ homePage }) => {
 
 test.beforeEach(async({ page }) => {
     // Load the saved cookies and local storage
+    console.log('Grabbing cookies and local storage...');
     const cookies = JSON.parse(fs.readFileSync('cookies.json', 'utf8'));
     const localStorage = JSON.parse(fs.readFileSync('localStorage.json', 'utf8'));
   
+    console.log('Loading cookies...');
     await page.context().addCookies(cookies);
     await page.goto('/');
   
     // Load local storage
+    console.log('Loading local storage...');
     await page.evaluate((storage) => {
       for (const [key, value] of Object.entries(storage)) {
         window.localStorage.setItem(key, value as string);
@@ -22,6 +25,7 @@ test.beforeEach(async({ page }) => {
     }, localStorage);
   
     // Navigate to ensure the session is recognized
+    console.log('Reloading page...');
     await page.reload();
   });
   
@@ -30,6 +34,7 @@ test.beforeEach(async({ page }) => {
     expect(await homePage.getLoginButton()).not.toBeVisible;
 
     // Open account menu
+    console.log('Opening account menu...');
     await (await homePage.getAccountMenu()).click();
 
     // Assert correct account log in
@@ -51,6 +56,7 @@ test.beforeEach(async({ page }) => {
     const channel = channelSearches[0];
 
     // Subscribe to first channel result
+    console.log('Subscribing to first channel result...');
     const subscribeButton = channel.locator('#subscribe-button');
     await subscribeButton.click();
 
@@ -61,6 +67,7 @@ test.beforeEach(async({ page }) => {
     });
 
     // Refresh page
+    console.log('Reloading page...');
     await searchResultsPage.page.reload();
 
     // Open guide menu
@@ -73,6 +80,7 @@ test.beforeEach(async({ page }) => {
     await expect(filteredChannel.locator('a')).toHaveAttribute('title', 'Porter Robinson');
 
     // Click all subscriptions button
+    console.log('Clicking All Subscriptions button...');
     const allSubscriptionsEntry = subscriptionsListEntryLocator.filter({ hasText: 'All subscriptions' });
     await allSubscriptionsEntry.click();
 
@@ -87,13 +95,16 @@ test.beforeEach(async({ page }) => {
     // Set up handler for unsubscribe pop up
     const unsubscribePopup = searchResultsPage.page.locator('yt-confirm-dialog-renderer').filter({hasText: /Unsubscribe from/});
     await searchResultsPage.page.addLocatorHandler(unsubscribePopup, async() => {
+      console.log('Confirming unsubcribing...');
       await unsubscribePopup.locator('#confirm-button').click();
     });
 
     // Unsubscribe from channel
+    console.log('Opening subscribe button dropdown...');
     await filteredSubscriptionSubscribeButton.scrollIntoViewIfNeeded();
     await filteredSubscriptionSubscribeButton.click();
     const unsubscribeButton = searchResultsPage.page.locator('ytd-menu-popup-renderer').getByRole('listbox').locator('ytd-menu-service-item-renderer').filter({ hasText: 'Unsubscribe' });
+    console.log('Clicking unsubscribe button...');
     await unsubscribeButton.click();
 
     // Assert Subscription removed popup appears
@@ -124,6 +135,7 @@ test.beforeEach(async({ page }) => {
     const channel = channelSearches[0];
 
     // Subscribe to first channel result
+    console.log('Subscribing to first channel result...');
     const subscribeButton = channel.locator('#subscribe-button');
     await subscribeButton.click();
 
@@ -138,8 +150,10 @@ test.beforeEach(async({ page }) => {
     await searchResultsPage.openGuideMenu();
     const subscriptionsList = searchResultsPage.page.locator('#guide ytd-guide-section-renderer').filter({ hasText: /Subscriptions/});
     const subscriptionsListEntryLocator = subscriptionsList.locator('ytd-guide-entry-renderer');
+    console.log('Clicking channel in subscriptions list...');
     const filteredChannel = subscriptionsListEntryLocator.filter({ hasText: 'Porter Robinson' });
     await filteredChannel.click();
+    console.log('Unsubscribing to channel...');
     const subscribedButton = searchResultsPage.page.getByRole('button').getByText(/Subscribed/);
     await subscribedButton.click();
   })

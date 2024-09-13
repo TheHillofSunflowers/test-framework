@@ -20,6 +20,7 @@ test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
     await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
 
     // Click dislike button
+    console.log('Clicking dislike button...');
     await shortsPage.dislikeButton.click();
 
     // Assert sign in prompt
@@ -32,6 +33,7 @@ test('Clicking comments button should open the comment section with an X button'
 
     // Click comments button
     if (await shortsPage.commentsButton.isVisible()) {
+        console.log('Clicking comments button...');
         await shortsPage.commentsButton.click();
 
         // Assert comments section is visible
@@ -39,6 +41,7 @@ test('Clicking comments button should open the comment section with an X button'
         await expect(commentsTitle).toBeVisible();
 
         // Close comments section
+        console.log('Closing comments section...');
         await shortsPage.page.getByRole('button', { name: 'Close' }).click();
     }
 });
@@ -58,6 +61,7 @@ test('Clicking share button opens a popup with 12 social media platforms', async
     expect(socialsList).toHaveLength(12);
 
     // Close menu
+    console.log('Closing share menu...');
     await shortsPage.page.getByLabel('Cancel').click();
 });
 
@@ -75,6 +79,7 @@ test('Next and Previous Buttons Navigate Correctly', async({ shortsPage }) => {
     // Function to click play if visible
     async function clickPlay(): Promise<void> {
         if (await shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).isVisible()) {
+            console.log('Clicking play...');
             await shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByLabel('Play', { exact: true }).click();
         }
     }

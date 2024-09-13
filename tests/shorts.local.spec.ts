@@ -16,6 +16,7 @@ test('Clicking like button should prompt sign in', async({ shortsPage }) => {
 
 test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
     // Click dislike button
+    console.log('Clicking dislike button...');
     await shortsPage.dislikeButton.click();
 
     // Assert sign in prompt
@@ -25,6 +26,7 @@ test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
 
 test('Clicking comments button should open the comment section with an X button', async({ shortsPage }) => {
     // Click comments button
+    console.log('Clicking comments button...');
     await shortsPage.commentsButton.click();
 
     // Assert comments section is visible
@@ -32,6 +34,7 @@ test('Clicking comments button should open the comment section with an X button'
     await expect(commentsTitle).toBeVisible();
 
     // Close comments section
+    console.log('Closing comments section...');
     await shortsPage.page.getByRole('button', { name: 'Close' }).click();
 });
 
@@ -48,6 +51,7 @@ test('Clicking share button opens a popup with 12 social media platforms', async
     expect(socialsList).toHaveLength(12);
 
     // Close menu
+    console.log('Closing share menu...');
     await shortsPage.page.getByLabel('Cancel').click();
 });
 
@@ -60,8 +64,6 @@ test('Clicking more actions button opens a menu', async({ shortsPage }) => {
 });
 
 test('Next and Previous Buttons Navigate Correctly', async({ shortsPage }) => {
-    // Wait for page to navigate
-
     // Get first shorts title
     const firstTitle = await shortsPage.page.title();
 
@@ -96,12 +98,14 @@ test('Clicking on video toggles pause/play', async({ shortsPage }) => {
     await expect(shortsPage.shortsPlayer).toHaveClass(/playing-mode/);
 
     // Click shorts video
+    console.log('Pausing shorts video...');
     await shortsPage.shortsPlayer.click();
 
     // Assert shorts has paused
     await expect(shortsPage.shortsPlayer).toHaveClass(/paused-mode/);
 
     // Click shorts video
+    console.log('Playing shorts video...');
     await shortsPage.shortsPlayer.click();
 
     // Assert shorts is playing again
@@ -116,6 +120,7 @@ test('Mute button sets volume to 0%', async({ shortsPage }) => {
     await expect(shortsPage.volume).toHaveAttribute('style', '--gradient-percent: 100%;');
 
     // Click mute button
+    console.log('Clicking mute button...');
     await shortsPage.volumeButton.click();
 
     // Assert unmute button

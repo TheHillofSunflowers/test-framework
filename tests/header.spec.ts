@@ -8,7 +8,7 @@ test.beforeEach(async ({ homePage }) => {
 test.describe('YouTube Header Tests', () => {
     test('Home Button navigates to home', async({ homePage }) => {
         // Click YouTube logo home button
-        await homePage.homeButton.click();
+        await homePage.clickHomeButton();
 
         // Assert appropriate URL
         await expect(homePage.page).toHaveURL(/^https?:\/\/(www\.)?youtube\.com\/?/);
@@ -40,7 +40,7 @@ test.describe('YouTube Header Tests', () => {
         await expect(await homePage.getLoginButton()).toBeVisible();
 
         // Navigate to Subscriptions page
-        await homePage.page.goto('https://www.youtube.com/feed/subscriptions');
+        await homePage.navigateToGuideItem('Subscriptions');
 
         // Assert logo is visible
         const logoSVG = homePage.page.locator('.image > .yt-icon-shape > div > svg');
@@ -60,10 +60,12 @@ test.describe('YouTube Header Tests', () => {
 
     test('Settings button leads to Google log in page', async({ homePage }) => {
         // Open settings menu
+        console.log('Opening settings menu...');
         const settingsMenuButton = homePage.page.locator('#buttons').getByLabel('Settings');
         await settingsMenuButton.click();
 
         // Click settings button
+        console.log('Clicking Settings button...');
         const settingsButton = homePage.page.locator('tp-yt-paper-item').filter({ hasText: 'Settings' });
         await settingsButton.click();
 

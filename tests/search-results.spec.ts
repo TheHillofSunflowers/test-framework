@@ -26,13 +26,14 @@ test('Search results contain clickable videos with thumbnails', async({ searchRe
 
     // Locate the first few dynamically loaded results
     const searchResultsList = await searchResultsPage.getVideoSearchResultsList();
-    console.log(searchResultsList.length);
+    console.log(searchResultsList.length + ' results loaded...');
     expect(searchResultsList.length).toBeGreaterThan(0);
 
     // Loop through located results
     for(const result of searchResultsList) {
         // Locate thumbnail
         const thumbnail = result.locator('#dismissible a').nth(0);
+        console.log('Hovering cursor over thumbnail...');
         await thumbnail.hover();
         await expect(thumbnail).toHaveId('thumbnail');
 
@@ -46,6 +47,7 @@ test('Search results contain clickable videos with thumbnails', async({ searchRe
 
 test('Can filter search results', async({ searchResultsPage }) => {
     // Open filter menu
+    console.log('Opening filter menu...');
     await searchResultsPage.filterButton.isVisible();
     await searchResultsPage.filterButton.click();
 
@@ -70,6 +72,7 @@ test('Can filter search results', async({ searchResultsPage }) => {
     const liveFilter = featuresRows[0];
 
     // Apply Live filter
+    console.log('Applying Live filter...');
     await liveFilter.locator('a').click();
     await searchResultsPage.page.waitForTimeout(2000);
 
@@ -82,18 +85,21 @@ test('Can filter search results', async({ searchResultsPage }) => {
         await expect(liveBadges[i]).toBeVisible();
     }
 
-    // Apply filter
+    // Open filter menu
+    console.log('Opening filter menu...');
     await searchResultsPage.filterButton.click();
 
     // Assert filter is selected
     await expect(liveFilter).toHaveClass(/selected/);
 
     // Dismiss filter
+    console.log('Removing Live filter...');
     const dismissLiveFilterButton = searchResultsPage.page.getByTitle('Remove Live filter');
     await dismissLiveFilterButton.click();
     await searchResultsPage.page.waitForTimeout(2000);
 
     // Open filter menu
+    console.log('Opening filter menu...');
     await searchResultsPage.filterButton.click();
 
     // Assert filter is no longer selected
