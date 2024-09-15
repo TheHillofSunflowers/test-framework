@@ -12,7 +12,7 @@ require('dotenv').config();
  */
 module.exports = defineConfig({
   testDir: './tests',
-  testIgnore: /(.ci.)|(authentication.)/,
+  testIgnore: /(.ci.)|(setup)/,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -44,8 +44,6 @@ module.exports = defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
         launchOptions: {
-          // BrowserType Options to allow for Google account log in
-          headless: true,
           args: ['--disable-blink-features=AutomationControlled'],
         },
       },
@@ -55,8 +53,6 @@ module.exports = defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'],
         launchOptions: {
-          // BrowserType Options to allow for Google account log in
-          headless: true,
           args: ['--disable-blink-features=AutomationControlled'],
         },
       },

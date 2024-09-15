@@ -9,8 +9,8 @@ test.beforeEach(async ({ homePage }) => {
 test.beforeEach(async({ page }) => {
     // Load the saved cookies and local storage
     console.log('Grabbing cookies and local storage...');
-    const cookies = JSON.parse(fs.readFileSync('cookies.json', 'utf8'));
-    const localStorage = JSON.parse(fs.readFileSync('localStorage.json', 'utf8'));
+    const cookies = JSON.parse(fs.readFileSync('tests/auth/cookies.json', 'utf8'));
+    const localStorage = JSON.parse(fs.readFileSync('tests/auth/localStorage.json', 'utf8'));
   
     console.log('Loading cookies...');
     await page.context().addCookies(cookies);
