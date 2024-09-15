@@ -3,7 +3,7 @@ import { test } from './fixtures/fixtures';
 
 test.use({ javaScriptEnabled: false, headless: false });
 
-test('Assert JavaScript disabled functionality', async({ homePage }) => {
+test('Assert Home Page JS disabled appearance', async({ homePage }) => {
     // Navigate to home page
     homePage.goto();
 
@@ -14,7 +14,7 @@ test('Assert JavaScript disabled functionality', async({ homePage }) => {
     await expect(homePage.page).toHaveScreenshot('homeJSDisabled.png');
 });
 
-test('Assert Video Page JS Disabled', async({ videoPage }) => {
+test('Assert Video Page JS disabled appearance', async({ videoPage }) => {
     // Navigate to video page
     videoPage.goto();
 
