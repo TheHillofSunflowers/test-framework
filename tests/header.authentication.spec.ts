@@ -30,7 +30,7 @@ test('Assert Signed In State', async({ homePage }) => {
 
   // Assert correct account log in
   const displayedUsername = homePage.page.locator('ytd-multi-page-menu-renderer #header'); 
-  expect(displayedUsername).toHaveText(/solorioth@gmail.com/);
+  expect(displayedUsername).toHaveText(/sunflowerstest1337@gmail.com/);
 });
 
 test('Assert subscribing action', async({ homePage, searchResultsPage }, testInfo) => {

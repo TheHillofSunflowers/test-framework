@@ -42,12 +42,23 @@ module.exports = defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup',
+      testMatch: /setup\.authentication\.ts/,
+      use: {...devices['Desktop Chrome'],
+        launchOptions: {
+          args: ['--disable-blink-features=AutomationControlled'],
+        },
+      },
+    },
+
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'],
         launchOptions: {
           args: ['--disable-blink-features=AutomationControlled'],
         },
       },
+      dependencies: ['setup'],
     },
 
     {
@@ -57,11 +68,13 @@ module.exports = defineConfig({
           args: ['--disable-blink-features=AutomationControlled'],
         },
       },
+      dependencies: ['setup'],
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      dependencies: ['setup'],
     },
 
     /* Test against mobile viewports. */
