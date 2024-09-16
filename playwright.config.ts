@@ -37,6 +37,7 @@ module.exports = defineConfig({
       args: ['--disable-blink-features=AutomationControlled'],*/
     },
     trace: 'on-first-retry',
+    video: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */

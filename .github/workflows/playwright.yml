@@ -43,6 +43,13 @@ jobs:
       run: xvfb-run npx playwright test --config=playwright.ci.config.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       env:
         HOME: /root
+    - name: Upload videos to GitHub Actions Artifacts
+      if: ${{ !cancelled() }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: failed-test-recordings
+        path: test-results
+        retention-days: 30
     - name: Upload blob report to GitHub Actions Artifacts
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
