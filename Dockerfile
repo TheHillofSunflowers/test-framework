@@ -11,7 +11,7 @@
 
 FROM node:20-bookworm
 
-FROM mcr.microsoft.com/playwright:v1.46.1-jammy
+FROM mcr.microsoft.com/playwright:v1.47.1-noble
 
 # Set working directory
 WORKDIR /app
