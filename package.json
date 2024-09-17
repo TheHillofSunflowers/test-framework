@@ -6,6 +6,7 @@
   "scripts": {
     "test": "playwright test",
     "test-ci": "playwright test --config=playwright.ci.config.ts",
+    "allure": "allure serve allure-results",
     "test-html-report": "playwright test --browser=all --reporter=html",
     "test-json-report": "PLAYWRIGHT_JSON_OUTPUT_NAME=results.json playwright test --browser=chromium --reporter=json"
   },
