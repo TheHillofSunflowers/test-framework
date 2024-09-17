@@ -33,7 +33,7 @@ test('Assert channel links @flaky', async({ videoPage }) => {
     await videoPage.avatar.click();
 
     // Wait for page to load
-    await videoPage.page.waitForTimeout(2000);
+    await videoPage.page.waitForURL(/@/);
 
     // Assert navigation to respective channel link (Flaky)
     expect(videoPage.page).toHaveURL('/@porterrobinson');
