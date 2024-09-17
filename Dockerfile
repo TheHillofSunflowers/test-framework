@@ -9,7 +9,7 @@
 # docker build -t playwright-docker .
 # docker run -it --rm --ipc=host mcr.microsoft.com/playwright:v1.46.1-jammy /bin/bash
 
-FROM node:20-bookworm
+# FROM node:20-bookworm
 
 FROM mcr.microsoft.com/playwright:v1.47.1-noble
 
@@ -17,17 +17,13 @@ FROM mcr.microsoft.com/playwright:v1.47.1-noble
 WORKDIR /app
 
 # Copy package.jsons first to utilize Docker cache
-COPY package.json /app/
-COPY package-lock.json /app/
+COPY package.json package-lock.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy test code
-COPY tests /app/tests
-COPY playwright.config.ts /app/
-COPY playwright.ci.config.ts /app/
-COPY tsconfig.json /app/
+COPY tests playwright.config.ts tsconfig.json ./
 
 # Command to run tests
 CMD ["npx", "playwright", "test"]
