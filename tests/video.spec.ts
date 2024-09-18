@@ -29,7 +29,7 @@ test('Assert channel links @flaky', async({ videoPage }) => {
     await videoPage.page.goBack();
 
     // Wait for loading
-    await videoPage.page.waitForTimeout(1000);
+    await videoPage.page.reload();
 
     // Click channel avatar
     console.log('Clicking channel avatar...');
