@@ -40,9 +40,10 @@ jobs:
     - name: Run type checks
       run: npx tsc -p tsconfig.json --noEmit
     - name: Run Playwright tests
-      run: xvfb-run npx playwright test --config=playwright.ci.config.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
       env:
         HOME: /root
+        YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+      run: xvfb-run npx playwright test --config=playwright.ci.config.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     - name: Upload videos to GitHub Actions Artifacts
       if: ${{ !cancelled() }}
       uses: actions/upload-artifact@v4
