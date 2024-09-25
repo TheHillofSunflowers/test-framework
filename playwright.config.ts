@@ -23,7 +23,7 @@ module.exports = defineConfig({
   workers: process.env.CI ? 3 : undefined,
   grep: testPlanFilter(),
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI ? 'allure-playwright' : 'blob',
+  reporter: process.env.CI ? 'blob' : 'allure-playwright',
   snapshotDir: './artifacts',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

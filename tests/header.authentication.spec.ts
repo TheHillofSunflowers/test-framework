@@ -1,11 +1,11 @@
 import { test as base, expect } from '@playwright/test';
-import { test } from './fixtures/fixtures'
+import { test } from './fixtures/fixtures';
 import fs from 'fs';
 
 test.beforeEach(async({ homePage }) => {
   await homePage.goto();
 
-  // Load the saved cookies
+  // Get cookies and local storage
   console.log('Grabbing cookies...');
   const cookies = process.env.CI ? JSON.parse(process.env.COOKIES_JSON || '[]')
     : JSON.parse(fs.readFileSync('tests/auth/cookies.json', 'utf8'));
@@ -14,6 +14,7 @@ test.beforeEach(async({ homePage }) => {
   const localStorage = process.env.CI ? JSON.parse(process.env.LOCAL_STORAGE_JSON || '{}')
     : JSON.parse(fs.readFileSync('tests/auth/localStorage.json', 'utf8'));
   
+  // Load cookies and local storage
   console.log('Loading cookies...');
   await homePage.page.context().addCookies(cookies);
   await homePage.page.context().storageState(localStorage);
