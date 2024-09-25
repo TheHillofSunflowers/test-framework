@@ -2,8 +2,8 @@ import { test as base, expect } from '@playwright/test';
 import { test } from './fixtures/fixtures'
 import fs from 'fs';
 
-//if (process.env.CI) {
-  /*test.use({
+/*if (process.env.CI) {
+  test.use({
     storageState: async ({ page }) => {
       const localStorageData = process.env.LOCAL_STORAGE_JSON;
   
@@ -17,11 +17,11 @@ import fs from 'fs';
         }, storage);
       }
     }
-  });*/
-//  test.use({storageState: process.env.LOCAL_STORAGE_JSON});
-//} else {
-//  test.use({storageState: 'tests/auth/localStorage.json'});
-//}
+  });
+  test.use({storageState: process.env.LOCAL_STORAGE_JSON});
+} else {
+  test.use({storageState: 'tests/auth/localStorage.json'});
+}*/
 
 test.beforeEach(async({ homePage }) => {
   await homePage.goto();
