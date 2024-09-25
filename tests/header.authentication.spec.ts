@@ -2,14 +2,33 @@ import { test as base, expect } from '@playwright/test';
 import { test } from './fixtures/fixtures'
 import fs from 'fs';
 
-test.use({storageState: 'tests/auth/localStorage.json'});
+if (process.env.CI) {
+  test.use({
+    storageState: async ({ page }) => {
+      const localStorageData = process.env.LOCAL_STORAGE_JSON;
+  
+      if (localStorageData) {
+        const storage = JSON.parse(localStorageData);
+        // Inject localStorage data into the browser context
+        await page.evaluate(storage => {
+          for (const [key, value] of Object.entries(storage)) {
+            window.localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+          }
+        }, storage);
+      }
+    }
+  });
+} else {
+  test.use({storageState: 'tests/auth/localStorage.json'});
+}
 
 test.beforeEach(async({ homePage }) => {
   await homePage.goto();
 
   // Load the saved cookies
   console.log('Grabbing cookies...');
-  const cookies = JSON.parse(fs.readFileSync('tests/auth/cookies.json', 'utf8'));
+  const cookies = process.env.CI ? JSON.parse(process.env.COOKIES_JSON || '[]')
+    : JSON.parse(fs.readFileSync('tests/auth/cookies.json', 'utf8'));
   
   console.log('Loading cookies...');
   await homePage.page.context().addCookies(cookies);

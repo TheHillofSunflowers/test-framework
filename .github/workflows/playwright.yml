@@ -43,6 +43,8 @@ jobs:
       env:
         HOME: /root
         YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        COOKIES_JSON: ${{ secrets.COOKIES_JSON }}
+        LOCAL_STORAGE_JSON: ${{ secrets.LOCAL_STORAGE_JSON }}
       run: xvfb-run npx playwright test --config=playwright.ci.config.ts --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
     - name: Upload videos to GitHub Actions Artifacts
       if: ${{ !cancelled() }}
