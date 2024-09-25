@@ -2,27 +2,6 @@ import { test as base, expect } from '@playwright/test';
 import { test } from './fixtures/fixtures'
 import fs from 'fs';
 
-/*if (process.env.CI) {
-  test.use({
-    storageState: async ({ page }) => {
-      const localStorageData = process.env.LOCAL_STORAGE_JSON;
-  
-      if (localStorageData) {
-        const storage = JSON.parse(localStorageData);
-        // Inject localStorage data into the browser context
-        await page.evaluate(storage => {
-          for (const [key, value] of Object.entries(storage)) {
-            window.localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
-          }
-        }, storage);
-      }
-    }
-  });
-  test.use({storageState: process.env.LOCAL_STORAGE_JSON});
-} else {
-  test.use({storageState: 'tests/auth/localStorage.json'});
-}*/
-
 test.beforeEach(async({ homePage }) => {
   await homePage.goto();
 
