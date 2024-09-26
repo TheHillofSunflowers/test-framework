@@ -27,6 +27,7 @@ test.describe('Video API Tests', () => {
         const data = await response.json();
 
         // Get video details
+        const kind = data.items[0].kind;
         const apiID = data.items[0].id;
         const videoTitle = data.items[0].snippet.title;
         const description = data.items[0].snippet.description;
@@ -35,6 +36,7 @@ test.describe('Video API Tests', () => {
         const viewCount = data.items[0].statistics.viewCount;
     
         // Assert video details
+        expect(kind).toBe('youtube#video');
         expect(apiID).toBe(videoId);
         expect(videoTitle).toBe('Porter Robinson - Hollowheart ft. Amy Millan (Worlds 10th Anniversary Edition)');
         expect(description).toContain('WORLDS 10th Anniversary Edition ft. Hollowheart ++ AND!! ++ Worlds Live, printed to Vinyl for the first time ever!');
@@ -105,4 +107,40 @@ test.describe('Unauthorized API tests', () => {
         // Assert unauthorized status
         expect(response.status()).toBe(401);
     });
+});
+
+test('Fetch expected Caption through API', async({ request }) => {
+    const response = await request.get('https://www.googleapis.com/youtube/v3/captions', {
+        params: {
+            // Input random ID
+            part: 'id,snippet',
+            videoId: 'bdXPhRj10jQ',
+            key: apiKey,
+        },
+    });
+
+    expect(response.status()).toBe(200);
+    const data = await response.json();
+
+    const track1 = data.items[0];
+    const track2 = data.items[1];
+    const track3 = data.items[2];
+
+    // Assert details of fetched Caption data
+    for (let track of data.items) {
+        expect(track.kind).toBe('youtube#caption');
+        expect(track.snippet.videoId).toBe('bdXPhRj10jQ');
+    }
+
+    expect(track1.id).toBe('AUieDaZ1KfXJIEVAmnYAhaFV3s2f43XGj8vXYG2AZCsNqO2RZk4');
+    expect(track1.snippet.trackKind).toBe('asr');
+    expect(track1.snippet.language).toBe('en');
+
+    expect(track2.id).toBe('AUieDaacyEd-Rk1YQ87ymHDz8DZ6ZVa7w0JAwXlo8ep2');
+    expect(track2.snippet.trackKind).toBe('standard');
+    expect(track2.snippet.language).toBe('ja');
+
+    expect(track3.id).toBe('AUieDaZ9E6qdNbn746y8-gYVxRtRKGtdO00Tb2F733ya');
+    expect(track3.snippet.trackKind).toBe('standard');
+    expect(track3.snippet.language).toBe('en');
 });
