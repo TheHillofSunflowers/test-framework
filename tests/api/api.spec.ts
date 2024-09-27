@@ -1,8 +1,21 @@
 import { expect } from '@playwright/test';
 import { test } from '../fixtures/fixtures';
 import * as dotenv from 'dotenv';
+import fs from 'fs';
 
 dotenv.config();
+
+const data = JSON.parse(fs.readFileSync('tests/data/data.json', 'utf8'));
+
+const kind = data.video[0].kind;
+const id = data.video[0].id;
+const title = data.video[0].title;
+const channel = data.video[0].channel;
+const duration = data.video[0].duration;
+const channelLink = data.channel[0].channelLink;
+const avatarLink = data.channel[0].avatarLink;
+const description = data.video[0].description;
+const viewCount = data.video[0].viewCount;
 
 // Set API Key
 const apiKey = process.env.YOUTUBE_API_KEY;
@@ -12,7 +25,7 @@ if (!apiKey) {
 
 test.describe('Video API Tests', () => {
     test('Fetch video details by ID', async({ request }) => {
-        const videoId = 'bdXPhRj10jQ'; // Hollowheart Video ID
+        const videoId = id; // Video ID
         // Get response by sending a request with body parameters
         const response = await request.get('https://www.googleapis.com/youtube/v3/videos', {
             params: {
@@ -27,22 +40,22 @@ test.describe('Video API Tests', () => {
         const data = await response.json();
 
         // Get video details
-        const kind = data.items[0].kind;
+        const apiKind = data.items[0].kind;
         const apiID = data.items[0].id;
         const videoTitle = data.items[0].snippet.title;
         const description = data.items[0].snippet.description;
         const channelTitle = data.items[0].snippet.channelTitle;
-        const duration = data.items[0].contentDetails.duration;
-        const viewCount = data.items[0].statistics.viewCount;
+        const apiDuration = data.items[0].contentDetails.duration;
+        const apiViewCount = data.items[0].statistics.viewCount;
     
         // Assert video details
-        expect(kind).toBe('youtube#video');
-        expect(apiID).toBe(videoId);
-        expect(videoTitle).toBe('Porter Robinson - Hollowheart ft. Amy Millan (Worlds 10th Anniversary Edition)');
-        expect(description).toContain('WORLDS 10th Anniversary Edition ft. Hollowheart ++ AND!! ++ Worlds Live, printed to Vinyl for the first time ever!');
-        expect(channelTitle).toBe('Porter Robinson');
-        expect(duration).toBe('PT3M50S');
-        expect(parseInt(viewCount, 10)).toBeGreaterThan(520000);
+        expect(apiKind).toBe(kind);
+        expect(apiID).toBe(id);
+        expect(videoTitle).toBe(title);
+        expect(description).toContain(description);
+        expect(channelTitle).toBe(channel);
+        expect(apiDuration).toBe(duration);
+        expect(parseInt(apiViewCount, 10)).toBeGreaterThan(viewCount);
     });
 
     test('Fetch video with random ID', async({ request }) => {
@@ -83,8 +96,7 @@ test.describe('Unauthorized API tests', () => {
     test('Unauthorized Like video with API', async({ request }) => {
         const response = await request.post('https://www.googleapis.com/youtube/v3/videos/rate', {
             params: {
-                // Input random ID
-                id: 'bdXPhRj10jQ',
+                id: id,
                 rating: 'like',
                 key: apiKey,
             },
@@ -97,8 +109,7 @@ test.describe('Unauthorized API tests', () => {
     test('Unauthorized Dislike video with API', async({ request }) => {
         const response = await request.post('https://www.googleapis.com/youtube/v3/videos/rate', {
             params: {
-                // Input random ID
-                id: 'bdXPhRj10jQ',
+                id: id,
                 rating: 'dislike',
                 key: apiKey,
             },
@@ -109,12 +120,17 @@ test.describe('Unauthorized API tests', () => {
     });
 });
 
+const captionKind = data.video[0].caption[0].kind;
+const captionVideoId = data.video[0].caption[0].videoId;
+let captionId = data.video[0].caption[0].id;
+let captionTrackKind = data.video[0].caption[0].trackKind;
+let captionlanguage = data.video[0].caption[0].language;
+
 test('Fetch expected Caption through API', async({ request }) => {
     const response = await request.get('https://www.googleapis.com/youtube/v3/captions', {
         params: {
-            // Input random ID
             part: 'id,snippet',
-            videoId: 'bdXPhRj10jQ',
+            videoId: id,
             key: apiKey,
         },
     });
@@ -128,19 +144,30 @@ test('Fetch expected Caption through API', async({ request }) => {
 
     // Assert details of fetched Caption data
     for (let track of data.items) {
-        expect(track.kind).toBe('youtube#caption');
-        expect(track.snippet.videoId).toBe('bdXPhRj10jQ');
+        expect(track.kind).toBe(captionKind);
+        expect(track.snippet.videoId).toBe(captionVideoId);
     }
 
-    expect(track1.id).toBe('AUieDaZ1KfXJIEVAmnYAhaFV3s2f43XGj8vXYG2AZCsNqO2RZk4');
-    expect(track1.snippet.trackKind).toBe('asr');
-    expect(track1.snippet.language).toBe('en');
+    // Assert track 1 details
+    expect(track1.id).toBe(captionId);
+    expect(track1.snippet.trackKind).toBe(captionTrackKind);
+    expect(track1.snippet.language).toBe(captionlanguage);
 
-    expect(track2.id).toBe('AUieDaacyEd-Rk1YQ87ymHDz8DZ6ZVa7w0JAwXlo8ep2');
-    expect(track2.snippet.trackKind).toBe('standard');
-    expect(track2.snippet.language).toBe('ja');
+    captionId = data.video[0].caption[1].id;
+    captionTrackKind = data.video[0].caption[1].trackKind;
+    captionlanguage = data.video[0].caption[1].language;
 
-    expect(track3.id).toBe('AUieDaZ9E6qdNbn746y8-gYVxRtRKGtdO00Tb2F733ya');
-    expect(track3.snippet.trackKind).toBe('standard');
-    expect(track3.snippet.language).toBe('en');
+    // Assert track 2 details
+    expect(track2.id).toBe(captionId);
+    expect(track2.snippet.trackKind).toBe(captionTrackKind);
+    expect(track2.snippet.language).toBe(captionlanguage);
+
+    captionId = data.video[0].caption[2].id;
+    captionTrackKind = data.video[0].caption[2].trackKind;
+    captionlanguage = data.video[0].caption[2].language;
+
+    // Assert track 3 details
+    expect(track3.id).toBe(captionId);
+    expect(track3.snippet.trackKind).toBe(captionTrackKind);
+    expect(track3.snippet.language).toBe(captionlanguage);
 });

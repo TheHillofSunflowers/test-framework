@@ -2,6 +2,11 @@ import { test as base, expect } from '@playwright/test';
 import { test } from './fixtures/fixtures';
 import fs from 'fs';
 
+const data = JSON.parse(fs.readFileSync('tests/data/data.json', 'utf8'));
+
+const username = data.user[0].username;
+const channelName = data.channel[0].name;
+
 test.beforeEach(async({ homePage }) => {
   await homePage.goto();
 
@@ -35,14 +40,14 @@ test('Assert Signed In State', async({ homePage }) => {
 
   // Assert correct account log in
   const displayedUsername = homePage.page.locator('ytd-multi-page-menu-renderer #header'); 
-  expect(displayedUsername).toHaveText(/sunflowerstest1337@gmail.com/);
+  expect(displayedUsername).toHaveText(username);
 });
 
 test('Assert subscribing action', async({ homePage, searchResultsPage }, testInfo) => {
-  testInfo.setTimeout(testInfo.timeout + 90000);
+  testInfo.setTimeout(testInfo.timeout + 60000);
 
   // Search for channel to subscribe to
-  await homePage.searchQuery('Porter Robinson Channel');
+  await homePage.searchQuery(channelName + ' Channel');
 
   // Wait for page to load
   await homePage.page.waitForTimeout(2000);
@@ -72,8 +77,8 @@ test('Assert subscribing action', async({ homePage, searchResultsPage }, testInf
   // Assert subscribed channel shows in Subscriptions list in the Guide menu
   const subscriptionsList = searchResultsPage.page.locator('#guide ytd-guide-section-renderer').filter({ hasText: /Subscriptions/});
   const subscriptionsListEntryLocator = subscriptionsList.locator('ytd-guide-entry-renderer');
-  const filteredChannel = subscriptionsListEntryLocator.filter({ hasText: 'Porter Robinson' });
-  await expect(filteredChannel.locator('a')).toHaveAttribute('title', 'Porter Robinson');
+  const filteredChannel = subscriptionsListEntryLocator.filter({ hasText: channelName });
+  await expect(filteredChannel.locator('a')).toHaveAttribute('title', channelName);
 
   // Click all subscriptions button
   console.log('Clicking All Subscriptions button...');
@@ -83,7 +88,7 @@ test('Assert subscribing action', async({ homePage, searchResultsPage }, testInf
   await searchResultsPage.page.waitForTimeout(2000);
 
   // Assert subscription button text is Subscribed
-  const filteredSubscription = searchResultsPage.page.locator('#contents ytd-channel-renderer').filter({ hasText: /Porter Robinson/ }).nth(1);
+  const filteredSubscription = searchResultsPage.page.locator('#contents ytd-channel-renderer').filter({ hasText: channelName }).nth(1);
   const filteredSubscriptionSubscribeButton = filteredSubscription.locator('ytd-subscribe-button-renderer');
   await expect(filteredSubscription).toHaveText(/Subscribed/);
   await expect(filteredSubscriptionSubscribeButton).toHaveAttribute('subscribed');
@@ -114,14 +119,14 @@ test('Assert subscribing action', async({ homePage, searchResultsPage }, testInf
   await expect(filteredSubscription).not.toHaveAttribute('subscribed');
 
   // Assert subscribed channel leaves Subscriptions list
-  await expect(subscriptionsList.nth(1)).not.toHaveText(/Porter Robinson/);
+  await expect(subscriptionsList.nth(1)).not.toContainText(channelName);
 });
 
 test('Assert Subscriptions page has videos from subscribed channels', async({ homePage, searchResultsPage }, testInfo) => {
   testInfo.setTimeout(testInfo.timeout + 40000);
 
   // Search for channel to subscribe to
-  await homePage.searchQuery('Porter Robinson Channel');
+  await homePage.searchQuery(channelName + ' Channel');
 
   // Wait for page to load
   await homePage.page.waitForTimeout(1000);
@@ -140,14 +145,14 @@ test('Assert Subscriptions page has videos from subscribed channels', async({ ho
 
   // Assert that channel is present in the videos section
   const subscriptionsPageContents = searchResultsPage.page.locator('ytd-rich-grid-renderer > div').filter({ has: searchResultsPage.page.locator('#contents') }).filter({ hasText: /Latest/ });
-  await expect(subscriptionsPageContents).toHaveText(/Porter Robinson/);
+  await expect(subscriptionsPageContents).toContainText(channelName);
 
   // Unsubscribe from channel
   await searchResultsPage.openGuideMenu();
   const subscriptionsList = searchResultsPage.page.locator('#guide ytd-guide-section-renderer').filter({ hasText: /Subscriptions/});
   const subscriptionsListEntryLocator = subscriptionsList.locator('ytd-guide-entry-renderer');
   console.log('Clicking channel in subscriptions list...');
-  const filteredChannel = subscriptionsListEntryLocator.filter({ hasText: 'Porter Robinson' });
+  const filteredChannel = subscriptionsListEntryLocator.filter({ hasText: channelName });
   await filteredChannel.click();
   console.log('Unsubscribing to channel...');
   const subscribedButton = searchResultsPage.page.getByRole('button').getByText(/Subscribed/);

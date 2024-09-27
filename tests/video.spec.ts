@@ -1,29 +1,39 @@
 import { test as base, expect } from '@playwright/test';
 import { test } from './fixtures/fixtures'
+import fs from 'fs';
+
+const data = JSON.parse(fs.readFileSync('tests/data/data.json', 'utf8'));
+
+const title = data.video[0].title;
+const channel = data.video[0].channel;
+const description = data.video[0].description;
+const commentCount = data.video[0].commentCount;
+const channelLink = data.channel[0].channelLink;
+const avatarLink = data.channel[0].avatarLink;
 
 test.beforeEach(async ({ videoPage }) => {
     await videoPage.goto();
 });
 
 test('Assert video title', async({ videoPage}) => {
-    await expect(videoPage.title).toHaveText('Porter Robinson - Hollowheart ft. Amy Millan (Worlds 10th Anniversary Edition)');
+    await expect(videoPage.title).toHaveText(title);
 });
 
 test('Assert channel uploader', async({ videoPage }) => {
-    await expect(videoPage.channelName).toHaveText('Porter Robinson');
+    await expect(videoPage.channelName).toHaveText(channel);
 });
 
 test('Assert channel links @flaky', async({ videoPage }) => {
     // Assert that channel name and channel avatar link to their respective URLs
-    expect(await videoPage.getChannelLink()).toBe('/channel/UCKKKYE55BVswHgKihx5YXew');
-    expect(await videoPage.getAvatarLink()).toBe('/@porterrobinson');
+    expect(await videoPage.getChannelLink()).toBe(channelLink);
+    expect(await videoPage.getAvatarLink()).toBe(avatarLink);
 
     // Click channel name
     console.log('Clicking channel name...');
     await videoPage.channelName.click();
 
     // Assert navigation to channel link
-    expect(videoPage.page).toHaveURL('/channel/UCKKKYE55BVswHgKihx5YXew');
+    expect(videoPage.page).toHaveURL(channelLink);
 
     // Navigate to previous page
     await videoPage.page.goBack();
@@ -39,7 +49,7 @@ test('Assert channel links @flaky', async({ videoPage }) => {
     await videoPage.page.waitForURL(/@/);
 
     // Assert navigation to respective channel link (Flaky)
-    expect(videoPage.page).toHaveURL('/@porterrobinson');
+    expect(videoPage.page).toHaveURL(avatarLink);
 });
 
 test('Clicking subscribe button should prompt log in', async({ videoPage }) => {
@@ -113,16 +123,16 @@ test('Assert video description', async({ videoPage }) => {
     await expect(videoPage.description).toBeVisible();
 
     // Assert description messages are visible
-    await expect(videoPage.description).toHaveText(/Porter Robinson - Hollowheart ft. Amy Millan \(From the Worlds 10th Anniversary Edition\)/);
+    await expect(videoPage.description).toContainText('Porter Robinson - Hollowheart ft. Amy Millan (From the Worlds 10th Anniversary Edition)');
 
-    await expect(videoPage.description).toHaveText(/WORLDS 10th Anniversary Edition ft. Hollowheart \+\+ AND!! \+\+ Worlds Live, printed to Vinyl for the first time ever!/);
+    await expect(videoPage.description).toContainText(description);
 
     // Extend description by clicking
     console.log('Extending description...');
     await videoPage.description.click();
 
     // Assert hidden description message is visible
-    await expect(videoPage.description).toHaveText(/happy 10th anniversary to an album that changed my life forever【=◈︿◈=】/);
+    await expect(videoPage.description).toContainText('happy 10th anniversary to an album that changed my life forever【=◈︿◈=】');
 });
 
 test('Comment section will display an accurate count of comments', async({ videoPage }) => {
@@ -139,7 +149,7 @@ test('Comment section will display an accurate count of comments', async({ video
     const count = +commalessCount;
     
     // Assert that the amount of comments at least excels a previously manually checked number
-    expect(count).toBeGreaterThanOrEqual(2776);
+    expect(count).toBeGreaterThanOrEqual(commentCount);
 });
 
 test('Assert related videos details', async({ videoPage }) => {
