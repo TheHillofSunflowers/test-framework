@@ -22,9 +22,9 @@ export class VideoPage extends BasePage {
     readonly fullscreenButton: Locator;
     readonly volumeButton: Locator;
 
-    constructor(page: Page) {
+    constructor(page: Page, videoLink?: string) {
         super(page);
-        this.videoLink = '/watch?v=bdXPhRj10jQ';
+        this.videoLink = videoLink ?? '/watch?v=bdXPhRj10jQ';
         this.title = page.locator('#primary-inner #title').nth(0);
         this.channelName = page.locator('#owner #text');
         this.avatar = page.locator('ytd-video-owner-renderer > a');
