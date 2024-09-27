@@ -23,8 +23,13 @@ export abstract class BasePage {
 
     // Opens hamburger guide menu
     async openGuideMenu(): Promise<void> {
-        console.log('Opening guide menu...')
-        await this.guide.click();
+        console.log('Opening guide menu...');
+        const isGuideOpen = await this.guide.getAttribute('aria-selected') === 'true';
+        if (!isGuideOpen) {
+            await this.guide.click();
+        } else {
+            console.log('Guide menu is already open.');
+        }
     }
 
     async getGuideCloseButton(): Promise<Locator> {
