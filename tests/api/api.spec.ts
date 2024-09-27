@@ -12,8 +12,6 @@ const id = data.video[0].id;
 const title = data.video[0].title;
 const channel = data.video[0].channel;
 const duration = data.video[0].duration;
-const channelLink = data.channel[0].channelLink;
-const avatarLink = data.channel[0].avatarLink;
 const description = data.video[0].description;
 const viewCount = data.video[0].viewCount;
 
@@ -37,22 +35,22 @@ test.describe('Video API Tests', () => {
     
         // Assert OK status
         expect(response.status()).toBe(200);
-        const data = await response.json();
+        const dataReceived = await response.json();
 
         // Get video details
-        const apiKind = data.items[0].kind;
-        const apiID = data.items[0].id;
-        const videoTitle = data.items[0].snippet.title;
-        const description = data.items[0].snippet.description;
-        const channelTitle = data.items[0].snippet.channelTitle;
-        const apiDuration = data.items[0].contentDetails.duration;
-        const apiViewCount = data.items[0].statistics.viewCount;
+        const apiKind = dataReceived.items[0].kind;
+        const apiID = dataReceived.items[0].id;
+        const videoTitle = dataReceived.items[0].snippet.title;
+        const videoDescription = dataReceived.items[0].snippet.description;
+        const channelTitle = dataReceived.items[0].snippet.channelTitle;
+        const apiDuration = dataReceived.items[0].contentDetails.duration;
+        const apiViewCount = dataReceived.items[0].statistics.viewCount;
     
         // Assert video details
         expect(apiKind).toBe(kind);
         expect(apiID).toBe(id);
         expect(videoTitle).toBe(title);
-        expect(description).toContain(description);
+        expect(videoDescription).toContain(description);
         expect(channelTitle).toBe(channel);
         expect(apiDuration).toBe(duration);
         expect(parseInt(apiViewCount, 10)).toBeGreaterThan(viewCount);
@@ -69,10 +67,10 @@ test.describe('Video API Tests', () => {
 
         // Assert OK status
         expect(response.status()).toBe(200);
-        const data = await response.json();
+        const dataReceived = await response.json();
 
         // Assert that no video details are returned
-        expect(data.items).toHaveLength(0);
+        expect(dataReceived.items).toHaveLength(0);
     });
 
     test('Fetch video without ID', async({ request }) => {
@@ -85,10 +83,10 @@ test.describe('Video API Tests', () => {
 
         // Assert OK status
         expect(response.status()).toBe(400);
-        const data = await response.json();
+        const dataReceived = await response.json();
 
         // Assert that no video details are returned
-        expect(data.error.errors[0].reason).toBe('missingRequiredParameter');
+        expect(dataReceived.error.errors[0].reason).toBe('missingRequiredParameter');
     });
 });
 
@@ -136,14 +134,14 @@ test('Fetch expected Caption through API', async({ request }) => {
     });
 
     expect(response.status()).toBe(200);
-    const data = await response.json();
+    const dataReceived = await response.json();
 
-    const track1 = data.items[0];
-    const track2 = data.items[1];
-    const track3 = data.items[2];
+    const track1 = dataReceived.items[0];
+    const track2 = dataReceived.items[1];
+    const track3 = dataReceived.items[2];
 
     // Assert details of fetched Caption data
-    for (let track of data.items) {
+    for (let track of dataReceived.items) {
         expect(track.kind).toBe(captionKind);
         expect(track.snippet.videoId).toBe(captionVideoId);
     }
