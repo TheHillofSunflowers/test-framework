@@ -1,8 +1,8 @@
 import { test as base, expect } from '@playwright/test';
 import { test } from './fixtures/fixtures';
-import fs from 'fs';
+import * as utils from './utils';
 
-const data = JSON.parse(fs.readFileSync('tests/data/data.json', 'utf8'));
+const data = utils.loadTestData('tests/data/data.json');
 
 const username = data.user[0].username;
 const channelName = data.channel[0].name;
@@ -10,29 +10,12 @@ const channelName = data.channel[0].name;
 test.beforeEach(async({ homePage }) => {
   await homePage.goto();
 
-  // Get cookies and local storage
-  console.log('Grabbing cookies...');
-  const cookies = process.env.CI ? JSON.parse(process.env.COOKIES_JSON || '[]')
-    : JSON.parse(fs.readFileSync('tests/auth/cookies.json', 'utf8'));
-
-  console.log('Grabbing storage...');
-  const localStorage = process.env.CI ? JSON.parse(process.env.LOCAL_STORAGE_JSON || '{}')
-    : JSON.parse(fs.readFileSync('tests/auth/localStorage.json', 'utf8'));
-  
-  // Load cookies and local storage
-  console.log('Loading cookies...');
-  await homePage.page.context().addCookies(cookies);
-  await homePage.page.context().storageState(localStorage);
-  await homePage.page.goto('/');
-  
-  // Navigate to ensure the session is recognized
-  console.log('Reloading page...');
-  await homePage.page.reload();
+  await utils.authenticate(homePage);
 });
   
 test('Assert Signed In State', async({ homePage }) => {
   // Log in button should not be visible when signed in
-  expect(await homePage.getLoginButton()).not.toBeVisible;
+  await expect(await homePage.getLoginButton()).not.toBeVisible();
 
   // Open account menu
   console.log('Opening account menu...');
@@ -40,14 +23,14 @@ test('Assert Signed In State', async({ homePage }) => {
 
   // Assert correct account log in
   const displayedUsername = homePage.page.locator('ytd-multi-page-menu-renderer #header'); 
-  expect(displayedUsername).toContainText(username);
+  await expect(displayedUsername).toContainText(username);
 });
 
 test('Assert subscribing action', async({ homePage, searchResultsPage }, testInfo) => {
-  testInfo.setTimeout(testInfo.timeout + 60000);
+  testInfo.setTimeout(testInfo.timeout + 40000);
 
   // Search for channel to subscribe to
-  await homePage.searchQuery(channelName + ' Channel');
+  await homePage.searchQuery(`${channelName} Channel`);
 
   // Wait for page to load
   await homePage.page.waitForTimeout(2000);
@@ -55,10 +38,11 @@ test('Assert subscribing action', async({ homePage, searchResultsPage }, testInf
   // Locate first channel result
   const channelSearches = await searchResultsPage.getChannelSearchResultsList();
   const channel = channelSearches[0];
+  const subscribeButton = channel.locator('#subscribe-button');
 
   // Subscribe to first channel result
   console.log('Subscribing to first channel result...');
-  const subscribeButton = channel.locator('#subscribe-button');
+  await expect(subscribeButton).toBeVisible();
   await subscribeButton.click();
 
   // Assert Subscription added popup appears
@@ -101,6 +85,7 @@ test('Assert subscribing action', async({ homePage, searchResultsPage }, testInf
   });
 
   // Unsubscribe from channel
+  console.log('Proceed to unsubscribe from channel to reset account state...');
   console.log('Opening subscribe button dropdown...');
   await filteredSubscriptionSubscribeButton.scrollIntoViewIfNeeded();
   await filteredSubscriptionSubscribeButton.click();
@@ -119,14 +104,16 @@ test('Assert subscribing action', async({ homePage, searchResultsPage }, testInf
   await expect(filteredSubscription).not.toHaveAttribute('subscribed');
 
   // Assert subscribed channel leaves Subscriptions list
-  await expect(subscriptionsList.nth(1)).not.toContainText(channelName);
+  await searchResultsPage.openGuideMenu();
+  await expect(filteredChannel).not.toBeVisible();
+  //await expect(subscriptionsList.nth(1)).not.toContainText(channelName);
 });
 
 test('Assert Subscriptions page has videos from subscribed channels', async({ homePage, searchResultsPage }, testInfo) => {
   testInfo.setTimeout(testInfo.timeout + 40000);
 
   // Search for channel to subscribe to
-  await homePage.searchQuery(channelName + ' Channel');
+  await homePage.searchQuery(`${channelName} Channel`);
 
   // Wait for page to load
   await homePage.page.waitForTimeout(1000);
@@ -134,10 +121,11 @@ test('Assert Subscriptions page has videos from subscribed channels', async({ ho
   // Locate first channel result
   const channelSearches = await searchResultsPage.getChannelSearchResultsList();
   const channel = channelSearches[0];
+  const subscribeButton = channel.locator('#subscribe-button');
 
   // Subscribe to first channel result
   console.log('Subscribing to first channel result...');
-  const subscribeButton = channel.locator('#subscribe-button');
+  await expect(subscribeButton).toBeVisible();
   await subscribeButton.click();
 
   // Navigate to Subscriptions page
@@ -148,6 +136,7 @@ test('Assert Subscriptions page has videos from subscribed channels', async({ ho
   await expect(subscriptionsPageContents).toContainText(channelName);
 
   // Unsubscribe from channel
+  console.log('Proceed to unsubscribe from channel to reset account state...');
   await searchResultsPage.openGuideMenu();
   const subscriptionsList = searchResultsPage.page.locator('#guide ytd-guide-section-renderer').filter({ hasText: /Subscriptions/});
   const subscriptionsListEntryLocator = subscriptionsList.locator('ytd-guide-entry-renderer');
@@ -156,5 +145,6 @@ test('Assert Subscriptions page has videos from subscribed channels', async({ ho
   await filteredChannel.click();
   console.log('Unsubscribing to channel...');
   const subscribedButton = searchResultsPage.page.getByRole('button').getByText(/Subscribed/);
+  await expect(subscribedButton).toBeVisible();
   await subscribedButton.click();
 });

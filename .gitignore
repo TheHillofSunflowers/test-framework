@@ -10,3 +10,4 @@ README.Docker.md
 /all-blob-reports/
 /tests-examples/
 /allure-results/
+/tests/auth/*.json
