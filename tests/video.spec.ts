@@ -1,13 +1,24 @@
-import { test as base, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { test } from './fixtures/fixtures'
-import fs from 'fs';
+import * as utils from './utils';
 
-const data = JSON.parse(fs.readFileSync('tests/data/data.json', 'utf8'));
+const data = utils.loadTestData('tests/data/data.json');
 
-const title = data.video[0].title;
-const channel = data.video[0].channel;
-const description = data.video[0].description;
-const commentCount = data.video[0].commentCount;
+const testVideo = data.video?.[0];
+if (!testVideo) {
+    throw new Error('No video data found in the provided JSON file');
+}
+
+const {
+    kind,
+    id,
+    title,
+    channel,
+    duration,
+    description,
+    viewCount,
+    commentCount,
+} = testVideo;
 const channelLink = data.channel[0].channelLink;
 const avatarLink = data.channel[0].avatarLink;
 
