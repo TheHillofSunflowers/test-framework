@@ -29,7 +29,7 @@ test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
 });
 
 test('Clicking comments button should open the comment section with an X button', async({ shortsPage }) => {
-    //await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
+    await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
 
     // Click comments button
     if (await shortsPage.commentsButton.isVisible()) {
