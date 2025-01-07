@@ -30,7 +30,8 @@ test('Clicking comments button should open the comment section with an X button'
     await shortsPage.commentsButton.click();
 
     // Assert comments section is visible
-    const commentsTitle = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments');
+    //const commentsTitle = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments');
+    const commentsTitle = shortsPage.page.locator('#shorts-panel-container').getByTitle('Comments');
     await expect(commentsTitle).toBeVisible();
 
     // Close comments section

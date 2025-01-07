@@ -6,7 +6,7 @@ test.beforeEach(async ({ shortsPage }) => {
 });
 
 test('Clicking like button should prompt sign in', async({ shortsPage }) => {
-    await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
+    //await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
 
     // Click like button
     await shortsPage.likeButton.click();
@@ -17,7 +17,7 @@ test('Clicking like button should prompt sign in', async({ shortsPage }) => {
 });
 
 test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
-    await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
+    //await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
 
     // Click dislike button
     console.log('Clicking dislike button...');
@@ -29,7 +29,7 @@ test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
 });
 
 test('Clicking comments button should open the comment section with an X button', async({ shortsPage }) => {
-    await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
+    //await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
 
     // Click comments button
     if (await shortsPage.commentsButton.isVisible()) {
@@ -37,7 +37,8 @@ test('Clicking comments button should open the comment section with an X button'
         await shortsPage.commentsButton.click();
 
         // Assert comments section is visible
-        const commentsTitle = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments');
+        //const commentsTitle = shortsPage.page.locator(`[id="\\3${shortsPage.shortsIterator}"]`).getByTitle('Comments');
+        const commentsTitle = shortsPage.page.locator('#shorts-panel-container').getByTitle('Comments');
         await expect(commentsTitle).toBeVisible();
 
         // Close comments section
