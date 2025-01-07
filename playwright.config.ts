@@ -62,7 +62,7 @@ module.exports = defineConfig({
       dependencies: ['setup'],
     },
 
-    /*{
+    {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'],
         launchOptions: {
@@ -76,7 +76,7 @@ module.exports = defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
       dependencies: ['setup'],
-    },*/
+    },
 
     /* Test against mobile viewports. */
     // {
