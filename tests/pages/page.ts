@@ -10,7 +10,7 @@ export abstract class BasePage {
     constructor(page: Page) {
         this.page = page;
         this.homeButton = page.locator('#start').getByRole('link', { name: 'YouTube Home' });
-        this.guide = page.locator('#start').getByLabel('Guide');
+        this.guide = page.locator('#start #guide-button').getByLabel('Guide');
         this.searchButton = page.getByRole('button', { name: 'Search', exact: true });
         this.voiceButton = page.getByLabel('Search with your voice');
     }
@@ -47,7 +47,7 @@ export abstract class BasePage {
     // Input string into search bar and submit
     async searchQuery(input: string): Promise<void> {
         console.log(`Searching for ${input} ...`);
-        await this.page.getByPlaceholder('Search').fill(input);
+        await this.page.locator('#search-input').getByPlaceholder('Search').fill(input);
         await this.submitSearch();
     }
 

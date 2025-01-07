@@ -62,7 +62,7 @@ test('Clicking share button opens a popup with 12 social media platforms', async
 
     // Close menu
     console.log('Closing share menu...');
-    await shortsPage.page.getByLabel('Cancel').click();
+    await shortsPage.page.locator('#close-button').getByLabel('Cancel').click();
 });
 
 test('Clicking more actions button opens a menu', async({ shortsPage }) => {

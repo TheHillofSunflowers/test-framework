@@ -112,7 +112,7 @@ test('Clicking share button opens a popup with 15 media platforms', async({ vide
 
     // Close menu
     console.log('Closing share menu...');
-    await videoPage.page.getByLabel('Cancel', { exact: true }).click();
+    await videoPage.page.locator('#close-button').getByLabel('Cancel').click();
 });
 
 test('Clicking more actions button opens a menu', async({ videoPage }) => {
