@@ -30,8 +30,8 @@ export class VideoPage extends BasePage {
         this.avatar = page.locator('ytd-video-owner-renderer > a');
         this.avatarImage = page.locator('ytd-video-owner-renderer > a img');
         this.subscribeButton = page.locator('#owner #subscribe-button');
-        this.likeButton = page.locator('#actions .YtLikeButtonViewModelHost');
-        this.dislikeButton = page.locator('#actions .YtDislikeButtonViewModelHost');
+        this.likeButton = page.locator('#actions .ytLikeButtonViewModelHost');
+        this.dislikeButton = page.locator('#actions .ytDislikeButtonViewModelHost');
         this.shareButton = page.locator('#actions').getByLabel('Share');
         this.moreActionsButton = page.getByRole('button', { name: 'More actions' });
         this.description = page.locator('#below #description-inner');

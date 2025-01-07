@@ -47,7 +47,7 @@ export abstract class BasePage {
     // Input string into search bar and submit
     async searchQuery(input: string): Promise<void> {
         console.log(`Searching for ${input} ...`);
-        await this.page.locator('#search-input').getByPlaceholder('Search').fill(input);
+        await this.page.getByRole('combobox', { name: 'Search' }).fill(input);
         await this.submitSearch();
     }
 

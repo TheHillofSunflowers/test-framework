@@ -152,7 +152,8 @@ test('Comment section will display an accurate count of comments', async({ video
 
     // Scroll down
     console.log('Scrolling down 500px...');
-    await videoPage.page.mouse.wheel(0, 500);
+    await videoPage.page.mouse.wheel(0, 2000);
+    await videoPage.page.mouse.wheel(0, 2000); // Double scroll to bypass lazy loading
 
     // Convert commas from number and use unary operator to convert to an int
     const stringCount = await videoPage.commentsCount.innerText();
