@@ -132,7 +132,8 @@ test('Assert Subscriptions page has videos from subscribed channels', async({ ho
   await searchResultsPage.navigateToGuideItem('Subscriptions');
 
   // Assert that channel is present in the videos section
-  const subscriptionsPageContents = searchResultsPage.page.locator('ytd-rich-grid-renderer > div').filter({ has: searchResultsPage.page.locator('#contents') }).filter({ hasText: /Latest/ });
+  //const subscriptionsPageContents = searchResultsPage.page.locator('ytd-rich-grid-renderer > div').filter({ has: searchResultsPage.page.locator('#contents') }).filter({ hasText: /Latest/ });
+  const subscriptionsPageContents = searchResultsPage.page.getByText('Latest Manage Grid List 4:31');
   await expect(subscriptionsPageContents).toContainText(channelName);
 
   // Unsubscribe from channel

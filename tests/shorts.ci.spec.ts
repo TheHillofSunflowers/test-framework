@@ -6,7 +6,7 @@ test.beforeEach(async ({ shortsPage }) => {
 });
 
 test('Clicking like button should prompt sign in', async({ shortsPage }) => {
-    //await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
+    await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
 
     // Click like button
     await shortsPage.likeButton.click();
@@ -17,7 +17,7 @@ test('Clicking like button should prompt sign in', async({ shortsPage }) => {
 });
 
 test('Clicking dislike button should prompt sign in', async({ shortsPage }) => {
-    //await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
+    await shortsPage.page.setViewportSize({ width: 1960, height: 1080 });
 
     // Click dislike button
     console.log('Clicking dislike button...');
